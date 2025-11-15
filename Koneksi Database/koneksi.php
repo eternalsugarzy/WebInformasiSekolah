@@ -14,7 +14,7 @@ $koneksi = new mysqli($host, $username, $password, $db_name);
 // Cek koneksi
 if ($koneksi->connect_error) {
     // Jika koneksi gagal, tampilkan pesan error
-    die("Koneksi ke database gagal: " . $koneksi->connect_error);
+    die("Koneksi ke database gagal gesss: " . $koneksi->connect_error);
 }
 // else {
 //     // Pesan sukses (Hanya untuk testing)
