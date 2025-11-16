@@ -37,7 +37,6 @@ if (!isset($title)) {
                         <li><a href="ppdb.php">PPDB</a></li>
                         <li><a href="galeri.php">Galeri</a></li>
                         <li><a href="kontak.php">Kontak</a></li>
-                        <li><a href="admin/login.php">Login Admin</a></li>
                     </ul>
                 </nav>
             </div>
