@@ -4,14 +4,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="white-text">Selamat Datang di Website Resmi SMA Maju Jaya</h1>
-                    <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter, dan Berdaya Saing Global.</p>
+                    <h1 class="white-text">Selamat Datang di Website Resmi SMA Frater Don Bosco Bjm</h1>
+                    <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter, dan Bergaya Saing Global.</p>
                     <a class="main-button icon-button" href="#courses">Lihat Info Terbaru!</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
 <div id="about" class="section">
     <div class="container">
         <div class="row">
@@ -49,6 +51,8 @@
         </div>
     </div>
 </div>
+
+
 <div id="courses" class="section">
     <div class="container">
         <div class="row">

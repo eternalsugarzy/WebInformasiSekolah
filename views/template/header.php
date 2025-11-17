@@ -1,7 +1,7 @@
 <?php
 // variabel $title di-set oleh Controller
 if (!isset($title)) {
-    $title = 'Website Resmi SMA Maju Jaya';
+    $title = 'Website Resmi SMA Frater Don Bosco Bjm';
 }
 ?>
 <!DOCTYPE html>
@@ -32,10 +32,11 @@ if (!isset($title)) {
                 <nav id="nav">
                     <ul class="main-menu nav navbar-nav navbar-right">
                         <li><a href="index.php">Beranda</a></li>
+                        <li><a href="berita.php">Berita & Info</a></li>
+                        <li><a href="pengunguman.php">Pengunguman</a></li>
                         <li><a href="index.php#about">Tentang Sekolah</a></li>
-                        <li><a href="index.php#courses">Berita & Info</a></li>
-                        <li><a href="ppdb.php">PPDB</a></li>
                         <li><a href="galeri.php">Galeri</a></li>
+                        <li><a href="ppdb.php">PPDB</a></li>
                         <li><a href="kontak.php">Kontak</a></li>
                     </ul>
                 </nav>
