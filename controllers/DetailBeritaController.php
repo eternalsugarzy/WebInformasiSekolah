@@ -29,7 +29,7 @@ class DetailBeritaController {
         // 4. Panggil View
         require_once 'views/template/header.php';
         require_once 'views/detail_berita.php'; // Kita akan buat ini di langkah 3
-        require_once 'views/template/footer.php';
+        
     }
 }
 ?>

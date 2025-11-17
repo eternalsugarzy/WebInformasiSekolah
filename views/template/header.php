@@ -24,7 +24,7 @@ if (!isset($title)) {
                 <div class="navbar-header">
                     <div class="navbar-brand">
                         <a class="logo" href="index.php">
-                            <img src="./img/logo-alt.png" alt="Logo SMA Maju Jaya">
+                            <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm">
                         </a>
                     </div>
                     <button class="navbar-toggle"><span></span></button>
@@ -32,13 +32,14 @@ if (!isset($title)) {
                 <nav id="nav">
                     <ul class="main-menu nav navbar-nav navbar-right">
                         <li><a href="index.php">Beranda</a></li>
+                        <li><a href="profil.php">Profil</a></li>
                         <li><a href="berita.php">Berita & Info</a></li>
                         <li><a href="pengumuman.php">Pengumuman</a></li>
-                        <li><a href="profil.php">Profil</a></li>
+                        <li><a href="guru.php">Guru</a></li>
                         <li><a href="galeri.php">Galeri</a></li>
                         <li><a href="ppdb.php">PPDB</a></li>
-                        <li><a href="kontak.php">Kontak</a></li>
-                        <li><a href="guru.php">Guru</a></li>
+                        <li><a href="contact.php">Kontak</a></li>
+                        
 
                     </ul>
                 </nav>

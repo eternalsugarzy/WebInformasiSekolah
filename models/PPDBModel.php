@@ -1,10 +1,27 @@
 <?php
 require_once 'Database.php';
 
-class PPDBModel extends Database {
+class PPDBModel extends Database
+{
+    public function getAllPPDBInfo()
+    {
+        $sql = "SELECT id_info, jenis_informasi, isi_detail, tanggal_mulai, tanggal_akhir, tautan_formulir 
+                  FROM info_ppdb 
+                  ORDER BY id_info ASC";
 
+        $query = $this->query($sql);
+
+        $data_ppdb = []; // Inisialisasi array
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data_ppdb[] = $row;
+            }
+        }
+        return $data_ppdb;
+    }
     // Ambil Semua Data PPDB
-    public function getAllPPDB() {
+    public function getAllPPDB()
+    {
         $sql = "SELECT * FROM info_ppdb ORDER BY id_info DESC";
         $query = $this->query($sql);
         $hasil = [];
@@ -15,14 +32,16 @@ class PPDBModel extends Database {
     }
 
     // Hapus Data
-    public function hapusPPDB($id) {
+    public function hapusPPDB($id)
+    {
         $id = intval($id);
         $sql = "DELETE FROM info_ppdb WHERE id_info = $id";
         return $this->query($sql);
     }
 
     // [BARU] Ambil 1 Data PPDB by ID
-    public function getPPDBById($id) {
+    public function getPPDBById($id)
+    {
         $id = intval($id);
         $sql = "SELECT * FROM info_ppdb WHERE id_info = $id";
         $query = $this->query($sql);
@@ -30,7 +49,8 @@ class PPDBModel extends Database {
     }
 
     // [BARU] Update Data PPDB
-    public function updatePPDB($id, $jenis, $isi, $tgl_mulai, $tgl_akhir, $link) {
+    public function updatePPDB($id, $jenis, $isi, $tgl_mulai, $tgl_akhir, $link)
+    {
         $sql = "UPDATE info_ppdb SET 
                 jenis_informasi = '$jenis', 
                 isi_detail = '$isi', 

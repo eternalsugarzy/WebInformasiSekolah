@@ -17,7 +17,7 @@ class GaleriController {
         // Asumsi folder views/template ada di root/views/template
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/galeri.php'; // View utama galeri
-        require_once __DIR__ . '/../views/template/footer.php';
+        
     }
 }
 ?>

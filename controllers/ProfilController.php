@@ -16,7 +16,7 @@ class ProfilController {
         // 3. Panggil View dengan menyertakan template header dan footer
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/profil.php'; // View utama profil
-        require_once __DIR__ . '/../views/template/footer.php';
+       
     }
 }
 ?>

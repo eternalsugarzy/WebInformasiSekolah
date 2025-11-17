@@ -1,12 +1,12 @@
 <div id="home" class="hero-area" style="height: 40vh; min-height: 400px;">
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/home-background.jpg)"></div>
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background1.png)"></div>
     <div class="home-wrapper">
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
                     <h1 class="white-text">Selamat Datang di Website Resmi SMA Frater Don Bosco Bjm</h1>
                     <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter, dan Bergaya Saing Global.</p>
-                    <a class="main-button icon-button" href="#courses">Lihat Info Terbaru!</a>
+                    <a class="main-button icon-button" href="berita.php">Lihat Info Terbaru!</a>
                 </div>
             </div>
         </div>

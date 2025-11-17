@@ -17,7 +17,7 @@ class PengumumanController {
         // Menggunakan BASE_PATH atau jalur relatif yang benar dari Controller
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/pengumuman.php'; // View utama pengumuman
-        require_once __DIR__ . '/../views/template/footer.php';
+        
     }
 }
 ?>

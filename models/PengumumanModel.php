@@ -4,7 +4,26 @@ require_once 'Database.php';
 class PengumumanModel extends Database {
 
     // --- FITUR FRONTEND (HOME) ---
-
+    public function getAllActivePengumuman() { 
+        $sql = "SELECT id_pengumuman, judul, isi_pengumuman, tanggal_penting 
+                  FROM pengumuman 
+                  WHERE status = 'Aktif'
+                  ORDER BY tanggal_penting DESC, id_pengumuman DESC";
+        
+        $query = $this->query($sql);
+        
+        // V A R I A B E L  I N I  H A R U S  D I D E F I N I S I K A N
+        $data_pengumuman = []; // <--- BARIS PERBAIKAN: INISIALISASI
+        
+        // Anda perlu menambahkan logika untuk mengisi array ini
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data_pengumuman[] = $row;
+            }
+        }
+        
+        return $data_pengumuman; // Sekarang variabel ini sudah terdefinisi
+    }
     // 1. Ambil Pengumuman Terbaru (Dipakai di HomeController)
     public function getPengumumanTerbaru($limit) {
         $limit = intval($limit); 
@@ -64,4 +83,6 @@ class PengumumanModel extends Database {
         return $data['total'];
     }
 }
+
+
 ?>
