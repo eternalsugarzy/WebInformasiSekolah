@@ -49,11 +49,10 @@ require_once 'template/sidebar.php';
                             <td><?php echo htmlspecialchars($g['jabatan']); ?></td>
                             <td><?php echo htmlspecialchars($g['bidang_studi']); ?></td>
                             <td class="text-center">
+                                <a href="guru.php?aksi=edit&id=<?php echo $g['id_guru']; ?>" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
                                 <a href="guru.php?aksi=hapus&id=<?php echo $g['id_guru']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus data guru ini?')"><i class="fa fa-trash"></i></a>
                             </td>
-                            <td class="text-center">
-                                <a href="guru.php?aksi=edit&id=<?php echo $g['id_guru']; ?>" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
-                            </td>
+                            
                         </tr>
                         <?php 
                             }

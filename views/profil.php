@@ -1,5 +1,5 @@
 <div class="hero-area section">
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background-profil.jpg)"></div>
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background.jpg)"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">

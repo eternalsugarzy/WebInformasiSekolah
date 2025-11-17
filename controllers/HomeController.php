@@ -10,7 +10,7 @@ class HomeController {
         $pengumumanModel = new PengumumanModel();
         $beritaModel = new BeritaModel();
         
-        $data_pengumuman = $pengumumanModel->getPengumumanTerbaru(2);
+       $data_pengumuman = $pengumumanModel->getPengumumanTerbaru(2);
         $data_berita = $beritaModel->getBeritaTerbaru(4);
         
         // 2. Tentukan judul halaman
