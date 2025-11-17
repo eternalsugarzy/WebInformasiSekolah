@@ -1,5 +1,9 @@
-<div class="hero-area section">
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background.jpg)"></div>
+<style>
+    
+</style>
+
+<div class="hero-area section" style="height: 40vh; min-height: 300px;">
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background1.png)"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">

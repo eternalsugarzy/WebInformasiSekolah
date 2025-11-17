@@ -62,5 +62,9 @@ class BeritaModel extends Database {
         }
         return $this->query($sql);
     }
+
+    
 }
+
+
 ?>

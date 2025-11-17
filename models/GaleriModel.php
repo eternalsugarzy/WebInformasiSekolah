@@ -3,6 +3,25 @@ require_once 'Database.php';
 
 class GaleriModel extends Database {
 
+    public function getAllAlbums() {
+        $sql = "SELECT id_album, judul_album, deskripsi, tanggal_event, file_path, tipe_media 
+                  FROM galeri_media 
+                  ORDER BY tanggal_event DESC";
+        
+        // Gunakan fungsi query dari kelas induk (Database)
+        $query = $this->query($sql);
+        
+        // V A R I A B E L  K R U S I A L
+        $data_album = []; // <-- BARIS PERBAIKAN: INISIALISASI array
+        
+        // Isi array dengan hasil dari database
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data_album[] = $row;
+            }
+        }
+        return $data_album; // Sekarang variabel ini pasti terdefinisi
+    }
     // 1. Ambil Semua Galeri (Ini yang menyebabkan error sebelumnya)
     public function getAllGaleri() {
         $sql = "SELECT * FROM galeri_media ORDER BY id_album DESC";
@@ -52,4 +71,6 @@ class GaleriModel extends Database {
         return $this->query($sql);
     }
 }
+
+
 ?>

@@ -14,7 +14,7 @@ class BeritaController {
         // 3. Panggil View
         require_once 'views/template/header.php';
         require_once 'views/berita.php'; // Kita buat ini di langkah 3
-        require_once 'views/template/footer.php';
+      
     }
 }
 ?>
