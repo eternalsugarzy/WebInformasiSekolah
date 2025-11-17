@@ -12,7 +12,7 @@ require_once 'template/sidebar.php';
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-info" style="border-left: 4px solid #FF6700; background: #fff; color: #555;">
-                    Selamat Datang di Panel Administrator SMA Maju Jaya. Anda login sebagai <b><?php echo $_SESSION['admin_level']; ?></b>.
+                    Selamat Datang di Panel Administrator SMA Frater Don Bosco. Anda login sebagai <b><?php echo $_SESSION['admin_level']; ?></b>.
                 </div>
             </div>
         </div>
