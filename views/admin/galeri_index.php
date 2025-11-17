@@ -48,11 +48,10 @@ require_once 'template/sidebar.php';
                             <td><?php echo date('d/m/Y', strtotime($g['tanggal_event'])); ?></td>
                             <td><span class="label label-info"><?php echo $g['tipe_media']; ?></span></td>
                             <td class="text-center">
+                                 <a href="galeri.php?aksi=edit&id=<?php echo $g['id_album']; ?>" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
                                 <a href="galeri.php?aksi=hapus&id=<?php echo $g['id_album']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')"><i class="fa fa-trash"></i></a>
                             </td>
-                            <td class="text-center">
-                                <a href="galeri.php?aksi=edit&id=<?php echo $g['id_album']; ?>" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
-                            </td>
+                           
                         </tr>
                         <?php 
                             }
