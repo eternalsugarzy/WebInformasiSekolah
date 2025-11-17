@@ -22,8 +22,7 @@
                 </div>
 
                 <?php
-                // Data diambil dari Controller, View hanya menampilkan
-                if (count($data_pengumuman) > 0) {
+                if (isset($data_pengumuman) && count($data_pengumuman) > 0) {
                     foreach ($data_pengumuman as $p) {
                 ?>
                 <div class="feature">
@@ -35,7 +34,7 @@
                     </div>
                 </div>
                 <?php
-                    } // Akhir foreach
+                    } 
                 } else {
                     echo "<p>Belum ada pengumuman aktif saat ini.</p>";
                 }
@@ -62,9 +61,9 @@
         <div id="courses-wrapper">
             <div class="row">
                 <?php
-                // Data diambil dari Controller, View hanya menampilkan
-                if (count($data_berita) > 0) {
+                if (isset($data_berita) && count($data_berita) > 0) {
                     foreach ($data_berita as $b) {
+                        // Cek path gambar
                         $path_gambar = "admin/uploads/berita/" . $b['gambar_utama']; 
                         if(empty($b['gambar_utama']) || !file_exists($path_gambar)) {
                             $path_gambar = "./img/course01.jpg"; 
@@ -76,7 +75,9 @@
                             <img src="<?php echo $path_gambar; ?>" alt="<?php echo htmlspecialchars($b['judul']); ?>">
                             <i class="course-link-icon fa fa-search"></i>
                         </a>
+                        
                         <a class="course-title" href="detail_berita.php?id=<?php echo $b['id_berita']; ?>"><?php echo htmlspecialchars($b['judul']); ?></a>
+                        
                         <div class="course-details">
                             <span class="course-category"><?php echo htmlspecialchars($b['kategori']); ?></span>
                             <span class="course-price course-free"><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($b['tanggal_publikasi'])); ?></span>
@@ -84,7 +85,7 @@
                     </div>
                 </div>
                 <?php
-                    } // Akhir foreach
+                    } 
                 } else {
                     echo "<div class='col-md-12 text-center'><p>Belum ada berita yang dipublikasikan.</p></div>";
                 }
