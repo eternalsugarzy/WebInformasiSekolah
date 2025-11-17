@@ -24,7 +24,7 @@ class DashboardController {
         $total_guru = $guruModel->countGuru();
 
         // 4. Siapkan Data untuk View
-        $title = "Dashboard Admin - SMA Maju Jaya";
+        $title = "Dashboard Admin - SMA Frater Don Bosco";
         $nama_admin = $_SESSION['admin_nama'];
 
         // 5. Panggil View Dashboard

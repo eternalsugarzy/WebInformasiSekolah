@@ -1,6 +1,6 @@
 <div class="admin-sidebar">
     <div class="admin-brand">
-        <h3>Edu<span>Site</span> Admin</h3>
+        <h3>SMA Frater Don Bosco<span>Admin</span> </h3>
     </div>
     <ul class="sidebar-menu">
         <?php $page = basename($_SERVER['PHP_SELF']); ?>
