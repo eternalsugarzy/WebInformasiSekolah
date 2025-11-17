@@ -20,6 +20,9 @@
         <li class="<?php echo ($page == 'ppdb.php') ? 'active' : ''; ?>">
             <a href="ppdb.php"><i class="fa fa-graduation-cap"></i> Info PPDB</a>
         </li>
+        <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
+            <a href="galeri.php"><i class="fa fa-image"></i> Galeri Foto</a>
+        </li>
         <li style="margin-top: 30px; border-top: 1px solid #3a3c55;">
             <a href="../index.php" target="_blank"><i class="fa fa-external-link"></i> Lihat Website</a>
         </li>

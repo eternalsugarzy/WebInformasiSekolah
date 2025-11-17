@@ -1,3 +1,8 @@
+<?php 
+require_once 'template/header.php'; 
+require_once 'template/sidebar.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -36,19 +41,7 @@
 </head>
 <body>
 
-    <div class="admin-sidebar">
-        <div class="admin-brand"><h3>Edu<span>Site</span> Admin</h3></div>
-        <ul class="sidebar-menu">
-            <li><a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-            <li class="active"><a href="berita.php"><i class="fa fa-newspaper-o"></i> Kelola Berita</a></li>
-            <li><a href="pengumuman.php"><i class="fa fa-bullhorn"></i> Kelola Pengumuman</a></li>
-            <li><a href="#"><i class="fa fa-users"></i> Data Guru</a></li>
-            <li><a href="#"><i class="fa fa-graduation-cap"></i> Info PPDB</a></li>
-            <li style="margin-top: 30px; border-top: 1px solid #3a3c55;">
-                <a href="../index.php" target="_blank"><i class="fa fa-external-link"></i> Lihat Website</a>
-            </li>
-        </ul>
-    </div>
+
 
     <div class="main-content">
         <div class="admin-header">
