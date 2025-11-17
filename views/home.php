@@ -1,4 +1,4 @@
-<div id="home" class="hero-area">
+<div id="home" class="hero-area" style="height: 40vh; min-height: 400px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/home-background.jpg)"></div>
     <div class="home-wrapper">
         <div class="container">
