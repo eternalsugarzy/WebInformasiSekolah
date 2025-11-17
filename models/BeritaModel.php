@@ -33,5 +33,13 @@ class BeritaModel extends Database {
         }
         return $hasil;
     }
+
+    // [BARU] Hitung Total Berita
+    public function countBerita() {
+        $sql = "SELECT COUNT(*) as total FROM berita_artikel";
+        $query = $this->query($sql);
+        $data = mysqli_fetch_assoc($query);
+        return $data['total'];
+    }
 }
 ?>
