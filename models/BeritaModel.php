@@ -41,5 +41,26 @@ class BeritaModel extends Database {
         $data = mysqli_fetch_assoc($query);
         return $data['total'];
     }
+
+    // [BARU] Fungsi Update Berita
+    public function updateBerita($id, $judul, $konten, $kategori, $gambar = null) {
+        // Jika ada gambar baru yang diupload
+        if ($gambar != null) {
+            $sql = "UPDATE berita_artikel SET 
+                    judul = '$judul', 
+                    konten_lengkap = '$konten', 
+                    kategori = '$kategori', 
+                    gambar_utama = '$gambar' 
+                    WHERE id_berita = $id";
+        } else {
+            // Jika TIDAK ada gambar baru (gambar lama tetap dipakai)
+            $sql = "UPDATE berita_artikel SET 
+                    judul = '$judul', 
+                    konten_lengkap = '$konten', 
+                    kategori = '$kategori' 
+                    WHERE id_berita = $id";
+        }
+        return $this->query($sql);
+    }
 }
 ?>

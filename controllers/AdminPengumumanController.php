@@ -51,5 +51,35 @@ class AdminPengumumanController {
         $model->hapusPengumuman($id);
         header("Location: pengumuman.php");
     }
+
+    // --- EDIT: Tampilkan Form ---
+    public function edit($id) {
+        $model = new PengumumanModel();
+        $pengumuman = $model->getPengumumanById($id);
+        
+        if (!$pengumuman) { echo "Data tidak ditemukan"; exit; }
+
+        $title = "Edit Pengumuman";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/pengumuman_edit.php';
+    }
+
+    // --- UPDATE: Simpan Perubahan ---
+    public function update($id) {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            global $koneksi;
+
+            $id = $_POST['id_pengumuman'];
+            $judul = mysqli_real_escape_string($koneksi, $_POST['judul']);
+            $isi = mysqli_real_escape_string($koneksi, $_POST['isi']);
+            $tanggal = $_POST['tanggal'];
+            $status = $_POST['status'];
+
+            $model = new PengumumanModel();
+            $model->updatePengumuman($id, $judul, $isi, $tanggal, $status);
+            
+            header("Location: pengumuman.php");
+        }
+    }
 }
 ?>

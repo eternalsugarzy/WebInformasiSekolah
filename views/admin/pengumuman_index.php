@@ -89,6 +89,9 @@
                                 <td class="text-center">
                                     <a href="pengumuman.php?aksi=hapus&id=<?php echo $p['id_pengumuman']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')"><i class="fa fa-trash"></i></a>
                                 </td>
+                                <td class="text-center">
+                                    <a href=<a href="pengumuman.php?aksi=edit&id=<?php echo $p['id_pengumuman']; ?>" class="btn btn-sm btn-default"><i class="fa fa-pencil"></i></a>
+                                </td>
                             </tr>
                             <?php 
                                 }

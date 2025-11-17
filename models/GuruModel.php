@@ -29,5 +29,30 @@ class GuruModel extends Database {
         $query = $this->query($sql);
         return mysqli_fetch_assoc($query);
     }
+
+    // [BARU] Update Data Guru
+    public function updateGuru($id, $nip, $nama, $jabatan, $mapel, $email, $foto = null) {
+        // Jika ada foto baru yang diupload
+        if ($foto != null) {
+            $sql = "UPDATE guru_staf SET 
+                    nip = '$nip', 
+                    nama_lengkap = '$nama', 
+                    jabatan = '$jabatan', 
+                    bidang_studi = '$mapel', 
+                    email = '$email',
+                    foto = '$foto' 
+                    WHERE id_guru = $id";
+        } else {
+            // Jika TIDAK ada foto baru (foto lama tetap dipakai)
+            $sql = "UPDATE guru_staf SET 
+                    nip = '$nip', 
+                    nama_lengkap = '$nama', 
+                    jabatan = '$jabatan', 
+                    bidang_studi = '$mapel', 
+                    email = '$email'
+                    WHERE id_guru = $id";
+        }
+        return $this->query($sql);
+    }
 }
 ?>

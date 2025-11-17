@@ -14,6 +14,12 @@ switch ($aksi) {
     case 'simpan':
         $controller->simpan();
         break;
+    case 'edit': // [BARU]
+        $controller->edit($_GET['id']);
+        break;
+    case 'update': // [BARU]
+        $controller->update($_POST['id_guru']);
+        break;
     case 'hapus':
         $controller->hapus($_GET['id']);
         break;
