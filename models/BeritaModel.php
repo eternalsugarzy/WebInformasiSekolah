@@ -63,6 +63,24 @@ class BeritaModel extends Database {
         return $this->query($sql);
     }
 
+    // [BARU] Ambil Berita Berdasarkan Rentang Tanggal (Untuk Laporan)
+    public function getBeritaByDate($tgl_awal, $tgl_akhir) {
+        $tgl_awal = mysqli_real_escape_string($this->koneksi, $tgl_awal);
+        $tgl_akhir = mysqli_real_escape_string($this->koneksi, $tgl_akhir);
+        
+        // Tambahkan jam agar rentang akurat (00:00:00 s/d 23:59:59)
+        $sql = "SELECT * FROM berita_artikel 
+                WHERE tanggal_publikasi BETWEEN '$tgl_awal 00:00:00' AND '$tgl_akhir 23:59:59' 
+                ORDER BY tanggal_publikasi DESC";
+                
+        $query = $this->query($sql);
+        $hasil = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+
     
 }
 

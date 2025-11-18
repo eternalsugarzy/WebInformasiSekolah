@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo isset($title) ? $title : 'Admin Panel'; ?></title>
+    <link rel="icon" href="../img/logo.png" type="image/png">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
 
@@ -16,7 +17,35 @@
         body { background-color: #f5f7fa; font-family: 'Montserrat', sans-serif; padding-top: 0; }
         
         /* Sidebar Styling */
-        .admin-sidebar { width: 260px; height: 100vh; background: #2B2D42; position: fixed; left: 0; top: 0; z-index: 100; transition: all 0.3s; box-shadow: 4px 0 10px rgba(0,0,0,0.1); }
+        .admin-sidebar { 
+    width: 260px; 
+    height: 100vh; /* Tinggi layar penuh */
+    background: #2B2D42; 
+    position: fixed; 
+    left: 0; 
+    top: 0; 
+    z-index: 100; 
+    transition: all 0.3s; 
+    box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+    
+    /* [TAMBAHAN PENTING] Agar bisa di-scroll */
+    overflow-y: auto; 
+}
+
+/* [OPSIONAL] Mempercantik Scrollbar Sidebar agar tidak jelek */
+.admin-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.admin-sidebar::-webkit-scrollbar-track {
+    background: #2B2D42; 
+}
+.admin-sidebar::-webkit-scrollbar-thumb {
+    background: #444; 
+    border-radius: 10px;
+}
+.admin-sidebar::-webkit-scrollbar-thumb:hover {
+    background: #FF6700; 
+}
         .admin-brand { height: 70px; display: flex; align-items: center; padding-left: 30px; background: #252739; border-bottom: 1px solid #3a3c55; }
         .admin-brand h3 { color: #fff; margin: 0; font-size: 18px; font-weight: 700; text-transform: uppercase; }
         .admin-brand span { color: #FF6700; }
