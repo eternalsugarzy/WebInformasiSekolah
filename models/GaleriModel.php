@@ -3,6 +3,19 @@ require_once 'Database.php';
 
 class GaleriModel extends Database {
 
+    // Fungsi getAllAlbums() yang sudah ada ...
+    
+    /**
+     * Mengambil detail satu album berdasarkan ID.
+     * @param int $id_album
+     * @return array Data album tunggal.
+     */
+    public function getAlbumById($id_album) {
+        $id = intval($id_album);
+        $sql = "SELECT * FROM galeri_media WHERE id_album = $id";
+        $query = $this->query($sql);
+        return mysqli_fetch_assoc($query);
+    }
     public function getAllAlbums() {
         $sql = "SELECT id_album, judul_album, deskripsi, tanggal_event, file_path, tipe_media 
                   FROM galeri_media 

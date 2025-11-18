@@ -120,16 +120,19 @@
     }
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 300px;">
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background1.png)"></div>
+
+<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
+                <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm" class="logo-header-berita"
+                    style="max-height: 80px; margin-bottom: 15px;">
+                <h1 class="white-text">Dokumentasi Kegiatan Sekolah</h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
                     <li>Galeri Media</li>
                 </ul>
-                <h1 class="white-text">Dokumentasi Kegiatan Sekolah</h1>
             </div>
         </div>
     </div>
