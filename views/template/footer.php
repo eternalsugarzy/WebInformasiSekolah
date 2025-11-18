@@ -59,7 +59,7 @@
             <div class="col-md-6">
                 <h3>Visi & Misi Sekolah</h3>
                 <p class="lead">Menjadi sekolah unggulan yang berlandaskan iman, ilmu, dan amal.</p>
-                <p>Visi kami adalah menciptakan pelajar Pancasila yang mandiri, berakhlak mulia, dan siap menghadapi tantangan global. Misi kami didukung oleh kurikulum yang adaptif dan guru-guru yang kompeten.</p>
+                <p>Visi kami adalah BERIMAN, BERILMU, BERLANDASKAN KASIH PERSAUDARAAN MENUJU PRIBADI MANUSIA SEUTUHNYA.</p>
             </div>
 
             <div class="col-md-5 col-md-offset-1">
@@ -82,7 +82,7 @@
             <div class="col-md-8 col-md-offset-2 text-center">
                 <h2 class="white-text">Hubungi Kami</h2>
                 <p class="lead white-text">Memiliki pertanyaan? Jangan ragu untuk menghubungi kami.</p>
-                <a class="main-button icon-button" href="kontak.php">Hubungi Sekarang</a>
+                <a class="main-button icon-button" href="contact.php">Hubungi Sekarang</a>
             </div>
 
         </div>
