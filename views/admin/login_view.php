@@ -39,7 +39,7 @@
                 height: 45px; /* Ukuran logo */
                 margin-bottom: 15px;
                 /* Filter agar logo putih terlihat di background putih (opsional) */
-                filter: invert(1); 
+                 
             }
             
             .input-group-addon {
@@ -53,7 +53,7 @@
 
         <div id="home" class="hero-area" style="height: 100vh;">
 
-            <div class="bg-image bg-parallax overlay" style="background-image:url('../img/home-background.jpg')"></div>
+            <div class="bg-image bg-parallax overlay" style="background-image:url('../img/page-background2.png')"></div>
 
             <div class="home-wrapper">
                 <div class="container">
@@ -62,7 +62,7 @@
                             
                             <div class="login-content">
                                 <div class="login-header">
-                                    <img src="../img/logo-alt.png" alt="logo">
+                                    <img src="../img/logo.png" alt="logo">
                                     <h3 style="margin:0; font-size: 22px; text-transform: uppercase;">Admin Login</h3>
                                 </div>
 
