@@ -1,23 +1,57 @@
 <?php
-// Menggunakan __DIR__ untuk jalur absolut yang aman dari lokasi controller
-require_once __DIR__ . '/../models/GaleriModel.php'; 
+// Pastikan jalur ke model benar
+require_once __DIR__ . '/../models/GaleriModel.php';
 
 class GaleriController {
 
+    // --- HALAMAN DAFTAR ALBUM ---
     public function index() {
-        // 1. Minta data ke Model
-        $galeriModel = new GaleriModel();
-        // Mengambil semua data album
-        $data_album = $galeriModel->getAllAlbums(); 
+        $model = new GaleriModel();
         
-        // 2. Siapkan Judul Halaman
-        $title = "Galeri Media Sekolah - SMA Maju Jaya"; // Sesuaikan jika ada variabel $title di header.php
+        // 1. Ambil semua album
+        $data_album = $model->getAllAlbums(); 
 
-        // 3. Panggil View dengan menyertakan template header dan footer
-        // Asumsi folder views/template ada di root/views/template
-        require_once __DIR__ . '/../views/template/header.php';
-        require_once __DIR__ . '/../views/galeri.php'; // View utama galeri
+        $title = "Galeri Kegiatan - SMA Maju Jaya";
+
+        // 2. Panggil View Frontend
+        require_once 'views/template/header.php';
+        require_once 'views/galeri.php';
         
+    }
+
+    // --- HALAMAN DETAIL (Isi Foto-foto dalam Album) ---
+    public function detail($id) {
+        $model = new GaleriModel();
+        
+        // 1. Ambil Info Album (Judul, Deskripsi, Tanggal)
+        // Data ini akan disimpan di variabel $album
+        $album = $model->getAlbumById($id); 
+        
+        // 2. Ambil Semua Foto di dalam album tersebut
+        $fotos = $model->getFotosByAlbumId($id); 
+
+        // Validasi: Jika album tidak ditemukan
+        if (!$album) {
+            echo "<h3>Album tidak ditemukan atau telah dihapus.</h3>";
+            exit;
+        }
+
+        $title = $album['judul_album'] . " - Galeri Sekolah";
+
+        // 3. Panggil View Detail
+        require_once 'views/template/header.php';
+        
+        // PERHATIKAN: Nama file harus sesuai dengan file yang ada di folder views Anda
+        // Berdasarkan error Anda, nama filenya adalah 'detail_galeri.php'
+        if (file_exists('views/detail_galeri.php')) {
+            require_once 'views/detail_galeri.php'; 
+        } elseif (file_exists('views/galeri_detail.php')) {
+            require_once 'views/galeri_detail.php';
+        } else {
+            die("Error: File view detail galeri tidak ditemukan.");
+        }
+
+        require_once 'views/template/footer.php';
     }
 }
 ?>

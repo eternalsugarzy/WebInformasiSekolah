@@ -7,7 +7,7 @@
 
             <div class="col-md-6">
                 <h2 class="white-text">Pendaftaran Siswa Baru Telah Dibuka!</h2>
-                <p class="lead white-text">Segera daftarkan diri Anda dan jadilah bagian dari keluarga besar SMA Frater Don Bosco Bjm.</p>
+                <p class="lead white-text">Segera daftarkan diri Anda dan jadilah bagian dari keluarga besar SMA Frater Don Bosco Banjarmasin.</p>
                 <a class="main-button icon-button" href="ppdb.php">Lihat Info PPDB</a>
             </div>
 
