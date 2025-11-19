@@ -11,6 +11,7 @@ if (!isset($title)) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title><?php echo htmlspecialchars($title); ?></title>
+        <link rel="icon" href="../img/logo.png" type="image/png">
 
         <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
@@ -24,7 +25,7 @@ if (!isset($title)) {
                 <div class="navbar-header">
                     <div class="navbar-brand">
                         <a class="logo" href="index.php">
-                            <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm">
+                            <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Banjarmasin">
                         </a>
                     </div>
                     <button class="navbar-toggle"><span></span></button>

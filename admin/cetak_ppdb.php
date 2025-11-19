@@ -48,7 +48,7 @@ $data_ppdb = $model->getAllPPDB();
 <body onload="window.print()">
 
     <div class="kop-surat">
-        <img src="../img/logo.png" style="filter: invert(1);"> 
+        <img src="../img/logo.png" style="filter: "> 
         <h2>SMA FRATER DON BOSCO</h2>
         <h4>Penerimaan Peserta Didik Baru (PPDB)</h4>
         <p>Jl. Tugu Pahlawan No. 123, Banjarmasin | Telp: (0511) 1234567 | Web: www.smafraterdb.sch.id</p>

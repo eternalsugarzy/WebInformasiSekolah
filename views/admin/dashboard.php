@@ -49,7 +49,7 @@ require_once 'template/sidebar.php';
                     <div class="stat-content">
                         <h3><?php echo $total_guru; ?></h3>
                         <p>Data Guru</p>
-                        <a href="#" style="font-size:11px; color:#2ecc71; font-weight:bold; text-decoration:none;">KELOLA DATA &rarr;</a>
+                        <a href="guru.php" style="font-size:11px; color:#2ecc71; font-weight:bold; text-decoration:none;">KELOLA DATA &rarr;</a>
                     </div>
                     <div class="stat-icon">
                         <i class="fa fa-users"></i>

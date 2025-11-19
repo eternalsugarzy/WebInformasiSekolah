@@ -14,7 +14,7 @@ class HomeController {
         $data_berita = $beritaModel->getBeritaTerbaru(4);
         
         // 2. Tentukan judul halaman
-        $title = "Beranda - SMA Maju Jaya";
+        $title = "Beranda - SMA Frater Don Bosco";
         
         // 3. Panggil View (Template Anda) dan kirimkan data
         // Ini adalah tempat template 400 baris Anda dipanggil
