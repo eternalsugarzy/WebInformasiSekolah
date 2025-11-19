@@ -1,91 +1,3 @@
-<style>
-    /* ======================================= */
-    /* Styling Umum Kartu Album */
-    /* ======================================= */
-
-    /* Mengaktifkan Flexbox pada baris di dalam section #gallery (untuk Equal Height) */
-    #gallery .row {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    /* Memastikan setiap kolom mengambil tinggi penuh */
-    #gallery .col-md-4 {
-        display: flex;
-    }
-
-    .single-album {
-        /* Base styling untuk kartu */
-        background-color: #ffffff;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        margin-bottom: 30px;
-
-        /* KRUSIAL: Equal Height (Karena tidak ada konten, ini akan mengikuti tinggi gambar) */
-        height: 100%; 
-        display: block; /* Hanya blok karena tidak ada konten teks */
-    }
-
-    .single-album:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-    }
-
-    /* ======================================= */
-    /* Styling Gambar dan Overlay (Fokus Visual) */
-    /* ======================================= */
-
-    .album-media {
-        flex-shrink: 0;
-        overflow: hidden;
-        position: relative;
-        width: 100%;
-        /* Karena height diatur di tag <img>, kita hanya memastikan overflow tersembunyi */
-    }
-
-    .album-media img {
-        /* Styling dari HTML: height: 250px; object-fit: cover; width: 100%; */
-        transition: transform 0.5s ease;
-        filter: brightness(0.95);
-        border-radius: 8px; /* Sudut gambar sesuai dengan kartu */
-    }
-
-    .single-album:hover .album-media img {
-        transform: scale(1.05); /* Zoom in saat hover */
-        filter: brightness(1.0);
-    }
-
-    /* Overlay Ikon */
-    .album-overlay-icon {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 123, 255, 0.6); /* Overlay Biru Transparan */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0; /* Awalnya tersembunyi */
-        transition: opacity 0.3s ease;
-    }
-
-    .single-album:hover .album-overlay-icon {
-        opacity: 1; /* Muncul saat hover */
-    }
-
-    .album-overlay-icon i {
-        color: white;
-        font-size: 36px;
-        border: 3px solid white;
-        border-radius: 50%;
-        padding: 10px;
-    }
-</style>
-
-
 <div class="hero-area section" style="height: 40vh; min-height: 350px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
@@ -103,6 +15,72 @@
     </div>
 </div>
 
+<style>
+    .single-album {
+        background-color: #fff;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: 0.3s;
+        margin-bottom: 30px;
+        border: 1px solid #eee;
+    }
+    .single-album:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+    .album-media {
+        position: relative;
+        overflow: hidden;
+    }
+    .album-overlay {
+        position: absolute;
+        top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: 0.3s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .single-album:hover .album-overlay { opacity: 1; }
+    .album-icon {
+        color: #fff;
+        font-size: 30px;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        width: 50px; height: 50px;
+        line-height: 46px;
+        text-align: center;
+    }
+    .album-details {
+        padding: 20px;
+        text-align: center;
+    }
+    .album-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+        display: block;
+    }
+    .album-count {
+        font-size: 12px;
+        color: #FF6700;
+        font-weight: 600;
+        text-transform: uppercase;
+        background: #fff0e6;
+        padding: 3px 10px;
+        border-radius: 20px;
+    }
+    .album-date {
+        font-size: 12px;
+        color: #888;
+        display: block;
+        margin-top: 5px;
+    }
+</style>
+
 <div id="gallery" class="section">
     <div class="container">
         <div class="row">
@@ -110,39 +88,46 @@
                 <div class="row">
 
                     <?php
-                    // Cek apakah variabel $data_album sudah diinisialisasi oleh Controller
                     if (isset($data_album) && count($data_album) > 0) {
                         foreach ($data_album as $album) {
-                            // Tentukan path gambar
-                            $path_media = "admin/uploads/galeri/" . $album['file_path'];
+                            // Ambil cover dari alias query
+                            $cover = $album['cover_foto'];
+                            $jumlah = $album['jumlah_foto'];
+                            
+                            $path_media = "admin/uploads/galeri/" . $cover;
 
                             // Jika media tidak ditemukan, gunakan placeholder
-                            if (empty($album['file_path']) || !file_exists($path_media)) {
-                                $path_media = "./img/placeholder-galeri.jpg";
+                            if (empty($cover) || !file_exists($path_media)) {
+                                $path_media = "./img/course01.jpg"; // Gambar default
                             }
-                            ?>
+                    ?>
 
-                            <div class="col-md-4 mb-4">
-                                <div class="single-album">
-                                    <div class="album-media">
-                                        <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>">
-
-                                            <img src="<?php echo $path_media; ?>"
-                                                alt="<?php echo htmlspecialchars($album['judul_album']); ?>"
-                                                style="height: 250px; object-fit: cover; width: 100%;">
-
-                                            <div class="album-overlay-icon">
-                                                <i class="fa fa-search-plus"></i>
-                                            </div>
-
-                                        </a>
-                                    </div>
-                                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="single-album">
+                            <div class="album-media">
+                                <img src="<?php echo $path_media; ?>" alt="<?php echo htmlspecialchars($album['judul_album']); ?>" style="height: 240px; object-fit: cover; width: 100%;">
+                                
+                                <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-overlay">
+                                    <i class="fa fa-search-plus album-icon"></i>
+                                </a>
                             </div>
-                            <?php
+                            
+                            <div class="album-details">
+                                <span class="album-count"><?php echo $jumlah; ?> Foto</span>
+                                <h4 style="margin: 15px 0 5px;">
+                                    <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-title">
+                                        <?php echo htmlspecialchars($album['judul_album']); ?>
+                                    </a>
+                                </h4>
+                                <span class="album-date"><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($album['tanggal_event'])); ?></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <?php
                         }
                     } else {
-                        echo "<div class='col-md-12 text-center'><h3>Galeri media belum tersedia.</h3></div>";
+                        echo "<div class='col-md-12 text-center'><h3>Belum ada album dokumentasi.</h3></div>";
                     }
                     ?>
 

@@ -41,8 +41,9 @@ require_once 'template/sidebar.php';
                 </div>
 
                 <div class="form-group">
-                    <label>File Foto</label>
-                    <input type="file" name="file" class="form-control" required accept="image/*">
+                    <label>Upload Foto (Maksimal 10 Foto)</label>
+                    <input type="file" name="foto[]" class="form-control" multiple accept="image/*" required>
+                    <small class="text-muted">Tekan tombol <b>Ctrl</b> (di keyboard) sambil klik foto untuk memilih banyak sekaligus.</small>
                 </div>
 
                 <hr>

@@ -11,7 +11,6 @@ require_once 'template/sidebar.php';
             <h4 style="margin-bottom: 20px;">Edit Album Galeri</h4>
             
             <form method="POST" action="galeri.php?aksi=update" enctype="multipart/form-data">
-                
                 <input type="hidden" name="id_album" value="<?php echo $galeri['id_album']; ?>">
 
                 <div class="form-group">
@@ -27,13 +26,7 @@ require_once 'template/sidebar.php';
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Tipe Media</label>
-                            <select name="tipe" class="form-control">
-                                <option value="Foto" <?php if($galeri['tipe_media'] == 'Foto') echo 'selected'; ?>>Foto</option>
-                                <option value="Video" <?php if($galeri['tipe_media'] == 'Video') echo 'selected'; ?>>Video</option>
-                            </select>
-                        </div>
+                        <input type="hidden" name="tipe" value="Foto"> 
                     </div>
                 </div>
 
@@ -41,31 +34,42 @@ require_once 'template/sidebar.php';
                     <label>Deskripsi Singkat</label>
                     <textarea name="deskripsi" class="form-control" rows="3"><?php echo htmlspecialchars($galeri['deskripsi']); ?></textarea>
                 </div>
-
+                
+                <hr>
+                
+                <h5><b>Foto dalam Album ini:</b></h5>
                 <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>Ganti File Foto (Opsional)</label>
-                            <input type="file" name="file" class="form-control" accept="image/*">
-                            <small class="text-danger">Biarkan kosong jika tidak ingin mengganti foto.</small>
+                    <?php if(isset($fotos) && count($fotos) > 0): ?>
+                        <?php foreach($fotos as $f): ?>
+                        <div class="col-md-2 col-xs-6" style="margin-bottom: 15px;">
+                            <div style="position: relative; border: 1px solid #ddd; padding: 3px; border-radius: 4px; background: #fff;">
+                                <img src="uploads/galeri/<?php echo $f['file_foto']; ?>" style="width: 100%; height: 100px; object-fit: cover;">
+                                
+                                <a href="galeri.php?aksi=hapus_foto&id_foto=<?php echo $f['id_foto']; ?>&id_album=<?php echo $galeri['id_album']; ?>" 
+                                   onclick="return confirm('Hapus foto ini?')"
+                                   style="position: absolute; top: -8px; right: -8px; background: #ff4d4d; color: white; border-radius: 50%; width: 22px; height: 22px; text-align: center; line-height: 22px; font-size: 12px; text-decoration: none; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.2);">
+                                    X
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-6">
-                        <label>Foto Saat Ini:</label><br>
-                        <?php 
-                            $img_path = "uploads/galeri/" . $galeri['file_path'];
-                            if(!empty($galeri['file_path']) && file_exists($img_path)): 
-                        ?>
-                            <img src="<?php echo $img_path; ?>" style="max-width: 200px; border: 1px solid #ddd; padding: 3px; border-radius: 4px;">
-                        <?php else: ?>
-                            <span class="text-muted">Tidak ada foto.</span>
-                        <?php endif; ?>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-md-12">
+                            <p class="text-muted" style="font-style: italic;">Belum ada foto di album ini.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                
+                <hr>
+
+                <div class="form-group">
+                    <label>Tambah Foto Baru (Opsional)</label>
+                    <input type="file" name="foto[]" class="form-control" multiple accept="image/*">
+                    <small class="text-muted">Anda bisa memilih banyak foto sekaligus untuk ditambahkan ke album ini.</small>
                 </div>
 
-                <hr>
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Update Data</button>
-                <a href="galeri.php" class="btn btn-default">Batal</a>
+                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan Perubahan</button>
+                <a href="galeri.php" class="btn btn-default">Kembali</a>
             </form>
         </div>
     </div>

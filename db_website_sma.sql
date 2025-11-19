@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 18 Nov 2025 pada 02.28
--- Versi server: 10.4.27-MariaDB
--- Versi PHP: 8.0.25
+-- Generation Time: Nov 19, 2025 at 05:25 AM
+-- Server version: 10.4.25-MariaDB
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `berita_artikel`
+-- Table structure for table `berita_artikel`
 --
 
 CREATE TABLE `berita_artikel` (
@@ -35,10 +35,10 @@ CREATE TABLE `berita_artikel` (
   `penulis` varchar(100) DEFAULT NULL,
   `kategori` varchar(50) NOT NULL,
   `gambar_utama` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `berita_artikel`
+-- Dumping data for table `berita_artikel`
 --
 
 INSERT INTO `berita_artikel` (`id_berita`, `judul`, `konten_lengkap`, `tanggal_publikasi`, `penulis`, `kategori`, `gambar_utama`) VALUES
@@ -49,7 +49,30 @@ INSERT INTO `berita_artikel` (`id_berita`, `judul`, `konten_lengkap`, `tanggal_p
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `galeri_media`
+-- Table structure for table `galeri_fotos`
+--
+
+CREATE TABLE `galeri_fotos` (
+  `id_foto` int(11) NOT NULL,
+  `id_album` int(11) NOT NULL,
+  `file_foto` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `galeri_fotos`
+--
+
+INSERT INTO `galeri_fotos` (`id_foto`, `id_album`, `file_foto`) VALUES
+(1, 2, 'album_2_1763525006_0.jpg'),
+(2, 2, 'album_2_1763525006_1.jpg'),
+(3, 2, 'album_2_1763525006_2.jpg'),
+(4, 2, 'album_2_1763525006_3.jpg'),
+(5, 2, 'album_2_1763525006_4.jpg');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `galeri_media`
 --
 
 CREATE TABLE `galeri_media` (
@@ -59,19 +82,20 @@ CREATE TABLE `galeri_media` (
   `tanggal_event` date NOT NULL,
   `file_path` varchar(255) NOT NULL,
   `tipe_media` enum('Foto','Video') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `galeri_media`
+-- Dumping data for table `galeri_media`
 --
 
 INSERT INTO `galeri_media` (`id_album`, `judul_album`, `deskripsi`, `tanggal_event`, `file_path`, `tipe_media`) VALUES
-(1, 'Tim basket putra SMAS Frater Don Bosco Banjarmasin  juara 3 pada Kanaan Basketball Competition', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-11-17', '1763379679_715.png', 'Foto');
+(1, 'Tim basket putra SMAS Frater Don Bosco Banjarmasin  juara 3 pada Kanaan Basketball Competition', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-11-17', '1763379679_715.png', 'Foto'),
+(2, 'Testing Azzah', 'Testing', '2025-11-19', '', 'Foto');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `guru_staf`
+-- Table structure for table `guru_staf`
 --
 
 CREATE TABLE `guru_staf` (
@@ -82,15 +106,15 @@ CREATE TABLE `guru_staf` (
   `bidang_studi` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `guru_staf`
+-- Dumping data for table `guru_staf`
 --
 
 INSERT INTO `guru_staf` (`id_guru`, `nip`, `nama_lengkap`, `jabatan`, `bidang_studi`, `email`, `foto`) VALUES
 (1, '212021212102', 'Saids', 'Guru Mapel', 'Penjaskes', 'said@mail.com', '1763386379_741.jpg'),
-(2, '2112221222222', 'Paijots', 'Guru Mapel', 'Biologi', 'paijo@mail.com', '1763386319_488.png'),
+(2, '2210010582', 'DR. Prof Muhammad Irwan Firmanto, S.Kom., M.Kom', 'Guru Mapel', 'Cyber Security', 'muhammadirwan@mail.com', '1763435608_943.jpg'),
 (3, '198702212010012029', 'Almas', 'Guru Mapel', 'Matematika', 'almas@mail.com', '1763386267_931.jpg'),
 (4, '197910181999121001', 'Ikiits', 'Guru Mapel', 'Bahasa Jorongs', 'ikits@mail.com', '1763386363_603.jpg'),
 (5, '2210010300', 'Muhammad Saputra Arjunaidy, S.Kom', 'Guru Mapel', 'Teknik Informatika', 'putra@mail.com', '1763389244_269.jpg'),
@@ -100,7 +124,7 @@ INSERT INTO `guru_staf` (`id_guru`, `nip`, `nama_lengkap`, `jabatan`, `bidang_st
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `info_ppdb`
+-- Table structure for table `info_ppdb`
 --
 
 CREATE TABLE `info_ppdb` (
@@ -110,19 +134,19 @@ CREATE TABLE `info_ppdb` (
   `tanggal_mulai` date DEFAULT NULL,
   `tanggal_akhir` date DEFAULT NULL,
   `tautan_formulir` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `info_ppdb`
+-- Dumping data for table `info_ppdb`
 --
 
 INSERT INTO `info_ppdb` (`id_info`, `jenis_informasi`, `isi_detail`, `tanggal_mulai`, `tanggal_akhir`, `tautan_formulir`) VALUES
-(1, 'Link Informasi Peneriamaan Peserta Didik Baru (PPDB) :', 'Kami Tunggu Kehadiranyyaaaa', '2025-11-17', '2025-11-18', 'https://docs.google.com/forms/d/e/1FAIpQLSeGL9uDEfnDKoo8NjElfOKxJ7IUEUC6WSsVt3PDTB4KqF9IAg/viewform');
+(1, 'Link Informasi Peneriamaan Peserta Didik Baru (PPDB) :', 'Kami Tunggu Kehadiranyyaaaa', '2025-11-17', '2025-11-30', 'https://docs.google.com/forms/d/e/1FAIpQLSeGL9uDEfnDKoo8NjElfOKxJ7IUEUC6WSsVt3PDTB4KqF9IAg/viewform');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `pengumuman`
+-- Table structure for table `pengumuman`
 --
 
 CREATE TABLE `pengumuman` (
@@ -131,10 +155,10 @@ CREATE TABLE `pengumuman` (
   `isi_pengumuman` text NOT NULL,
   `tanggal_penting` date DEFAULT NULL,
   `status` enum('Aktif','Arsip') NOT NULL DEFAULT 'Aktif'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `pengumuman`
+-- Dumping data for table `pengumuman`
 --
 
 INSERT INTO `pengumuman` (`id_pengumuman`, `judul`, `isi_pengumuman`, `tanggal_penting`, `status`) VALUES
@@ -145,7 +169,7 @@ INSERT INTO `pengumuman` (`id_pengumuman`, `judul`, `isi_pengumuman`, `tanggal_p
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -154,10 +178,10 @@ CREATE TABLE `users` (
   `password` varchar(255) NOT NULL,
   `nama_admin` varchar(100) NOT NULL,
   `level` enum('Super Admin','Content Writer') NOT NULL DEFAULT 'Content Writer'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
--- Dumping data untuk tabel `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `nama_admin`, `level`) VALUES
@@ -168,79 +192,91 @@ INSERT INTO `users` (`id_user`, `username`, `password`, `nama_admin`, `level`) V
 --
 
 --
--- Indeks untuk tabel `berita_artikel`
+-- Indexes for table `berita_artikel`
 --
 ALTER TABLE `berita_artikel`
   ADD PRIMARY KEY (`id_berita`);
 
 --
--- Indeks untuk tabel `galeri_media`
+-- Indexes for table `galeri_fotos`
+--
+ALTER TABLE `galeri_fotos`
+  ADD PRIMARY KEY (`id_foto`);
+
+--
+-- Indexes for table `galeri_media`
 --
 ALTER TABLE `galeri_media`
   ADD PRIMARY KEY (`id_album`);
 
 --
--- Indeks untuk tabel `guru_staf`
+-- Indexes for table `guru_staf`
 --
 ALTER TABLE `guru_staf`
   ADD PRIMARY KEY (`id_guru`),
   ADD UNIQUE KEY `nip` (`nip`);
 
 --
--- Indeks untuk tabel `info_ppdb`
+-- Indexes for table `info_ppdb`
 --
 ALTER TABLE `info_ppdb`
   ADD PRIMARY KEY (`id_info`);
 
 --
--- Indeks untuk tabel `pengumuman`
+-- Indexes for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
   ADD PRIMARY KEY (`id_pengumuman`);
 
 --
--- Indeks untuk tabel `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `berita_artikel`
+-- AUTO_INCREMENT for table `berita_artikel`
 --
 ALTER TABLE `berita_artikel`
   MODIFY `id_berita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `galeri_media`
+-- AUTO_INCREMENT for table `galeri_fotos`
 --
-ALTER TABLE `galeri_media`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+ALTER TABLE `galeri_fotos`
+  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `guru_staf`
+-- AUTO_INCREMENT for table `galeri_media`
+--
+ALTER TABLE `galeri_media`
+  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `guru_staf`
 --
 ALTER TABLE `guru_staf`
   MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `info_ppdb`
+-- AUTO_INCREMENT for table `info_ppdb`
 --
 ALTER TABLE `info_ppdb`
   MODIFY `id_info` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `pengumuman`
+-- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
   MODIFY `id_pengumuman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
