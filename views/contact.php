@@ -1,4 +1,3 @@
-
 <div class="hero-area section" style="height: 40vh; min-height: 350px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
@@ -9,8 +8,7 @@
                 <h1 class="white-text">Hubungi Kami</h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
-                    <li>Konta</li>
-                </ul>
+                    <li>Kontak</li> </ul>
             </div>
         </div>
     </div>
@@ -27,16 +25,17 @@
                 </div>
 
                 <ul class="contact-details">
-                    <li><i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($data_kontak['alamat'] ?? 'Alamat belum diatur.'); ?></li>
-                    <li><i class="fa fa-phone"></i> <?php echo htmlspecialchars($data_kontak['telepon'] ?? 'Telepon belum diatur.'); ?></li>
-                    <li><i class="fa fa-envelope"></i> <?php echo htmlspecialchars($data_kontak['email'] ?? 'Email belum diatur.'); ?></li>
-                    <li><i class="fa fa-clock-o"></i> <?php echo htmlspecialchars($data_kontak['jam_kerja'] ?? 'Jam kerja belum diatur.'); ?></li>
+                    <li><i class="fa fa-map-marker"></i> <?php echo htmlspecialchars($data_kontak['alamat'] ?? 'Jl. Tugu Pahlawan No. 123, Banjarmasin'); ?></li>
+                    <li><i class="fa fa-phone"></i> <?php echo htmlspecialchars($data_kontak['telepon'] ?? '(0511) 1234567'); ?></li>
+                    <li><i class="fa fa-envelope"></i> <?php echo htmlspecialchars($data_kontak['email'] ?? 'info@smafraterdb.sch.id'); ?></li>
+                    <li><i class="fa fa-clock-o"></i> Senin - Jumat: 07:00 - 15:00</li>
                 </ul>
             </div>
 
             <div class="col-md-5">
                 <div class="contact-form">
-                    <form action="contact.php?action=submit" method="POST"> <input class="input" type="text" name="nama" placeholder="Nama Anda" required>
+                    <form action="contact.php?action=submit" method="POST"> 
+                        <input class="input" type="text" name="nama" placeholder="Nama Anda" required>
                         <input class="input" type="email" name="email" placeholder="Email Anda" required>
                         <input class="input" type="text" name="subjek" placeholder="Subjek Pesan" required>
                         <textarea class="input" name="pesan" placeholder="Isi Pesan Anda" required></textarea>
@@ -53,11 +52,11 @@
              <div class="col-md-12">
                  <div id="map">
                      <iframe 
-                         src="https://maps.google.com/maps?q=<?php echo urlencode($data_kontak['alamat']); ?>&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                         src="https://maps.google.com/maps?q=-3.3318552,114.5875468&hl=id&z=17&output=embed" 
                          width="100%" 
                          height="450" 
                          frameborder="0" 
-                         style="border:0" 
+                         style="border:0;" 
                          allowfullscreen="" 
                          aria-hidden="false" 
                          tabindex="0">

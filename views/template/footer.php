@@ -20,7 +20,7 @@
 
         <div class="row">
             <div class="section-header text-center">
-                <h2>Mengapa Memilih SMA Frater Don Bosco Bjm?</h2>
+                <h2>Mengapa Memilih SMA Frater Don Bosco Banjarmasin?</h2>
                 <p class="lead">Kami berkomitmen memberikan pendidikan terbaik untuk masa depan.</p>
             </div>
 

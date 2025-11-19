@@ -73,8 +73,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-8">
-                    <h1 class="white-text">Selamat Datang di Website Resmi SMA Frater Don Bosco Bjm</h1>
-                    <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter, dan Bergaya Saing Global.</p>
+                    <h1 class="white-text">Selamat Datang di Website Resmi SMA Frater Don Bosco Banjarmasin</h1>
+                    <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter dan Bergaya Saing Global.</p>
                     <a class="main-button icon-button" href="berita.php">Lihat Info Terbaru!</a>
                 </div>
             </div>
@@ -139,7 +139,7 @@
         <div class="row">
             <div class="section-header text-center">
                 <h2>Berita & Kegiatan Terbaru</h2>
-                <p class="lead">Ikuti perkembangan terbaru dan prestasi siswa-siswi SMA Maju Jaya.</p>
+                <p class="lead">Ikuti perkembangan terbaru dan prestasi siswa-siswi SMA Frater Don Bosco.</p>
             </div>
         </div>
 
