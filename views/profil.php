@@ -38,7 +38,7 @@
     /* ======================================= */
 
     .card-vision-mission {
-        background-color: #f8f9fa;
+        background-color: #ffffffff;
         /* Latar belakang abu-abu muda */
         border-radius: 8px;
         padding: 25px;
@@ -206,3 +206,4 @@
         </div>
     </div>
 </div>
+

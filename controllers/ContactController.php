@@ -16,7 +16,7 @@ class ContactController {
         // 3. Panggil View dengan menyertakan template header dan footer
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/contact.php'; // View utama kontak
-        
+        require_once 'views/template/footer2.php';
     }
     
     // FUNGSI TAMBAHAN: Untuk menangani pengiriman formulir (jika Anda mengimplementasikannya)

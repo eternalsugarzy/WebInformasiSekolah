@@ -66,7 +66,9 @@
     }
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+
+<div >
+    <div class="hero-area section" style="height: 40vh; min-height: 350px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
         <div class="row">
@@ -123,4 +125,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

@@ -18,6 +18,7 @@ if (!isset($title)) {
         <link rel="stylesheet" href="css/font-awesome.min.css">
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
     </head>
+   
     <body>
 
         <header id="header" class="transparent-nav">

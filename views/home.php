@@ -13,7 +13,7 @@
     margin-bottom: 15px; /* Jarak antar item pengumuman */
     
     /* Efek Shadow/Border untuk menonjolkan */
-    border-left: 4px solid #ff8c00; /* Garis Oranye di kiri */
+    border-left: 4px solid #1100ffff; /* Garis Oranye di kiri */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
@@ -75,7 +75,7 @@
                 <div class="col-md-8">
                     <h1 class="white-text">Selamat Datang di Website Resmi SMA Frater Don Bosco Banjarmasin</h1>
                     <p class="lead white-text">Mewujudkan Generasi Unggul, Berkarakter dan Bergaya Saing Global.</p>
-                    <a class="main-button icon-button" href="berita.php">Lihat Info Terbaru!</a>
+                    <a class="main-button icon-button" href="berita.php" style="background-color: #0808e8ff;">Lihat Info Terbaru!</a>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                 ?>
                 
                 <div style="margin-top: 20px;">
-                    <a href="pengumuman.php" class="main-button icon-button">Lihat Semua Pengumuman <i class="fa fa-arrow-right"></i></a>
+                    <a href="pengumuman.php" class="main-button icon-button" style="background-color: #0808e8ff;">Lihat Semua Pengumuman <i class="fa fa-arrow-right"></i></a>
                 </div>
 
             </div>
@@ -180,8 +180,9 @@
 
         <div class="row">
             <div class="center-btn">
-                <a class="main-button icon-button" href="berita.php">Lihat Semua Berita</a>
+                <a class="main-button icon-button" href="berita.php" style="background-color: #0808e8ff;">Lihat Semua Berita</a>
             </div>
         </div>
     </div>
 </div>
+

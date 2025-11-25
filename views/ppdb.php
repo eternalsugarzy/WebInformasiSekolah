@@ -156,7 +156,7 @@
                         </div>
                         
                         <?php if (!empty($info['tautan_formulir']) && $badge_class == 'success'): ?>
-                            <a href="<?php echo htmlspecialchars($info['tautan_formulir']); ?>" target="_blank" class="main-button icon-button" style="background-color: #ff8c00; color: white;">
+                            <a href="<?php echo htmlspecialchars($info['tautan_formulir']); ?>" target="_blank" class="main-button icon-button" style="background-color: #0808e8ff; color: white;">
                                 Daftar Sekarang <i class="fa fa-arrow-right"></i>
                             </a>
                         <?php endif; ?>

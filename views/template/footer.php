@@ -8,7 +8,7 @@
             <div class="col-md-6">
                 <h2 class="white-text">Pendaftaran Siswa Baru Telah Dibuka!</h2>
                 <p class="lead white-text">Segera daftarkan diri Anda dan jadilah bagian dari keluarga besar SMA Frater Don Bosco Banjarmasin.</p>
-                <a class="main-button icon-button" href="ppdb.php">Lihat Info PPDB</a>
+                <a class="main-button icon-button" href="ppdb.php" style="background-color: #0808e8ff;">Lihat Info PPDB</a>
             </div>
 
         </div>
@@ -67,22 +67,6 @@
                     <img src="./img/about-video.jpg" alt=""> 
                     <i class="play-icon fa fa-play"></i>
                 </a>
-            </div>
-
-        </div>
-        </div>
-    </div>
-<div id="contact-cta" class="section">
-
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/cta2-background.jpg)"></div>
-    <div class="container">
-
-        <div class="row">
-
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <h2 class="white-text">Hubungi Kami</h2>
-                <p class="lead white-text">Memiliki pertanyaan? Jangan ragu untuk menghubungi kami.</p>
-                <a class="main-button icon-button" href="contact.php">Hubungi Sekarang</a>
             </div>
 
         </div>

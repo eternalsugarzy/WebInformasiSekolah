@@ -39,7 +39,7 @@
                         <input class="input" type="email" name="email" placeholder="Email Anda" required>
                         <input class="input" type="text" name="subjek" placeholder="Subjek Pesan" required>
                         <textarea class="input" name="pesan" placeholder="Isi Pesan Anda" required></textarea>
-                        <button class="main-button icon-button pull-right">Kirim Pesan</button>
+                        <button class="main-button icon-button pull-right" style="background-color: #0808e8ff;">Kirim Pesan</button>
                     </form>
                 </div>
             </div>
