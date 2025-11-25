@@ -38,7 +38,7 @@ class DetailGaleriController {
 
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/detail_galeri.php'; 
-        require_once 'views/template/footer2.php';
+        require_once __DIR__ . '/../views/template/footer2.php';
     }
 }
 ?>

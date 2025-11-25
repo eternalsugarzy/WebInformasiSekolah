@@ -106,7 +106,7 @@
 <div class="hero-area section" style="height: 40vh; min-height: 350px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
-        <div class="row">
+        <div class="row" style="margin-top: 40px;">
             <div class="col-md-10 col-md-offset-1 text-center">
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
