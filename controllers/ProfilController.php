@@ -1,21 +1,23 @@
 <?php
-// Menggunakan __DIR__ untuk jalur absolut yang aman dari lokasi controller
-require_once __DIR__ . '/../models/ProfilModel.php'; 
+require_once __DIR__ . '/../models/GuruModel.php';
+require_once __DIR__ . '/../models/IdentitasModel.php'; // [TAMBAH INI]
 
 class ProfilController {
 
     public function index() {
-        // 1. Minta data ke Model
-        $profilModel = new ProfilModel();
-        // Variabel yang akan disuntikkan ke View
-        $data_profil = $profilModel->getProfilData(); 
-        
-        // 2. Siapkan Judul Halaman
-        $title = "Profil Sekolah & Visi Misi - SMA Maju Jaya"; 
+        // 1. Ambil Data Guru (Tetap)
+        $guruModel = new GuruModel();
+        $data_guru = $guruModel->getAllGuru();
 
-        // 3. Panggil View dengan menyertakan template header dan footer
-        require_once __DIR__ . '/../views/template/header.php';
-        require_once __DIR__ . '/../views/profil.php'; // View utama profil
+        // 2. [BARU] Ambil Data Identitas (Sejarah, Visi, Misi)
+        $identitasModel = new IdentitasModel();
+        $profil = $identitasModel->getIdentitas();
+
+        $title = "Profil Sekolah - SMA Frater Don Bosco Banjarmasin";
+
+        require_once 'views/template/header.php';
+        require_once 'views/profil.php';
+        require_once 'views/template/footer.php';
         require_once 'views/template/footer2.php';
     }
 }

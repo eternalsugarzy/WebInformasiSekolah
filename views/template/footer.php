@@ -57,23 +57,7 @@
         </div>
         <hr class="section-hr">
 
-        <div class="row">
-
-            <div class="col-md-6">
-                <h3>Visi & Misi Sekolah</h3>
-                <p class="lead">Menjadi sekolah unggulan yang berlandaskan iman, ilmu, dan amal.</p>
-                <p>Visi kami adalah BERIMAN, BERILMU, BERLANDASKAN KASIH PERSAUDARAAN MENUJU PRIBADI MANUSIA SEUTUHNYA.
-                </p>
-            </div>
-
-            <div class="col-md-5 col-md-offset-1">
-                <a class="about-video" href="#">
-                    <img src="./img/page-background3.png" alt="">
-                    <i class="play-icon fa fa-play"></i>
-                </a>
-            </div>
-
-        </div>
+        
     </div>
 </div>
 <div id='preloader'>
