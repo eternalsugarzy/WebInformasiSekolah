@@ -2,9 +2,9 @@
     <div class="admin-brand" style="height: auto; padding: 20px 0; flex-direction: column; text-align: center;">
         <img src="../img/logo.png" alt="Logo Sekolah" style="width: 60px; height: auto; margin-bottom: 10px;">
         
-        <h3 style="margin: 0; font-size: 16px; line-height: 1.4;">
-            SMA Frater <br> Don Bosco 
-            <span style="display: block; margin-top: 8px; font-size: 14px; letter-spacing: 1px;">
+        <h3 style="margin: 0; font-size: 16px; line-height: 1.4; text-transform: uppercase;">
+            SMA FRATER <br> DON BOSCO 
+            <span style="display: block; margin-top: 8px; font-size: 14px; letter-spacing: 1px; color:#FF6700;">
                 ADMIN PANEL
             </span>
         </h3>
@@ -16,6 +16,11 @@
         <li class="<?php echo ($page == 'index.php') ? 'active' : ''; ?>">
             <a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
         </li>
+
+        <li class="<?php echo ($page == 'identitas.php') ? 'active' : ''; ?>">
+            <a href="identitas.php"><i class="fa fa-cogs"></i> Identitas Sekolah</a>
+        </li>
+
         <li class="<?php echo ($page == 'berita.php') ? 'active' : ''; ?>">
             <a href="berita.php"><i class="fa fa-newspaper-o"></i> Kelola Berita</a>
         </li>
@@ -31,6 +36,7 @@
         <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
             <a href="galeri.php"><i class="fa fa-image"></i> Galeri Foto</a>
         </li>
+
         <li class="has-submenu">
             <a href="#" class="submenu-toggle">
                 <i class="fa fa-print"></i> Laporan <i class="fa fa-angle-down pull-right"></i>
@@ -61,8 +67,9 @@
                         <i class="fa fa-angle-right"></i> Lap. Galeri Foto
                     </a>
                 </li>
-                </ul>
+            </ul>
         </li>
+        
         <li style="margin-top: 30px; border-top: 1px solid #3a3c55;">
             <a href="../index.php" target="_blank"><i class="fa fa-external-link"></i> Lihat Website</a>
         </li>
