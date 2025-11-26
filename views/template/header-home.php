@@ -3,6 +3,9 @@
 if (!isset($title)) {
     $title = 'Website Resmi SMA Frater Don Bosco Bjm';
 }
+
+// Dapatkan nama halaman saat ini untuk menu aktif
+$current_page = basename($_SERVER['PHP_SELF']);
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -13,7 +16,7 @@ if (!isset($title)) {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo htmlspecialchars($title); ?></title>
 
-    <link rel="icon" href="../img/logo.png" type="image/png">
+    <link rel="icon" href="./img/logo2.png" type="image/png">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
@@ -21,100 +24,85 @@ if (!isset($title)) {
     <link type="text/css" rel="stylesheet" href="css/style.css" />
 
     <style>
-        #header.transparent-nav {
-            /* 1. Atur background agar semi-transparan (penting agar efek blur terlihat) */
-            /* Warna putih semi-transparan (misalnya 70% opacity) */
-            background-color: rgba(255, 255, 255, 0.68) !important;
+        /* ========================================= */
+        /* MODIFIKASI HEADER (STICKY FIXED)          */
+        /* ========================================= */
 
-            /* 2. Terapkan efek Blur (Buram) */
-            /* Nilai 5px menentukan seberapa buram (semakin besar semakin buram) */
-            -webkit-backdrop-filter: blur(5px);
-            backdrop-filter: blur(0px);
-
-            /* 3. Pastikan border bawah hilang atau disesuaikan */
-            border-bottom: none !important;
-        }
-
-        /* 4. Pastikan teks menu tetap terlihat gelap di atas background blur yang terang */
-        #header.transparent-nav .main-menu li a {
-            color: #045bb8ff  !important;
-            /* Warna teks gelap (misalnya dari warna header template Anda) */
-        }
-
-        /* 5. Teks menu aktif juga harus gelap */
-        #header.transparent-nav .main-menu li.active a {
-            color: #000064ff !important;
-            /* Warna biru gelap untuk menu aktif */
-        }
-
-        /* --- LOGO LEBIH BESAR --- */
-        /* 1. Paksa Logo Berubah Ukuran (Override max-height:30px bawaan) */
-        .navbar-brand .logo>img {
-            max-height: 80px !important;
-            /* Tinggi Logo yang diinginkan */
-            height: 80px !important;
-            width: auto !important;
-        }
-
-        /* --- LOGO LEBIH BESAR --- */
-        /* 1. Paksa Logo Berubah Ukuran (Override max-height:30px bawaan) */
-        .navbar-brand .logo>img {
-            max-height: 80px !important;
-            /* Tinggi Logo yang diinginkan */
-            height: 80px !important;
-            width: auto !important;
-        }
-
-        /* 2. Paksa Header Menjadi Lebih Tinggi (Agar logo 60px muat) */
+        /* 1. Atur Header agar Selalu Menempel di Atas */
         #header {
-            padding-top: 15px !important;
-            padding-bottom: 20px !important;
-        }
-
-        /* 3. Sesuaikan Jarak Logo dari Atas Header */
-        .navbar-brand .logo {
-            margin-top: 0px !important;
-        }
-
-        /* 4. Sesuaikan Posisi Teks Navigasi (Agar menu berada di tengah vertikal) */
-        .main-menu {
-            margin-top: 10px !important;
-        }
-
-        /* --- MENU AKTIF & HOVER --- */
-        /* Menargetkan semua tautan <a> di dalam menu utama */
-        #nav .main-menu li a {
-            transition: color 0.3s ease;
-        }
-
-        /* 5. Teks berubah menjadi Biru saat kursor diarahkan (HOVER) */
-        #nav .main-menu li a:hover {
-            color: #f8e134ff !important;
-            /* Warna Biru saat di-hover */
-        }
-
-        /* 6. Teks Berwarna Biru Permanen untuk Menu AKTIF (Logika dari PHP) */
-        #nav .main-menu li.active a {
-            color: #000064ff !important;
-            /* Teks menu aktif harus Biru */
-        }
-
-        /* 7. Garis Bawah Biru Permanen untuk Menu AKTIF */
-        /* Menimpa aturan after bawaan template */
-        #nav .main-menu li.active a:after {
-            content: "";
-            display: block;
-            height: 2px;
-            background-color: #007bff !important;
-            /* Garis Bawah Biru */
+            position: fixed !important; /* Paksa Fixed agar nyangkut */
+            top: 0;
+            left: 0;
             width: 100%;
-            /* Atur ulang posisi agar terlihat di bawah */
-            transform: translateY(0px) !important;
-            opacity: 1 !important;
+            z-index: 99999; /* Layer paling atas */
+            transition: all 0.3s ease-in-out; /* Animasi halus */
+            padding-top: 20px;
+            padding-bottom: 20px;
+            
+            /* Kondisi Awal (Belum Scroll): Transparan */
+            background-color: transparent; 
+            border-bottom: none;
+        }
+
+        /* 2. Style saat Header di-Scroll (Ditambah via JS) */
+        #header.navbar-scrolled {
+            background-color: #ffffff !important; /* Jadi Putih Solid */
+            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15); /* Bayangan bawah */
+            padding-top: 10px !important; /* Mengecil sedikit */
+            padding-bottom: 10px !important;
+        }
+
+        /* --- LOGO --- */
+        .navbar-brand .logo > img {
+            max-height: 70px;
+            height: auto;
+            width: auto;
+            transition: all 0.3s ease;
+        }
+
+        /* Logo mengecil saat scroll */
+        #header.navbar-scrolled .navbar-brand .logo > img {
+            max-height: 50px;
+        }
+
+        /* --- MENU NAVIGASI --- */
+        #nav {
+            margin-top: 5px;
+        }
+
+        /* Warna Teks Menu - Default (Biru) */
+        #nav .main-menu li a {
+            color: #ffffffff !important; 
+            font-weight: 700;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            text-shadow: 0px 0px 1px rgba(255,255,255,0.5); /* Agar terbaca di foto gelap */
+        }
+
+       /* --- WARNA MENU SAAT SCROLL (JADI HITAM) --- */
+        #header.navbar-scrolled #nav .main-menu li a {
+            color: #333333 !important; /* Warna Hitam Abu Gelap */
+            text-shadow: none; /* Hapus bayangan teks agar bersih */
+        }
+
+        /* Tetap pertahankan warna saat di-Hover (Kuning/Oranye) */
+        #header.navbar-scrolled #nav .main-menu li a:hover {
+            color: #f8e134ff !important;
+        }
+
+       
+        
+        
+
+        /* Toggle Menu HP */
+        .navbar-toggle {
+            background-color: #045bb8ff !important;
+        }
+        .navbar-toggle span {
+            background-color: #fff !important;
         }
     </style>
 </head>
-
 
 <body>
 
@@ -122,51 +110,57 @@ if (!isset($title)) {
         <div class="container">
             <div class="navbar-header">
                 <div class="navbar-brand">
-                    <a class="logo" href="index.php" style="max-width: 100px;">
+                    <a class="logo" href="index.php">
                         <img src="./img/logo2.png" alt="Logo SMA Frater Don Bosco Banjarmasin">
                     </a>
                 </div>
-                <button class="navbar-toggle"><span></span></button>
-            </div>
+                <button class="navbar-toggle">
+                    <span></span>
+                </button>
+                </div>
+
             <nav id="nav">
                 <ul class="main-menu nav navbar-nav navbar-right">
-                    <li class="<?php if ($current_page == 'index.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="index.php">Beranda</a></li>
-                    <li class="<?php if ($current_page == 'profil.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="profil.php">Profil</a></li>
-                    <li class="<?php if ($current_page == 'berita.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="berita.php">Berita & Info</a></li>
-                    <li class="<?php if ($current_page == 'pengumuman.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="pengumuman.php">Pengumuman</a></li>
-                    <li class="<?php if ($current_page == 'guru.php') {
-                        echo 'active';
-                    } ?>"><a href="guru.php">Guru</a>
+                    <li class="<?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">
+                        <a href="index.php">Beranda</a>
                     </li>
-                    <li class="<?php if ($current_page == 'galeri.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="galeri.php">Galeri</a></li>
-                    <li class="<?php if ($current_page == 'ppdb.php') {
-                        echo 'active';
-                    } ?>"><a href="ppdb.php">PPDB</a>
+                    <li class="<?php echo ($current_page == 'profil.php') ? 'active' : ''; ?>">
+                        <a href="profil.php">Profil</a>
                     </li>
-                    <li class="<?php if ($current_page == 'contact.php') {
-                        echo 'active';
-                    } ?>"><a
-                            href="contact.php">Kontak</a></li>
+                    <li class="<?php echo ($current_page == 'berita.php') ? 'active' : ''; ?>">
+                        <a href="berita.php">Berita & Info</a>
+                    </li>
+                    <li class="<?php echo ($current_page == 'pengumuman.php') ? 'active' : ''; ?>">
+                        <a href="pengumuman.php">Pengumuman</a>
+                    </li>
+                    <li class="<?php echo ($current_page == 'guru.php') ? 'active' : ''; ?>">
+                        <a href="guru.php">Guru</a>
+                    </li>
+                    <li class="<?php echo ($current_page == 'galeri.php') ? 'active' : ''; ?>">
+                        <a href="galeri.php">Galeri</a>
+                    </li>
+                    <li class="<?php echo ($current_page == 'ppdb.php') ? 'active' : ''; ?>">
+                        <a href="ppdb.php">PPDB</a>
+                    </li>
+                    <li class="<?php echo ($current_page == 'contact.php') ? 'active' : ''; ?>">
+                        <a href="contact.php">Kontak</a>
+                    </li>
                 </ul>
             </nav>
-        </div>
+            </div>
     </header>
+    <script>
+        window.addEventListener('scroll', function() {
+            var header = document.getElementById('header');
+            
+            // Jika scroll lebih dari 50px
+            if (window.scrollY > 50) {
+                header.classList.add('navbar-scrolled');
+            } else {
+                header.classList.remove('navbar-scrolled');
+            }
+        });
+    </script>
 
 </body>
-
 </html>

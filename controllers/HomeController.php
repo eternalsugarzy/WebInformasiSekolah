@@ -11,7 +11,7 @@ class HomeController {
         $beritaModel = new BeritaModel();
         
        $data_pengumuman = $pengumumanModel->getPengumumanTerbaru(2);
-        $data_berita = $beritaModel->getBeritaTerbaru(4);
+        $data_berita = $beritaModel->getBeritaTerbaru(6);
         
         // 2. Tentukan judul halaman
         $title = "Beranda - SMA Frater Don Bosco";
