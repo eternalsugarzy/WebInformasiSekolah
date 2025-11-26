@@ -18,7 +18,7 @@ class HomeController {
         
         // 3. Panggil View (Template Anda) dan kirimkan data
         // Ini adalah tempat template 400 baris Anda dipanggil
-        require_once 'views/template/header.php';
+        require_once 'views/template/header-home.php';
         require_once 'views/home.php';
         require_once 'views/template/footer.php';
         require_once 'views/template/footer2.php';
