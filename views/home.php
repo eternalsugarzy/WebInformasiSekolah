@@ -94,10 +94,18 @@
         /* Batasi tinggi maksimum agar tidak terlalu besar */
        margin-left: 70px;
     }
+
+    .bg-image.overlay:after {
+    content:"";
+    /* ... kode posisi ... */
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#374050), to(#798696));
+    /* ... */
+    opacity: 0.7; /* Ini yang membuatnya memudar dan gelap */
+}
 </style>
 
 <div id="home" class="hero-area" style="height: 40vh; min-height: 550px;">
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
+        <div class="bg-image bg-parallax" style="background-image:url(./img/page-background-sekolah.jpg)"></div>
     <div class="home-wrapper">
         <div class="container">
             <div class="row">
@@ -111,7 +119,6 @@
         </div>
     </div>
 </div>
-
 
 <div id="about" class="section">
     <div class="container">

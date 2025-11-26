@@ -21,6 +21,7 @@ if (!isset($title)) {
     <link type="text/css" rel="stylesheet" href="css/style.css" />
 
 <style>
+    
 /* --- LOGO LEBIH BESAR --- */
 /* 1. Paksa Logo Berubah Ukuran (Override max-height:30px bawaan) */
 .navbar-brand .logo > img {
