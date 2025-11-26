@@ -16,7 +16,7 @@ class GaleriController {
         // 2. Panggil View Frontend
         require_once 'views/template/header.php';
         require_once 'views/galeri.php';
-        
+        require_once 'views/template/footer2.php';
     }
 
     // --- HALAMAN DETAIL (Isi Foto-foto dalam Album) ---
@@ -51,7 +51,7 @@ class GaleriController {
             die("Error: File view detail galeri tidak ditemukan.");
         }
 
-        require_once 'views/template/footer.php';
+        
     }
 }
 ?>

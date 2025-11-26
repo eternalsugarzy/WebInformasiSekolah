@@ -11,8 +11,8 @@ class ContactModel extends Database {
     public function getContactInfo() {
         // KARENA BELUM ADA TABELNYA, kita kembalikan data statis yang spesifik untuk SMA Frater Don Bosco Bjm:
         return [
-            'alamat' => "Jl. Ahmad Yani No. 10, Banjarmasin, Kalimantan Selatan",
-            'telepon' => "(0511) 335XXXX",
+            'alamat' => "Jl. Rantauan Darat No.24, Pekauman",
+            'telepon' => "(0511) 3271632",
             'email' => "info@fraterdonbosco-bjm.sch.id",
             'jam_kerja' => "Senin - Jumat, 07:00 - 15:00 WITA",
             // Koordinat peta untuk Google Maps (Banjarmasin)

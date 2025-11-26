@@ -88,13 +88,15 @@
 </style>
 
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+<div class="hero-area section" style="height: 40vh; min-height: 370px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
-    <div class="container">
+    <div class="container" style="margin-top: 40px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm" class="logo-header-berita"
-                    style="max-height: 80px; margin-bottom: 15px;">
+                <img src="./img/logo2.png" 
+                     alt="Logo SMA Frater Don Bosco Bjm" 
+                     class="logo-header-berita"
+                     style="max-height: 130px;"> 
                 <h1 class="white-text">Penerimaan Peserta Didik Baru (PPDB)</h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
@@ -156,7 +158,7 @@
                         </div>
                         
                         <?php if (!empty($info['tautan_formulir']) && $badge_class == 'success'): ?>
-                            <a href="<?php echo htmlspecialchars($info['tautan_formulir']); ?>" target="_blank" class="main-button icon-button" style="background-color: #ff8c00; color: white;">
+                            <a href="<?php echo htmlspecialchars($info['tautan_formulir']); ?>" target="_blank" class="main-button icon-button" style="background-color: #0808e8ff; color: white;">
                                 Daftar Sekarang <i class="fa fa-arrow-right"></i>
                             </a>
                         <?php endif; ?>

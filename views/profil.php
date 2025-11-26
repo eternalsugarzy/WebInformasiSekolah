@@ -38,7 +38,7 @@
     /* ======================================= */
 
     .card-vision-mission {
-        background-color: #f8f9fa;
+        background-color: #ffffffff;
         /* Latar belakang abu-abu muda */
         border-radius: 8px;
         padding: 25px;
@@ -126,15 +126,15 @@
     }
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+<div class="hero-area section" style="height: 40vh; min-height: 370px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
-    <div class="container">
+    <div class="container" style="margin-top: 40px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <img src="./img/logo.png" 
+                <img src="./img/logo2.png" 
                      alt="Logo SMA Frater Don Bosco Bjm" 
                      class="logo-header-berita"
-                     style="max-height: 80px; margin-bottom: 15px;"> 
+                     style="max-height: 130px;"> 
                 <h1 class="white-text">Tentang SMA Frater Don Bosco Bjm</h1>
                  <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
@@ -155,7 +155,7 @@
                     <div class="section-header">
                         <h2><i class="fa fa-history"></i> Sejarah Sekolah</h2>
                     </div>
-                    <p><?php echo htmlspecialchars($data_profil['sejarah'] ?? 'Data sejarah belum diatur.'); ?></p>
+                    <p style="color:black;"><?php echo htmlspecialchars($data_profil['sejarah'] ?? 'Data sejarah belum diatur.'); ?></p>
                 </div>
             </div>
 
@@ -166,13 +166,13 @@
                         <h2><i class="fa fa-eye"></i> Visi</h2>
                     </div>
                     <blockquote class="blockquote-visi">
-                        <p><?php echo nl2br(htmlspecialchars($data_profil['visi'] ?? 'Visi belum diatur.')); ?></p>
+                        <p style="color:black;"><?php echo nl2br(htmlspecialchars($data_profil['visi'] ?? 'Visi belum diatur.')); ?></p>
                     </blockquote>
 
                     <div class="section-header" style="margin-top: 25px;">
                         <h2><i class="fa fa-tasks"></i> Misi</h2>
                     </div>
-                    <ul class="list-style-misi">
+                    <ul class="list-style-misi" style="color:black;">
                         <?php
                         if (!empty($data_profil['misi'])) {
                             foreach ($data_profil['misi'] as $misi) {
@@ -206,3 +206,4 @@
         </div>
     </div>
 </div>
+

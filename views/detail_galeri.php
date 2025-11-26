@@ -20,7 +20,7 @@
 
 .media-detail-card .media-info h2 {
     color: #007bff;
-    border-bottom: 2px solid #ff8c00; 
+    border-bottom: 2px solid #0808e8ff; 
     padding-bottom: 10px;
     margin-bottom: 20px;
     font-size: 24px;
@@ -32,11 +32,11 @@
 
 .main-button.icon-button {
     display: inline-flex; align-items: center; white-space: nowrap; 
-    background-color: #ff8c00 !important; color: white !important;
+    background-color: #0808e8ff !important; color: white !important;
     padding: 10px 20px; border-radius: 5px; font-weight: 600;
     text-decoration: none; font-size: 16px; transition: background-color 0.3s ease;
 }
-.main-button.icon-button:hover { background-color: #e57d00 !important; }
+.main-button.icon-button:hover { background-color: #0808e8ff !important; }
 .main-button.icon-button::before { font-family: 'FontAwesome'; content: "\f060"; margin-right: 8px; }
 
 /* ======================================= */
@@ -60,6 +60,35 @@
 .gallery-grid-item:hover img {
     transform: scale(1.1);
 }
+
+
+  .blog-share a.main-button {
+        /* Pastikan tombol adalah inline-block atau block */
+        display: inline-flex;
+        /* Gunakan inline-flex untuk penataan ikon yang rapi */
+        align-items: center;
+        /* Memastikan ikon dan teks sejajar di tengah */
+        white-space: nowrap;
+        /* KRUSIAL: Mencegah teks melompat baris secara tidak wajar */
+
+        /* Styling Visual */
+        background-color: #0808e8ff;
+        color: white !important;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: 600;
+        text-decoration: none;
+        line-height: normal;
+        /* Memperbaiki masalah tinggi baris */
+        font-size: 16px;
+
+        /* Menghapus semua properti yang membatasi lebar */
+        width: auto !important;
+        height: auto !important;
+    }
+     .blog-share a.main-button::after {
+        content: none !important;
+    }
 </style>
 
 <div class="hero-area section" style="height: 40vh; min-height: 350px;">
@@ -78,7 +107,7 @@
     </div>
 </div>
 
-<div id="media-detail" class="section">
+<div id="media-detail" class="section" style="margin-top: 50px;">
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
@@ -129,10 +158,8 @@
                         ?>
                     </div>
 
-                    <div style="margin-top: 40px; text-align: left;">
-                        <a href="galeri.php" class="main-button icon-button">
-                            Kembali ke Arsip Galeri
-                        </a>
+                    <div class="blog-share">
+                        <a href="galeri.php" class="main-button icon-button" style="background-color: #0808e8ff;">Kembali ke Arsip Berita</a>
                     </div>
 
                 </div>
@@ -140,3 +167,7 @@
         </div>
     </div>
 </div>
+
+<?php
+include_once __DIR__ . '/template/footer2.php';
+?>

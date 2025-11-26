@@ -66,13 +66,16 @@
     }
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+
+<div class="hero-area section" style="height: 40vh; min-height: 370px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
-    <div class="container">
+    <div class="container" style="margin-top: 40px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm" class="logo-header-berita"
-                    style="max-height: 80px; margin-bottom: 15px;">
+                <img src="./img/logo2.png" 
+                     alt="Logo SMA Frater Don Bosco Bjm" 
+                     class="logo-header-berita"
+                     style="max-height: 130px;"> 
                 <h1 class="white-text">Papan Informasi Sekolah</h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
@@ -107,7 +110,7 @@
                                     <h3><?php echo htmlspecialchars($p['judul']); ?></h3>
 
                                     <div class="pengumuman-content">
-                                        <p><?php echo nl2br(htmlspecialchars($p['isi_pengumuman'])); ?></p>
+                                        <p ><?php echo nl2br(htmlspecialchars($p['isi_pengumuman'])); ?></p>
                                     </div>
 
                                 </div>
@@ -123,4 +126,5 @@
             </div>
         </div>
     </div>
+</div>
 </div>

@@ -12,6 +12,9 @@
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         margin-bottom: 30px;
         /* Menjaga jarak antar baris */
+        height: 100%; /* Kartu mengambil tinggi penuh kolom */
+    display: flex;
+    flex-direction: column;
     }
 
     .single-teacher:hover {
@@ -23,6 +26,12 @@
     /* ======================================= */
     /* Styling Foto dan Efek Hover */
     /* ======================================= */
+    .teacher-content {
+    flex-grow: 1; /* Konten mengisi ruang */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; 
+}
 
     .teacher-img {
         position: relative;
@@ -103,16 +112,27 @@
         color: #888 !important;
     }
 
+    .main-button {
+    background-color: #007bff; /* Warna Biru standar */
+    color: white;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 10px 20px;
+    line-height: normal;
+    text-decoration: none;
+}
     
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+<div class="hero-area section" style="height: 40vh; min-height: 400px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
-    <div class="container">
+    <div class="container" style="margin-top: 40px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <img src="./img/logo.png" alt="Logo SMA Frater Don Bosco Bjm" class="logo-header-berita"
-                    style="max-height: 80px; margin-bottom: 15px;">
+                <img src="./img/logo2.png" 
+                     alt="Logo SMA Frater Don Bosco Bjm" 
+                     class="logo-header-berita"
+                     style="max-height: 130px;"> 
                 <h1 class="white-text">Pendidik dan Tenaga Kependidikan SMA Frater Don Bosco Bjm</h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
@@ -125,9 +145,29 @@
 
 <div id="teachers" class="section">
     <div class="container">
+     
+
+        <?php $current_keyword = $current_keyword ?? ''; // Amankan variabel dari Controller ?>
+        <div class="row" style="margin-bottom: 30px;">
+            <div class="col-md-8 col-md-offset-2">
+                <form action="guru.php" method="GET" class="form-horizontal">
+                    <div class="input-group">
+                        <input type="text" 
+                               name="cari" 
+                               class="form-control" 
+                               placeholder="Cari Guru berdasarkan Nama, Jabatan, atau Mata Pelajaran..."
+                               value="<?php echo htmlspecialchars($current_keyword); ?>">
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary main-button" type="submit" style="height: 40px; line-height: 25px;">
+                                <i class="fa fa-search"></i> Cari
+                            </button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div class="row">
             <div id="main" class="col-md-12">
-
                 <div class="row">
                     <?php
                     // Cek apakah variabel $data_guru sudah diinisialisasi oleh Controller
@@ -147,16 +187,17 @@
                                     <div class="teacher-img">
                                         <img src="<?php echo $path_foto; ?>"
                                             alt="<?php echo htmlspecialchars($guru['nama_lengkap']); ?>"
-                                            style="height: 250px; object-fit: cover; width: 100%;">
-
+                                            style="height: 250px; object-fit: cover; width: 100%;"> 
+                                        
                                         <div class="teacher-social">
                                             <p>Email: <?php echo htmlspecialchars($guru['email'] ?? 'Tidak Ada'); ?></p>
                                         </div>
-
                                     </div>
                                     <div class="teacher-content">
                                         <h4><?php echo htmlspecialchars($guru['nama_lengkap']); ?></h4>
-                                        <span><?php echo htmlspecialchars($guru['jabatan']); ?></span>
+                                        <span style="color: <?php echo ($guru['jabatan'] === 'Kepala Sekolah' || $guru['jabatan'] === 'Wali Kelas') ? '#dc3545' : '#ff8c00'; ?>;">
+                                            <?php echo htmlspecialchars($guru['jabatan']); ?>
+                                        </span>
                                         <p class="small text-muted"><?php echo htmlspecialchars($guru['bidang_studi']); ?></p>
                                     </div>
                                 </div>
@@ -165,7 +206,11 @@
                             <?php
                         }
                     } else {
-                        echo "<div class='col-md-12 text-center'><h3>Data guru dan staf belum tersedia.</h3></div>";
+                        $message = !empty($current_keyword) 
+                            ? "Data guru tidak ditemukan untuk pencarian '{$current_keyword}'." 
+                            : "Data guru dan staf belum tersedia.";
+                        
+                        echo "<div class='col-md-12 text-center'><h3>{$message}</h3></div>";
                     }
                     ?>
                 </div>
