@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2025 at 01:05 AM
+-- Generation Time: Nov 27, 2025 at 01:58 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -63,11 +63,20 @@ CREATE TABLE `galeri_fotos` (
 --
 
 INSERT INTO `galeri_fotos` (`id_foto`, `id_album`, `file_foto`) VALUES
-(1, 2, 'album_2_1763525006_0.jpg'),
-(2, 2, 'album_2_1763525006_1.jpg'),
-(3, 2, 'album_2_1763525006_2.jpg'),
-(4, 2, 'album_2_1763525006_3.jpg'),
-(5, 2, 'album_2_1763525006_4.jpg');
+(6, 2, 'album_2_1764249568_0.png'),
+(7, 2, 'album_2_1764249578_0.png'),
+(8, 2, 'album_2_1764249588_0.png'),
+(9, 1, 'album_1_1764249745_0.png'),
+(10, 1, 'album_1_1764249755_0.png'),
+(11, 1, 'album_1_1764249760_0.png'),
+(12, 1, 'album_1_1764249767_0.png'),
+(13, 1, 'album_1_1764249790_0.png'),
+(14, 1, 'album_1_1764249798_0.png'),
+(15, 1, 'album_1_1764249804_0.png'),
+(16, 3, 'album_3_1764250675_0.png'),
+(17, 3, 'album_3_1764250688_0.png'),
+(18, 3, 'album_3_1764250688_1.png'),
+(19, 3, 'album_3_1764250688_2.png');
 
 -- --------------------------------------------------------
 
@@ -80,7 +89,7 @@ CREATE TABLE `galeri_media` (
   `judul_album` varchar(255) NOT NULL,
   `deskripsi` text,
   `tanggal_event` date NOT NULL,
-  `file_path` varchar(255) NOT NULL,
+  `file_path` varchar(255) DEFAULT NULL,
   `tipe_media` enum('Foto','Video') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -89,8 +98,9 @@ CREATE TABLE `galeri_media` (
 --
 
 INSERT INTO `galeri_media` (`id_album`, `judul_album`, `deskripsi`, `tanggal_event`, `file_path`, `tipe_media`) VALUES
-(1, 'Tim basket putra SMAS Frater Don Bosco Banjarmasin  juara 3 pada Kanaan Basketball Competition', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-11-17', '1763379679_715.png', 'Foto'),
-(2, 'Testing Azzah', 'Testing', '2025-11-19', '', 'Foto');
+(1, 'Paduan suara SMAS Frater Don Bosco Banjarmasin (Don Bosco Choir) Bertugas dalam Misa.', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-11-25', '1763379679_715.png', 'Foto'),
+(2, 'Dalam rangka peringatan Hari Guru Nasional', ' Fr. Martinus Max Mangundap, S.Pd., CMM., bersama para pegawai yayasan Don Bosco Manado perwakilan Banjarmasin turut bersuka-cita dalam perayaan HGN 2025. Pengurus OSIS juga menyampaikan bingkisan sederhana sebagai ungkapan syukur atas segala dukungan yayasan untuk para guru, sekaligus ungkapan terima kasih atas perhatian yayasan kepada sekolah dan para murid dalam menunjang keberlangsungan aktivitas pendidikan.', '2025-11-26', '', 'Foto'),
+(3, 'Tim Dance SMAS Frater Don Bosco Banjarmasin Raih Juara 2 Youth Fest Banjarmasin 2025', 'Banjarmasin, Senin (10/11/2025) - Tim Dance SMAS Frater Don Bosco Banjarmasin, Donbosco Crew, kembali menunjukkan prestasi gemilang dengan meraih juara 2 dalam perlombaan dance Youth Fest Banjarmasin 2025, yang diadakan pada hari Jumat, 7/11/2025 oleh Pemerintah Kota Banjarmasin. Donbosco Crew kembali membuktikan kemampuan mereka, dan ini merupakan buah dari kerja keras dan dedikasi mereka. Terus berkarya Don Bosco Crew!!', '2025-11-10', NULL, 'Foto');
 
 -- --------------------------------------------------------
 
@@ -113,13 +123,14 @@ CREATE TABLE `guru_staf` (
 --
 
 INSERT INTO `guru_staf` (`id_guru`, `nip`, `nama_lengkap`, `jabatan`, `bidang_studi`, `email`, `foto`) VALUES
-(1, '212021212102', 'Saids', 'Guru Mapel', 'Penjaskes', 'said@mail.com', '1763386379_741.jpg'),
-(2, '2210010582', 'DR. Prof Muhammad Irwan Firmanto, S.Kom., M.Kom', 'Guru Mapel', 'Cyber Security', 'muhammadirwan@mail.com', '1763435608_943.jpg'),
-(3, '198702212010012029', 'Almas', 'Guru Mapel', 'Matematika', 'almas@mail.com', '1763386267_931.jpg'),
-(4, '197910181999121001', 'Ikiits', 'Guru Mapel', 'Bahasa Jorongs', 'ikits@mail.com', '1763386363_603.jpg'),
-(5, '2210010300', 'Muhammad Saputra Arjunaidy, S.Kom', 'Guru Mapel', 'Teknik Informatika', 'putra@mail.com', '1763389244_269.jpg'),
-(7, '51515151555551', 'nur', 'Kepala Sekolah', '', 'nur@mail.com', '1763389944_546.jpg'),
-(8, '41414141414444', 'raihan', 'Wali Kelas', '', 'raihan@mail.com', '1763390082_457.png');
+(9, '0101 171175 001', 'Fr. Danny Arifin D. Latumahina, S.Ag., M.Pd., CMM.', 'Kepala Sekolah', '', '', '1764248858_525.png'),
+(10, '0195 191269 002', 'Dra. Angelina Sri Widiyati.', 'Guru Mapel', 'Bahasa Indonesia', '', '1764248924_460.png'),
+(11, '0197 180171  003', 'Anastasia Endah Purnawati, S. Pd.', 'Guru Mapel', 'Fisika', '', '1764248954_917.png'),
+(12, '0199  251270 005', 'Maria Trihariani Krismihastuti, S.Pd', 'Guru Mapel', 'Sejarah', '', '1764248998_379.png'),
+(13, '0102 111167 006', 'Kusuma Wardani, S.Pd', 'Guru Mapel', 'Kimia', '', '1764249026_241.png'),
+(14, '0104 110873 007', 'Katarina Dewi Wisatawati, S.Pd', 'Guru Mapel', 'Biologi', '', '1764249062_586.png'),
+(15, '0105 071267 010', 'Maria Imaculata Setya Adviyanti, S P', 'Guru Mapel', 'BK-Mulok', '', '1764249126_788.png'),
+(16, '0105 070282 011', 'Martinus, S.Pd', 'Guru Mapel', 'Matematika', '', '1764249155_802.png');
 
 -- --------------------------------------------------------
 
@@ -205,10 +216,9 @@ CREATE TABLE `posters` (
 --
 
 INSERT INTO `posters` (`id_poster`, `file_poster`, `created_at`) VALUES
-(2, 'slider_1764152194930.jpg', '2025-11-26 10:16:34'),
-(3, 'slider_1764152205312.jpg', '2025-11-26 10:16:45'),
-(4, 'slider_1764152213795.jpg', '2025-11-26 10:16:53'),
-(5, 'slider_1764152927806.jpg', '2025-11-26 10:28:47');
+(6, 'slider_1764251539333.png', '2025-11-27 13:52:19'),
+(7, 'slider_1764251550643.png', '2025-11-27 13:52:30'),
+(8, 'slider_1764251559547.png', '2025-11-27 13:52:39');
 
 -- --------------------------------------------------------
 
@@ -305,19 +315,19 @@ ALTER TABLE `berita_artikel`
 -- AUTO_INCREMENT for table `galeri_fotos`
 --
 ALTER TABLE `galeri_fotos`
-  MODIFY `id_foto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_foto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `galeri_media`
 --
 ALTER TABLE `galeri_media`
-  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `guru_staf`
 --
 ALTER TABLE `guru_staf`
-  MODIFY `id_guru` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_guru` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `info_ppdb`
@@ -335,7 +345,7 @@ ALTER TABLE `pengumuman`
 -- AUTO_INCREMENT for table `posters`
 --
 ALTER TABLE `posters`
-  MODIFY `id_poster` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_poster` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `users`
