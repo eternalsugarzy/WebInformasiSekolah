@@ -415,12 +415,12 @@
                 <div class="full-height-card">
                     <div class="video-container">
                         <div style="margin-bottom: 15px;">
-                            <h2 style="margin:0; color:#001f3f; font-weight:700; font-size:28px;">SAMBUTAN KEPALA SEKOLAH</h2>
-                            <p style="color:#666; margin:5px 0 0;">Simak pesan dan visi misi sekolah kami.</p>
+                            <h2 style="margin:0; color:#001f3f; font-weight:700; font-size:28px;">VIDIO TERBARU</h2>
+                            <p style="color:#666; margin:5px 0 0;">Simak Vidio Berikut</p>
                         </div>
 
                         <div class="video-frame">
-                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
+                            <iframe src="https://www.youtube.com/embed/nAiC2gX74iM" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>

@@ -168,19 +168,7 @@ if ($current_keyword !== '') {
         filter: brightness(1);
     }
 
-    .teacher-social {
-        position: absolute;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        background-color: rgba(0, 123, 255, 0.85);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        opacity: 0;
-        transition: opacity 0.25s ease;
-        text-align: center;
-        padding: 10px;
-    }
+   
     .single-teacher:hover .teacher-social { opacity: 1; }
     .teacher-social p { color: #fff; margin: 0; font-weight: 600; }
 
