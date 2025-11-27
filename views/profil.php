@@ -182,19 +182,23 @@
     }
 </style>
 
-<div class="hero-area section" style="height: 50vh; min-height: 400px;">
-    
-    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background.jpg)"></div>
-    
-    <div class="container">
+
+
+<div class="hero-area section" style="height: 40vh; min-height: 370px;">
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
+    <div class="container" style="margin-top: 40px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
+                <img src="./img/logo2.png" 
+                     alt="Logo SMA Frater Don Bosco Bjm" 
+                     class="logo-header-berita"
+                     style="max-height: 130px;"> 
+                <h1 class="white-text">Tentang Sekolah Kami</h1>
+            
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
                     <li>Profil</li>
                 </ul>
-                <h1 class="white-text">Tentang Sekolah Kami</h1>
-                <p class="white-text lead" style="font-weight: 300;">Mengenal lebih dekat sejarah, visi, misi, dan tenaga pendidik.</p>
             </div>
         </div>
     </div>
