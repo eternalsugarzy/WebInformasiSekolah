@@ -363,18 +363,29 @@
                     <div class="poster-card">
                         <?php if(isset($data_posters) && count($data_posters) > 0): ?>
                             <div id="posterCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
-                                <div class="carousel-inner" style="height: 100%;">
-                                    <?php foreach($data_posters as $key => $p): ?>
-                                    <div class="item <?php echo ($key == 0) ? 'active' : ''; ?>" style="height: 100%;">
-                                        <img src="admin/uploads/identitas/<?php echo $p['file_poster']; ?>" 
-                                             style="width: 100%; height: 100%; object-fit: cover;">
-                                    </div>
-                                    <?php endforeach; ?>
-                                </div>
-                            </div>
+    
+    <div class="carousel-inner" style="height: 100%;">
+        <?php foreach($data_posters as $key => $p): ?>
+        <div class="item <?php echo ($key == 0) ? 'active' : ''; ?>" style="height: 100%;">
+            <img src="admin/uploads/identitas/<?php echo $p['file_poster']; ?>" 
+                 style="width: 100%; height: 100%; object-fit: cover;">
+        </div>
+        <?php endforeach; ?>
+    </div>
+    
+    <a class="left carousel-control" href="#posterCarousel" data-slide="prev" 
+       style="background: none; display: flex; align-items: center; justify-content: center; width: 15%;">
+        <i class="fa fa-chevron-left" style="font-size: 30px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.8);"></i>
+    </a>
+    
+    <a class="right carousel-control" href="#posterCarousel" data-slide="next" 
+       style="background: none; display: flex; align-items: center; justify-content: center; width: 15%;">
+        <i class="fa fa-chevron-right" style="font-size: 30px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.8);"></i>
+    </a>
+
+</div>
                         <?php else: ?>
-                            <img src="./img/poster-sekolah.jpg" onerror="this.src='./img/about.png'" style="width: 100%; height: 100%; object-fit: cover;">
-                        <?php endif; ?>
+                           <?php endif; ?>
                     </div>
                 </div>
             </div>
