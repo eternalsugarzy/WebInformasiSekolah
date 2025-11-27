@@ -134,135 +134,116 @@
     */
 
   #about {
-        background-color: #ffffff;
-        padding-top: 60px;
-        padding-bottom: 60px;
+        background-color: #fff;
+        /* Hapus padding atas bawah agar benar-benar full */
+        padding: 40px 0; 
     }
 
-    /* Container Lebar (Sesuai Permintaan) */
-    #about .container {
-        width: 95% !important;
-        max-width: 1600px;
-        padding-left: 15px;
-        padding-right: 15px;
+    /* 1. CONTAINER FULL (DENGAN JARAK KIRI KANAN) */
+    #about .container-fluid {
+        /* Beri jarak 40px dari kiri dan kanan */
+        padding-left: 40px !important;  
+        padding-right: 40px !important; 
+        
+        width: 100%;
+        max-width: 100%;
+        overflow-x: hidden; 
     }
 
-    /* --- KOLOM 1: POSTER (KIRI) --- */
+    .custom-row {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        margin: 0;
+    }
+
+    /* 2. PENGATURAN LEBAR KOLOM (SESUKA HATI) */
+    /* Total harus 100% */
+    
+    /* Poster: Ramping di kiri (20%) */
+    .col-poster {
+        width: 22%; 
+        padding-right: 10px; /* Sedikit jarak ke kanan */
+    }
+
+    /* Pengumuman: Sedang (33%) */
+    .col-announ {
+        width: 33%;
+        padding: 0 15px;
+    }
+
+    /* Video: Sangat Besar (45%) */
+    .col-video {
+        width: 45%;
+        padding-left: 10px;
+    }
+
+    /* --- TINGGI KONTEN DISAMAKAN --- */
+    .full-height-card {
+        height: 600px; /* Tinggi diperbesar agar video makin lega */
+        background: #fff;
+        border-radius: 0; /* Hapus radius agar terlihat menyatu */
+    }
+
+    /* Poster Styling */
     .poster-card {
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-        height: 100%;
-        text-align: center;
-        background: #000; /* Background hitam kalau gambar loading */
-    }
-    .poster-card img {
         width: 100%;
         height: 100%;
-        object-fit: cover; /* Memenuhi kotak */
-        display: block;
-        min-height: 450px; /* Tinggi minimal agar terlihat gagah */
-    }
-
-    /* --- KOLOM 2: LIST PENGUMUMAN (TENGAH) --- */
-    /* Header Biru Tua seperti di foto */
-    .ann-header {
-        background-color: #001f3f; /* Biru Navy Gelap */
-        color: #fff;
-        padding: 15px 20px;
-        border-radius: 4px 4px 0 0; /* Sudut atas melengkung */
-        margin-bottom: 0;
-        font-weight: 700;
-        font-size: 18px;
-    }
-
-    /* Container List */
-    .ann-list-container {
-        border: 1px solid #eee;
-        border-top: none;
-        padding: 0;
-        background: #fff;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    }
-
-    /* Item List */
-    .ann-item {
-        display: flex;
-        padding: 20px;
-        border-bottom: 1px solid #f0f0f0;
-        transition: 0.2s;
-        align-items: flex-start;
-    }
-    .ann-item:hover {
-        background-color: #f4f9ff; /* Biru sangat muda saat hover */
-        border-left: 3px solid #001f3f;
-    }
-    .ann-item:last-child { border-bottom: none; }
-
-    /* Gambar Kecil di list (Opsional / Placeholder Icon) */
-    .ann-thumb {
-        width: 60px;
-        height: 60px;
-        background: #e6f0ff;
-        color: #001f3f;
-        flex-shrink: 0;
-        margin-right: 15px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 4px;
-        font-size: 24px;
-    }
-
-    /* Teks Pengumuman */
-    .ann-text h5 {
-        margin: 0 0 5px 0;
-        font-size: 15px;
-        font-weight: 700;
-        line-height: 1.4;
-        text-transform: uppercase;
-    }
-    .ann-text h5 a { color: #333; text-decoration: none; }
-    .ann-text h5 a:hover { color: #001f3f; }
-    
-    .ann-date {
-        font-size: 12px;
-        color: #888;
-        margin-bottom: 8px;
-        display: block;
-    }
-
-    .ann-read-more {
-        font-size: 11px;
-        font-weight: 700;
-        color: #001f3f;
-        text-transform: uppercase;
-        text-decoration: none;
-        letter-spacing: 1px;
-    }
-    .ann-read-more:hover { text-decoration: underline; }
-
-    /* --- KOLOM 3: VIDEO & SAMBUTAN (KANAN) --- */
-    .kepsek-title {
-        font-size: 18px;
-        font-weight: 700;
-        color: #001f3f;
-        margin-bottom: 15px;
-    }
-    .video-wrapper {
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1); /* Shadow ke kanan */
         position: relative;
-        padding-bottom: 56.25%; /* Rasio 16:9 */
-        height: 0;
+        z-index: 2; /* Supaya shadow menimpa sebelahnya */
+    }
+
+    /* Pengumuman Styling */
+    .ann-wrapper {
+        border: 1px solid #eee;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .ann-header {
+        background: #001f3f;
+        color: #fff;
+        padding: 20px;
+        font-weight: 700;
+        font-size: 18px;
+        text-transform: uppercase;
+    }
+    .ann-scroll-area { flex-grow: 1; overflow-y: auto; }
+    .ann-item { padding: 20px; border-bottom: 1px solid #eee; display: flex; }
+    .ann-thumb { 
+        width: 50px; height: 50px; background: #eaf2ff; 
+        color: #0056b3; display: flex; align-items: center; 
+        justify-content: center; border-radius: 4px; margin-right: 15px; flex-shrink: 0; 
+    }
+    .ann-text h5 { margin: 0 0 5px; font-weight: 700; font-size: 15px; }
+    .ann-text h5 a { color: #333; text-decoration: none; }
+    .ann-date { font-size: 12px; color: #888; display: block; margin-bottom: 5px; }
+
+    /* Video Styling */
+    .video-container {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+    .video-frame {
+        width: 100%;
+        height: 100%; /* Video mengisi penuh area tinggi */
+        border-radius: 8px 0 0 8px;
         overflow: hidden;
-        border-radius: 8px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        margin-bottom: 20px;
+        box-shadow: -5px 5px 20px rgba(0,0,0,0.1);
     }
-    .video-wrapper iframe {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;
+    
+    /* Responsif untuk HP (Tumpuk ke bawah) */
+    @media (max-width: 991px) {
+        .col-poster, .col-announ, .col-video {
+            width: 100%; /* Jadi 100% di HP */
+            margin-bottom: 30px;
+            padding: 0 15px;
+        }
+        .full-height-card { height: auto; }
+        .video-frame { height: 300px; }
     }
-    .kepsek-content p { font-size: 14px; color: #555; line-height: 1.6; font-style: italic; }
-    .kepsek-content strong { color: #333; }
 
     /* -------------------------------------------------------
        3. CSS UNTUK LAYOUT & TOMBOL UMUM
@@ -373,101 +354,68 @@
 </div>
 
 <div id="about" class="section">
-    <div class="container">
+    <div class="container-fluid">
         
-        <div class="row">
+        <div class="custom-row">
             
-            <div class="col-md-4">
-                <div class="poster-card" style="position: relative; height: 600px; width: 100%; overflow: hidden; border-radius: 8px;">
-                    
-                    <?php if(isset($data_posters) && count($data_posters) > 0): ?>
-                        
-                        <div id="posterCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
-                            
-                            <ol class="carousel-indicators" style="bottom: 10px;">
-                                <?php foreach($data_posters as $key => $p): ?>
-                                    <li data-target="#posterCarousel" data-slide-to="<?php echo $key; ?>" class="<?php echo ($key == 0) ? 'active' : ''; ?>"></li>
-                                <?php endforeach; ?>
-                            </ol>
-
-                            <div class="carousel-inner" style="height: 100%;">
-                                <?php foreach($data_posters as $key => $p): ?>
-                                <div class="item <?php echo ($key == 0) ? 'active' : ''; ?>" style="height: 100%;">
-                                    <img src="admin/uploads/identitas/<?php echo $p['file_poster']; ?>" 
-                                         alt="Poster Sekolah" 
-                                         style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            <div class="col-poster">
+                <div class="full-height-card">
+                    <div class="poster-card">
+                        <?php if(isset($data_posters) && count($data_posters) > 0): ?>
+                            <div id="posterCarousel" class="carousel slide" data-ride="carousel" style="height: 100%;">
+                                <div class="carousel-inner" style="height: 100%;">
+                                    <?php foreach($data_posters as $key => $p): ?>
+                                    <div class="item <?php echo ($key == 0) ? 'active' : ''; ?>" style="height: 100%;">
+                                        <img src="admin/uploads/identitas/<?php echo $p['file_poster']; ?>" 
+                                             style="width: 100%; height: 100%; object-fit: cover;">
+                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
-                                <?php endforeach; ?>
                             </div>
-
-                            <a class="left carousel-control" href="#posterCarousel" data-slide="prev" 
-                               style="background: none; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa fa-chevron-left" style="font-size: 30px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.5);"></i>
-                            </a>
-                            <a class="right carousel-control" href="#posterCarousel" data-slide="next" 
-                               style="background: none; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa fa-chevron-right" style="font-size: 30px; color: #fff; text-shadow: 0 2px 5px rgba(0,0,0,0.5);"></i>
-                            </a>
-                        </div>
-
-                    <?php else: ?>
-                        <img src="./img/poster-sekolah.jpg" onerror="this.src='./img/about.png'" alt="Poster Default" 
-                             style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
-                    <?php endif; ?>
-
+                        <?php else: ?>
+                            <img src="./img/poster-sekolah.jpg" onerror="this.src='./img/about.png'" style="width: 100%; height: 100%; object-fit: cover;">
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
 
-            <div class="col-md-4">
-                <div class="ann-header">Pengumuman</div>
-                
-                <div class="ann-list-container">
-                    <?php
-                    // Ambil 3 atau 4 pengumuman terbaru
-                    if (isset($data_pengumuman) && count($data_pengumuman) > 0) {
-                        foreach ($data_pengumuman as $p) {
-                    ?>
-                    <div class="ann-item">
-                        <div class="ann-thumb">
-                            <i class="fa fa-bullhorn"></i>
+            <div class="col-announ">
+                <div class="full-height-card">
+                    <div class="ann-wrapper">
+                        <div class="ann-header">Pengumuman Terbaru</div>
+                        <div class="ann-scroll-area">
+                            <?php if (isset($data_pengumuman) && count($data_pengumuman) > 0) {
+                                foreach ($data_pengumuman as $p) { ?>
+                            <div class="ann-item">
+                                <div class="ann-thumb"><i class="fa fa-bullhorn"></i></div>
+                                <div class="ann-text">
+                                    <span class="ann-date"><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($p['tanggal_penting'])); ?></span>
+                                    <h5><a href="pengumuman.php"><?php echo htmlspecialchars($p['judul']); ?></a></h5>
+                                </div>
+                            </div>
+                            <?php } } else { echo "<div style='padding:20px; text-align:center'>Belum ada pengumuman.</div>"; } ?>
                         </div>
-                        <div class="ann-text">
-                            <h5><a href="pengumuman.php"><?php echo htmlspecialchars($p['judul']); ?></a></h5>
-                            <span class="ann-date"><?php echo date('d F Y', strtotime($p['tanggal_penting'])); ?></span>
-                            <a href="pengumuman.php" class="ann-read-more">READ MORE &raquo;</a>
+                        <a href="pengumuman.php" style="display:block; padding:15px; text-align:center; background:#eee; color:#001f3f; font-weight:bold; text-decoration:none;">LIHAT SEMUA</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-video">
+                <div class="full-height-card">
+                    <div class="video-container">
+                        <div style="margin-bottom: 15px;">
+                            <h2 style="margin:0; color:#001f3f; font-weight:700; font-size:28px;">SAMBUTAN KEPALA SEKOLAH</h2>
+                            <p style="color:#666; margin:5px 0 0;">Simak pesan dan visi misi sekolah kami.</p>
+                        </div>
+
+                        <div class="video-frame">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
-                    <?php
-                        } 
-                    } else {
-                        echo "<div style='padding:30px; text-align:center; color:#777;'>Belum ada pengumuman terbaru.</div>";
-                    }
-                    ?>
-                    
-                    <a href="pengumuman.php" style="display:block; padding:15px; text-align:center; background:#f9f9f9; color:#001f3f; font-weight:bold; text-decoration:none; border-top:1px solid #eee;">
-                        LIHAT SEMUA PENGUMUMAN
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <h3 class="kepsek-title">Sambutan Kepala Sekolah</h3>
-                
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/AWyrBXIUE7M" allowfullscreen></iframe>
-                </div>
-
-                <div class="kepsek-content">
-                    <p>"<?php echo htmlspecialchars(substr($data_identitas['sambutan_kepsek'] ?? 'Selamat Datang...', 0, 150)); ?>..."</p>
-                    <br>
-                    <strong>Assalamu'alaikum Wr. Wb.</strong>
-                    <br><br>
-                    <a href="profil.php" style="color:#FF6700; font-weight:bold; font-size:12px; text-decoration:none;">READ MORE &raquo;</a>
                 </div>
             </div>
 
         </div>
-
     </div>
 </div>
 
