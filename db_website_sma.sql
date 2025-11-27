@@ -2,9 +2,9 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 19, 2025 at 05:25 AM
--- Server version: 10.4.25-MariaDB
+-- Host: localhost:3306
+-- Generation Time: Nov 27, 2025 at 01:05 AM
+-- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -28,14 +28,14 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `berita_artikel` (
-  `id_berita` int(11) NOT NULL,
+  `id_berita` int NOT NULL,
   `judul` varchar(255) NOT NULL,
   `konten_lengkap` text NOT NULL,
   `tanggal_publikasi` datetime NOT NULL,
   `penulis` varchar(100) DEFAULT NULL,
   `kategori` varchar(50) NOT NULL,
   `gambar_utama` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `berita_artikel`
@@ -53,10 +53,10 @@ INSERT INTO `berita_artikel` (`id_berita`, `judul`, `konten_lengkap`, `tanggal_p
 --
 
 CREATE TABLE `galeri_fotos` (
-  `id_foto` int(11) NOT NULL,
-  `id_album` int(11) NOT NULL,
+  `id_foto` int NOT NULL,
+  `id_album` int NOT NULL,
   `file_foto` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `galeri_fotos`
@@ -76,13 +76,13 @@ INSERT INTO `galeri_fotos` (`id_foto`, `id_album`, `file_foto`) VALUES
 --
 
 CREATE TABLE `galeri_media` (
-  `id_album` int(11) NOT NULL,
+  `id_album` int NOT NULL,
   `judul_album` varchar(255) NOT NULL,
-  `deskripsi` text DEFAULT NULL,
+  `deskripsi` text,
   `tanggal_event` date NOT NULL,
   `file_path` varchar(255) NOT NULL,
   `tipe_media` enum('Foto','Video') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `galeri_media`
@@ -99,14 +99,14 @@ INSERT INTO `galeri_media` (`id_album`, `judul_album`, `deskripsi`, `tanggal_eve
 --
 
 CREATE TABLE `guru_staf` (
-  `id_guru` int(11) NOT NULL,
+  `id_guru` int NOT NULL,
   `nip` varchar(50) DEFAULT NULL,
   `nama_lengkap` varchar(100) NOT NULL,
   `jabatan` varchar(50) NOT NULL,
   `bidang_studi` varchar(100) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `foto` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `guru_staf`
@@ -124,17 +124,39 @@ INSERT INTO `guru_staf` (`id_guru`, `nip`, `nama_lengkap`, `jabatan`, `bidang_st
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `identitas_sekolah`
+--
+
+CREATE TABLE `identitas_sekolah` (
+  `id_identitas` int NOT NULL,
+  `sejarah` text,
+  `visi` text,
+  `misi` text,
+  `fasilitas` text,
+  `file_poster` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `identitas_sekolah`
+--
+
+INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `misi`, `fasilitas`, `file_poster`) VALUES
+(1, 'Sekolah ini didirikan pada tahun 1990 dengan semangat pengabdian...', 'Terwujudnya siswa yang cerdas dan berkarakter.', '1. Meningkatkan disiplin.\r\n2. Mengembangkan potensi akademik.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `info_ppdb`
 --
 
 CREATE TABLE `info_ppdb` (
-  `id_info` int(11) NOT NULL,
+  `id_info` int NOT NULL,
   `jenis_informasi` varchar(100) NOT NULL,
   `isi_detail` text NOT NULL,
   `tanggal_mulai` date DEFAULT NULL,
   `tanggal_akhir` date DEFAULT NULL,
   `tautan_formulir` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `info_ppdb`
@@ -150,12 +172,12 @@ INSERT INTO `info_ppdb` (`id_info`, `jenis_informasi`, `isi_detail`, `tanggal_mu
 --
 
 CREATE TABLE `pengumuman` (
-  `id_pengumuman` int(11) NOT NULL,
+  `id_pengumuman` int NOT NULL,
   `judul` varchar(255) NOT NULL,
   `isi_pengumuman` text NOT NULL,
   `tanggal_penting` date DEFAULT NULL,
   `status` enum('Aktif','Arsip') NOT NULL DEFAULT 'Aktif'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `pengumuman`
@@ -169,16 +191,38 @@ INSERT INTO `pengumuman` (`id_pengumuman`, `judul`, `isi_pengumuman`, `tanggal_p
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `posters`
+--
+
+CREATE TABLE `posters` (
+  `id_poster` int NOT NULL,
+  `file_poster` varchar(255) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `posters`
+--
+
+INSERT INTO `posters` (`id_poster`, `file_poster`, `created_at`) VALUES
+(2, 'slider_1764152194930.jpg', '2025-11-26 10:16:34'),
+(3, 'slider_1764152205312.jpg', '2025-11-26 10:16:45'),
+(4, 'slider_1764152213795.jpg', '2025-11-26 10:16:53'),
+(5, 'slider_1764152927806.jpg', '2025-11-26 10:28:47');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
-  `id_user` int(11) NOT NULL,
+  `id_user` int NOT NULL,
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nama_admin` varchar(100) NOT NULL,
   `level` enum('Super Admin','Content Writer') NOT NULL DEFAULT 'Content Writer'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `users`
@@ -217,6 +261,12 @@ ALTER TABLE `guru_staf`
   ADD UNIQUE KEY `nip` (`nip`);
 
 --
+-- Indexes for table `identitas_sekolah`
+--
+ALTER TABLE `identitas_sekolah`
+  ADD PRIMARY KEY (`id_identitas`);
+
+--
 -- Indexes for table `info_ppdb`
 --
 ALTER TABLE `info_ppdb`
@@ -227,6 +277,12 @@ ALTER TABLE `info_ppdb`
 --
 ALTER TABLE `pengumuman`
   ADD PRIMARY KEY (`id_pengumuman`);
+
+--
+-- Indexes for table `posters`
+--
+ALTER TABLE `posters`
+  ADD PRIMARY KEY (`id_poster`);
 
 --
 -- Indexes for table `users`
@@ -243,43 +299,49 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `berita_artikel`
 --
 ALTER TABLE `berita_artikel`
-  MODIFY `id_berita` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_berita` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `galeri_fotos`
 --
 ALTER TABLE `galeri_fotos`
-  MODIFY `id_foto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_foto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `galeri_media`
 --
 ALTER TABLE `galeri_media`
-  MODIFY `id_album` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `guru_staf`
 --
 ALTER TABLE `guru_staf`
-  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_guru` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `info_ppdb`
 --
 ALTER TABLE `info_ppdb`
-  MODIFY `id_info` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_info` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
-  MODIFY `id_pengumuman` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_pengumuman` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `posters`
+--
+ALTER TABLE `posters`
+  MODIFY `id_poster` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
