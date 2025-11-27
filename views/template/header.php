@@ -1,7 +1,7 @@
 <?php
 // variabel $title di-set oleh Controller
 if (!isset($title)) {
-    $title = 'Website Resmi SMA Frater Don Bosco Bjm';
+    $title = 'Website Resmi SMA Frater Don Bosco Banjarmasin';
 }
 
 // Dapatkan nama halaman saat ini untuk menu aktif
@@ -23,118 +23,169 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <link rel="stylesheet" href="css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="css/style.css" />
 
-    <style>
-        /* ========================================= */
-        /* MODIFIKASI HEADER (STICKY & ALIGNMENT)    */
-        /* ========================================= */
+   <style>
+    /* ========================================= */
+    /* MODIFIKASI HEADER (FULL WIDTH & STICKY)   */
+    /* ========================================= */
 
-        #header {
-            position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 99999;
-            transition: all 0.3s ease-in-out;
-            padding-top: 15px;
-            padding-bottom: 15px;
-            background-color: transparent;
-            border-bottom: none;
-        }
+    /* 1. HEADER UTAMA */
+    #header {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 99999;
+        transition: all 0.3s ease-in-out;
+        padding-top: 10px; /* Padding dikurangi sedikit */
+        padding-bottom: 10px;
+        background-color: transparent;
+        border-bottom: none;
+    }
 
-        #header.navbar-scrolled {
-            background-color: #ffffff !important;
-            box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
-            padding-top: 10px !important;
-            padding-bottom: 10px !important;
-        }
+    /* Style Saat Scroll (Putih) */
+    #header.navbar-scrolled {
+        background-color: #ffffff !important;
+        box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+    }
 
-        /* --- LOGO --- */
-        .navbar-brand .logo > img {
-            max-height: 70px;
-            height: auto;
-            width: auto;
-            transition: all 0.3s ease;
-        }
-
-        #header.navbar-scrolled .navbar-brand .logo > img {
-            max-height: 50px;
-        }
-
-        /* --- MENU NAVIGASI (PERBAIKAN POSISI) --- */
-        #nav {
-            /* Pastikan nav mengambil sisa ruang dan kontennya rata kanan */
-            display: flex;
-            justify-content: flex-end; 
-            align-items: center;
-            height: 70px; /* Sesuaikan tinggi dengan logo */
-        }
-
-        /* Hapus float bawaan bootstrap agar flexbox bekerja */
-        .navbar-header {
-            float: left;
-        }
+    /* 2. CONTAINER MENJADI FULL WIDTH (MENTOK KIRI KANAN) */
+    #header .container {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
         
-        /* Reset float pada UL agar bisa diatur oleh flexbox parent */
-        #nav .main-menu {
-            float: none !important; 
-            margin: 0;
-            display: flex; /* Menu berjejer ke samping */
-        }
-
-        /* Jarak antar menu */
-        #nav .main-menu li {
-            margin-left: 25px; /* Beri jarak antar item menu */
-            display: block;
-        }
-
-        /* Warna Teks Menu - Default (Putih) */
-        #nav .main-menu li a {
-            color: #ffffff !important; 
-            font-weight: 700;
-            font-size: 14px;
-            transition: color 0.3s ease;
-            text-shadow: 0px 0px 2px rgba(0,0,0,0.5);
-            text-decoration: none;
-            padding: 5px 0; /* Padding atas bawah dikit */
-        }
-
-        /* Warna Teks Menu - Saat Hover */
-        #nav .main-menu li a:hover {
-            color: #7472ffff !important; /* Kuning */
-        }
-
-        /* --- WARNA MENU SAAT SCROLL (JADI HITAM) --- */
-        #header.navbar-scrolled #nav .main-menu li a {
-            color: #333333 !important;
-            text-shadow: none;
-        }
-
-        #header.navbar-scrolled #nav .main-menu li a:hover {
-            color: #3734f8ff !important;
-        }
-
-       
-        #header.navbar-scrolled #nav .main-menu li.active a {
-            color: #045bb8ff !important; /* Biru saat aktif di mode putih */
-        }
+        /* --- INI KUNCINYA --- */
+        width: 100% !important;       /* Lebar 100% layar */
+        max-width: 100% !important;   /* Hapus batas lebar bootstrap */
+        padding-left: 40px !important;  /* Jarak dari pinggir kiri layar */
+        padding-right: 40px !important; /* Jarak dari pinggir kanan layar */
+        /* -------------------- */
         
-        /* Toggle Menu HP */
-        .navbar-toggle {
-            background-color: #045bb8ff !important;
-            margin-top: 18px; /* Penyesuaian posisi tombol HP */
-        }
-        .navbar-toggle span {
-            background-color: #fff !important;
-        }
+        float: none;
+    }
+    
+    /* Hapus elemen pengganggu */
+    #header .container:before,
+    #header .container:after { display: none !important; }
 
-        /* Responsif untuk layar kecil */
-        @media (max-width: 991px) {
-            #nav {
-                display: none; /* Sembunyikan menu desktop di HP, nanti muncul lewat toggle JS bawaan template */
-            }
-            /* Jika template menggunakan JS untuk mobile menu, biarkan style bawaan template menangani tampilan mobile */
+    /* 3. LOGO & BRAND (MENTOK KIRI) */
+    .navbar-header {
+        float: none !important;
+        margin: 0 !important;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0; /* Mencegah logo mengecil jika menu kepanjangan */
+    }
+
+    .navbar-brand {
+        float: none !important;
+        padding: 0;
+        height: auto;
+        display: flex;
+        align-items: center;
+        text-decoration: none !important;
+    }
+
+    .navbar-brand .logo > img {
+        max-height: 60px;
+        height: auto;
+        width: auto;
+        transition: all 0.3s ease;
+        margin-right: 15px;
+    }
+
+    .brand-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
+        font-size: 25px;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-shadow: 0px 1px 3px rgba(0,0,0,0.6);
+        white-space: nowrap;
+        transition: color 0.3s ease;
+    }
+
+    /* Logo Mengecil Saat Scroll */
+    #header.navbar-scrolled .navbar-brand .logo > img { max-height: 45px; }
+    #header.navbar-scrolled .brand-text { color: #333333; text-shadow: none; }
+
+
+    /* 4. NAVIGASI (MENTOK KANAN) */
+    #nav {
+        /* margin-left: auto mendorong elemen ini ke ujung kanan flex container */
+        margin-left: auto !important; 
+        display: flex;
+        align-items: center;
+    }
+
+    #nav .main-menu {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        float: none !important;
+    }
+
+    #nav .main-menu li {
+        margin-left: 25px;
+        display: block;
+    }
+
+    /* Style Link Menu */
+    #nav .main-menu li a {
+        color: #ffffff !important;
+        font-weight: 700;
+        font-size: 17px;
+        text-decoration: none;
+        text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+        transition: color 0.3s ease;
+        padding: 10px 0; /* Perbesar area klik */
+        display: block;
+        position: relative;
+    }
+
+    /* Hover & Active */
+    #nav .main-menu li a:hover { color: #FFC107 !important; }
+    
+    
+    #nav .main-menu li.active a::after {
+        content: ''; display: block; width: 100%; height: 3px;
+        background: #FFC107; position: absolute; bottom: 0; left: 0;
+    }
+
+    /* --- WARNA MENU SAAT SCROLL (HITAM) --- */
+    #header.navbar-scrolled #nav .main-menu li a {
+        color: #333333 !important;
+        text-shadow: none;
+    }
+    #header.navbar-scrolled #nav .main-menu li a:hover { color: #045bb8ff !important; }
+    #header.navbar-scrolled #nav .main-menu li.active a { color: #045bb8ff !important; }
+    #header.navbar-scrolled #nav .main-menu li.active a::after { background: #045bb8ff; }
+
+
+    /* --- TOMBOL MOBILE (HP) --- */
+    .navbar-toggle {
+        display: none; 
+        background-color: #045bb8ff !important;
+        border: none;
+        margin-top: 0;
+    }
+    .navbar-toggle span { background-color: #fff !important; }
+
+    /* --- RESPONSIF --- */
+    @media (max-width: 991px) {
+        #header .container { 
+            display: block !important; 
+            padding-left: 15px !important; /* Padding standar di HP */
+            padding-right: 15px !important;
         }
-    </style>
+        .navbar-header { display: flex; justify-content: space-between; width: 100%; }
+        .navbar-toggle { display: block; }
+        #nav { display: none; } 
+        .brand-text { font-size: 16px; }
+    }
+</style>
 </head>
 
 <body>
@@ -144,10 +195,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
             
             <div class="navbar-header">
                 <div class="navbar-brand">
-                    <a class="logo" href="index.php">
-                        <img src="./img/logo2.png" alt="Logo SMA Frater Don Bosco Banjarmasin">
+                    <a class="logo" href="index.php" style="display:flex; align-items:center; text-decoration:none;">
+                        <img src="./img/logo2.png" alt="Logo SMA">
+                        <span class="brand-text">DON BOSCO</span>
                     </a>
                 </div>
+
                 <button class="navbar-toggle">
                     <span></span>
                 </button>
