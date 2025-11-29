@@ -11,23 +11,29 @@ class IdentitasModel extends Database {
     }
 
     // Update Data (Hanya kolom yang diminta)
-    public function updateIdentitas($sejarah, $visi, $misi, $fasilitas, $poster = null) {
+    // Update Data Identitas (Sejarah, Visi, Misi, Fasilitas, Poster, Video)
+    public function updateIdentitas($sejarah, $visi, $misi, $fasilitas, $poster = null, $video = null) {
+        
+        $sejarah = mysqli_real_escape_string($this->koneksi, $sejarah);
+        $visi = mysqli_real_escape_string($this->koneksi, $visi);
+        $misi = mysqli_real_escape_string($this->koneksi, $misi);
+        $fasilitas = mysqli_real_escape_string($this->koneksi, $fasilitas);
+        $video = mysqli_real_escape_string($this->koneksi, $video);
+
+        $sql = "UPDATE identitas_sekolah SET 
+                sejarah = '$sejarah', 
+                visi = '$visi', 
+                misi = '$misi', 
+                fasilitas = '$fasilitas',
+                link_video = '$video'"; // Update link video
+
+        // Cek jika ada poster baru
         if ($poster != null) {
-            $sql = "UPDATE identitas_sekolah SET 
-                    sejarah = '$sejarah', 
-                    visi = '$visi', 
-                    misi = '$misi', 
-                    fasilitas = '$fasilitas',
-                    file_poster = '$poster' 
-                    WHERE id_identitas = 1";
-        } else {
-            $sql = "UPDATE identitas_sekolah SET 
-                    sejarah = '$sejarah', 
-                    visi = '$visi', 
-                    misi = '$misi', 
-                    fasilitas = '$fasilitas'
-                    WHERE id_identitas = 1";
+            $sql .= ", file_poster = '$poster'";
         }
+
+        $sql .= " WHERE id_identitas = 1";
+        
         return $this->query($sql);
     }
 

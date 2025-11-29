@@ -51,6 +51,11 @@ require_once 'template/sidebar.php';
                             <small class="text-muted">Pisahkan dengan koma (,) atau Enter.</small>
                         </div>
 
+                        <div class="form-group" style="background: #f0f8ff; padding: 15px; border-radius: 5px; border: 1px solid #b3d7ff;">
+                            <label style="color: #0056b3;"><i class="fa fa-youtube-play"></i> Link Video YouTube (Halaman Depan)</label>
+                            <input type="text" name="video" class="form-control" value="<?php echo htmlspecialchars($data['link_video'] ?? ''); ?>" placeholder="Paste link YouTube di sini (Contoh: https://www.youtube.com/watch?v=xxxxx)">
+                        </div>
+
                         <hr>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Profil</button>
                     </form>
@@ -100,6 +105,8 @@ require_once 'template/sidebar.php';
                             </div>
                         <?php endif; ?>
                     </div>
+
+                    
 
                 </div> 
                 </div>

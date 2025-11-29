@@ -25,8 +25,8 @@ class HomeController {
         // 4. Panggil View
         require_once 'views/template/header.php';
         require_once 'views/home.php';
+        require_once 'views/contact.php';
         require_once 'views/template/footer.php';
-        require_once 'views/template/footer2.php';
     }
 }
 ?>
