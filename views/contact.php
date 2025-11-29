@@ -148,20 +148,29 @@
             </div>
 
             <div class="col-md-7">
-                <h3 class="map-title">Denah Lokasi</h3>
-                
-                <div class="map-wrapper">
-                     <iframe 
-                         src="https://maps.google.com/maps?q=-3.3318552,114.5875468&hl=id&z=17&output=embed" 
-                         width="100%" 
-                         height="100%" 
-                         frameborder="0" 
-                         style="border:0;" 
-                         allowfullscreen="" 
-                         loading="lazy">
-                     </iframe>
-                </div>
-            </div>
+    <h3 class="map-title">Denah Lokasi</h3>
+
+    <div class="footer-map" 
+         style="
+            width: 100%;
+            height: 420px;          /* UKURAN MAP DIPERBESAR */
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+         ">
+        <iframe 
+            src="https://maps.google.com/maps?q=SMA%20Frater%20Don%20Bosco%20Banjarmasin&t=&z=16&ie=UTF8&iwloc=&output=embed"
+            width="100%" 
+            height="100%" 
+            frameborder="0" 
+            style="border:0; display:block;"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+    </div>
+</div>
+
 
         </div>
         

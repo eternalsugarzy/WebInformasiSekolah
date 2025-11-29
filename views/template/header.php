@@ -157,9 +157,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         #header.navbar-scrolled #nav .main-menu li.active a { color: #045bb8ff !important; }
         #header.navbar-scrolled #nav .main-menu li.active a::after { background: #045bb8ff; }
         
-        /* Logo & Teks saat Scroll */
-        #header.navbar-scrolled .navbar-brand .logo > img { max-height: 50px; }
-        #header.navbar-scrolled .brand-text { color: #333333; text-shadow: none; }
+       
 
         /* TOMBOL MOBILE */
         .navbar-toggle {
