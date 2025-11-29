@@ -22,16 +22,19 @@ class AdminIdentitasController {
         require_once '../views/admin/identitas_form.php';
     }
 
-    public function update() {
+   public function update() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            global $koneksi;
+            
+            // Ambil Inputan Teks
+            $sejarah = $_POST['sejarah'];
+            $visi = $_POST['visi'];
+            $misi = $_POST['misi'];
+            $fasilitas = $_POST['fasilitas'];
+            
+            // [BARU] Ambil Link Video
+            $link_video = $_POST['video'];
 
-            $sejarah = mysqli_real_escape_string($koneksi, $_POST['sejarah']);
-            $visi = mysqli_real_escape_string($koneksi, $_POST['visi']);
-            $misi = mysqli_real_escape_string($koneksi, $_POST['misi']);
-            $fasilitas = mysqli_real_escape_string($koneksi, $_POST['fasilitas']);
-
-            // Upload Poster
+            // Upload Poster (Jika ada)
             $nama_poster = null;
             if (isset($_FILES['poster']) && $_FILES['poster']['error'] == 0) {
                 $target_dir = "uploads/identitas/";
@@ -43,10 +46,11 @@ class AdminIdentitasController {
             }
 
             $model = new IdentitasModel();
-            $model->updateIdentitas($sejarah, $visi, $misi, $fasilitas, $nama_poster);
+            // Kirim data ke Model
+            $model->updateIdentitas($sejarah, $visi, $misi, $fasilitas, $nama_poster, $link_video);
             
-            // Redirect agar data ter-refresh
-            echo "<script>alert('Profil Berhasil Diupdate!'); window.location='identitas.php';</script>";
+            // Redirect menggunakan JS agar aman
+            echo "<script>alert('Data Berhasil Diperbarui!'); window.location='identitas.php';</script>";
         }
     }
 

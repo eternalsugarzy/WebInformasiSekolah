@@ -18,7 +18,7 @@ class ProfilController {
         require_once 'views/template/header.php';
         require_once 'views/profil.php';
     
-        require_once 'views/template/footer2.php';
+        require_once 'views/template/footer.php';
     }
 }
 ?>

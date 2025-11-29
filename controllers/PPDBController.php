@@ -16,7 +16,7 @@ class PPDBController {
         // 3. Panggil View dengan menyertakan template header dan footer
         require_once __DIR__ . '/../views/template/header.php';
         require_once __DIR__ . '/../views/ppdb.php'; // View utama ppdb
-        require_once 'views/template/footer2.php';
+        require_once 'views/template/footer.php';
     }
 }
 ?>

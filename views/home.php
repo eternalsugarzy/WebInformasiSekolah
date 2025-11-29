@@ -40,20 +40,17 @@
     
     /* 1. Saat kartu disorot, ubah warna Judul jadi Biru Gelap */
     .course:hover .course-title {
-        color: #0808e8ff !important; /* Menimpa warna oranye */
+        color: #0d0d81ff !important; /* Menimpa warna oranye */
         transition: color 0.3s ease;
     }
 
     /* 2. Saat judul itu sendiri disorot */
     .course-title:hover {
-        color: #0056b3 !important; /* Biru sedikit lebih terang saat diklik */
+        color: #ff8e04ff !important; /* Biru sedikit lebih terang saat diklik */
         text-decoration: none;
     }
 
-    /* 3. (Opsional) Ubah warna Kategori (Tanggal/Label) jadi Biru juga saat hover */
-    .course:hover .course-category {
-        color: #0808e8ff !important;
-    }
+    
 
     /* Desain Gambar Berita (LEBIH BESAR & TINGGI) */
     .course-img img {
@@ -112,7 +109,7 @@
 
     /* 1. Hilangkan warna oranye bawaan template pada overlay gambar */
     .course-img:after {
-        background-color: rgba(8, 8, 232, 0.6) !important; /* Ganti jadi Biru Transparan */
+        background-color: rgba(158, 158, 176, 0.6) !important; /* Ganti jadi Biru Transparan */
         /* ATAU jika ingin hitam transparan: background-color: rgba(0,0,0,0.5) !important; */
     }
 
@@ -330,6 +327,57 @@
         .hero-search-form { width: 90%; }
         .hero-search-btn { padding: 10px 20px; }
     }
+
+     /* --- 1. CALL TO ACTION (PPDB) --- */
+        #cta {
+            position: relative;
+            padding: 80px 0;
+            background-attachment: fixed !important;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: #fff;
+        }
+        #cta::before {
+            content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 31, 63, 0.9), rgba(0, 86, 179, 0.8));
+            z-index: 1;
+        }
+        #cta .container { position: relative; z-index: 2; }
+        
+        .btn-cta {
+            background-color: #FF6700 !important; color: #fff !important;
+            padding: 15px 40px; font-size: 16px; font-weight: 700;
+            border-radius: 50px; text-decoration: none; display: inline-block;
+            margin-top: 20px; transition: 0.3s; border: 2px solid #FF6700;
+        }
+        .btn-cta:hover {
+            background-color: transparent !important; color: #FF6700 !important;
+            transform: translateY(-3px);
+        }
+
+        /* --- 2. WHY US (KARTU KEUNGGULAN) --- */
+        #why-us { padding: 80px 0; background-color: #f8f9fa; }
+        
+        .feature-card {
+            background: #fff; padding: 30px 20px; border-radius: 8px;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: 0.3s; height: 100%; border-bottom: 4px solid transparent;
+            margin-bottom: 30px;
+        }
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            border-bottom-color: #FF6700;
+        }
+        .feature-icon-box {
+            width: 70px; height: 70px; line-height: 70px;
+            background: #eaf2ff; color: #0056b3; border-radius: 50%;
+            font-size: 28px; margin: 0 auto 20px auto; transition: 0.3s;
+        }
+        .feature-card:hover .feature-icon-box { background: #FF6700; color: #fff; }
+        .feature-card h4 { font-weight: 700; color: #333; margin-bottom: 15px; }
+        .feature-card p { color: #666; font-size: 14px; line-height: 1.6; }
 </style>
 
 <div id="home" class="hero-area">
@@ -412,18 +460,64 @@
             </div>
 
             <div class="col-video">
-                <div class="full-height-card">
-                    <div class="video-container">
-                        <div style="margin-bottom: 15px;">
-                            <h2 style="margin:0; color:#001f3f; font-weight:700; font-size:28px;">VIDIO TERBARU</h2>
-                            <p style="color:#666; margin:5px 0 0;">Simak Vidio Berikut</p>
-                        </div>
+    <div class="video-section" style="height: 100%; display: flex; flex-direction: column; justify-content: center; padding-left: 15px;">
+        
+        <h3 class="kepsek-title" style="font-size: 26px;">Video Terbaru</h3>
+        
+        <!-- CARD VIDEO DIPERBESAR -->
+        <div class="video-wrapper" 
+             style="width: 100%; 
+                    height: 420px;   /* Diperbesar dari 320px */
+                    padding-bottom: 0; 
+                    border-radius: 15px; 
+                    overflow: hidden; 
+                    box-shadow: 0 18px 45px rgba(0,0,0,0.25);">
+            <?php
+                // Logika Embed Video
+                $url = $data_identitas['link_video'] ?? '';
+                $embed_url = "";
 
-                        <div class="video-frame">
-                            <iframe src="https://www.youtube.com/embed/nAiC2gX74iM" width="100%" height="100%" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                    </div>
+                if (!empty($url)) {
+                    $url = str_replace("watch?v=", "embed/", $url);
+                    $url = str_replace("youtu.be/", "youtube.com/embed/", $url);
+                    $parts = explode("&", $url);
+                    $embed_url = $parts[0];
+                }
+            ?>
+            
+            <?php if(!empty($embed_url)): ?>
+                <iframe src="<?php echo $embed_url; ?>" 
+                        width="100%" 
+                        height="100%" 
+                        frameborder="0" 
+                        allowfullscreen 
+                        style="width:100%; height:100%; border-radius:15px;">
+                </iframe>
+            <?php else: ?>
+                <div style="width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; color:#fff;">
+                    <p>Video belum tersedia</p>
                 </div>
+            <?php endif; ?>
+        </div>
+        
+        <div class="kepsek-content" style="margin-top: 25px;">
+            <p style="font-size: 16px; line-height: 1.6;">
+                "<?php echo htmlspecialchars(substr($data_identitas['sambutan_kepsek'] ?? 'Selamat Datang...', 0, 200)); ?>..."
+            </p>
+            
+            <div style="margin-top: 15px;">
+                <a href="profil.php" style="background-color: #FF6700; color: #fff; padding: 12px 26px; border-radius: 50px; font-weight: bold; font-size: 14px; text-decoration: none; display: inline-block;">
+                    TENTANG KAMI &rarr;
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+        </div>
+
+    </div>
             </div>
 
         </div>
@@ -488,3 +582,57 @@
         </div>
     </div>
 </div>
+<div id="cta" class="section">
+        <div class="bg-image bg-parallax" style="background-image:url(./img/page-background1.png)"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2 text-center">
+                    <h2 class="white-text">Pendaftaran Siswa Baru Telah Dibuka!</h2>
+                    <p class="lead white-text" style="font-weight: 300; opacity: 0.9; margin-bottom: 30px;">
+                        Segera daftarkan diri Anda dan jadilah bagian dari keluarga besar SMA Frater Don Bosco Banjarmasin.
+                    </p>
+                    <a class="btn-cta" href="ppdb.php">
+                        <i class="fa fa-pencil-square-o"></i> LIHAT INFO PPDB
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="why-us" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="section-header">
+                        <h2 style="color: #001f3f; text-transform: uppercase; font-weight: 800;">Mengapa Memilih Kami?</h2>
+                        <p class="lead">Kami berkomitmen memberikan pendidikan terbaik untuk masa depan.</p>
+                        <hr style="width: 60px; border: 2px solid #FF6700; margin: 20px auto;">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="display: flex; flex-wrap: wrap;">
+                <div class="col-md-4 col-sm-6" style="display: flex;">
+                    <div class="feature-card" style="width: 100%;">
+                        <div class="feature-icon-box"><i class="fa fa-trophy"></i></div>
+                        <h4>Sekolah Berprestasi</h4>
+                        <p>Meraih berbagai kejuaraan tingkat nasional di bidang akademik dan non-akademik.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6" style="display: flex;">
+                    <div class="feature-card" style="width: 100%;">
+                        <div class="feature-icon-box"><i class="fa fa-users"></i></div>
+                        <h4>Guru Profesional</h4>
+                        <p>Didukung oleh tenaga pengajar lulusan terbaik yang berpengalaman dan berdedikasi.</p>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6" style="display: flex;">
+                    <div class="feature-card" style="width: 100%;">
+                        <div class="feature-icon-box"><i class="fa fa-building"></i></div>
+                        <h4>Fasilitas Lengkap</h4>
+                        <p>Laboratorium, perpustakaan digital, dan sarana olahraga modern yang memadai.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
