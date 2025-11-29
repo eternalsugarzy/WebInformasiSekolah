@@ -1,0 +1,355 @@
+/* ============================
+   RESET DASAR
+============================ */
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+
+/* ============================
+   HERO AREA BERITA
+============================ */
+.hero-berita {
+    position: relative;
+    height: 260px;
+    background-image: url("../img/page-background2.jpg");
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+}
+
+.hero-berita::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    z-index: 1;
+}
+
+.hero-area .container {
+    position: relative;
+    z-index: 3;
+    padding-top: 20px;
+}
+
+
+.hero-berita h1 {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.hero-berita .breadcrumb li {
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+}
+
+.hero-berita .breadcrumb li a {
+    color: #ffcc00;
+}
+
+.hero-berita .breadcrumb li::after {
+    content: " / ";
+    margin: 0 5px;
+}
+
+.hero-berita .breadcrumb li:last-child::after {
+    content: "";
+}
+
+.hero-area img.logo-header-berita {
+    display: block;
+    margin: 0 auto 10px auto;   /* Pastikan logo selalu di tengah */
+    max-height: 130px;
+    position: relative;
+    z-index: 3;
+}
+
+
+
+/* ============================
+   LAYOUT UTAMA BERITA
+============================ */
+.berita-page {
+    margin-top: 120px;
+    padding: 60px 0;
+    background: #fff;
+}
+
+.berita-page .container {
+    max-width: 95%;
+    width: 95%;
+}
+
+.berita-wrap {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+
+/* ============================
+   SIDEBAR
+============================ */
+.sidebar {
+    width: 22%;
+    min-width: 240px;
+    margin-left: -20px;     /* Sebelumnya -50px, kita lunakkan */
+    padding-left: 20px;    /* INI YANG MEMBERI JARAK DARI TEPI */
+}
+
+
+.sidebar-box {
+    margin-bottom: 40px;
+}
+
+.sidebar-box h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.sidebar-box h3::after {
+    content: "";
+    width: 40px;
+    height: 3px;
+    background: orange;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+}
+
+.search-box input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.search-box button {
+    width: 100%;
+    padding: 12px;
+    background: #001f3f;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.search-box button:hover {
+    background: #003366;
+}
+
+.category-list li,
+.archive-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed #ddd;
+}
+
+.category-list li a,
+.archive-list li a {
+    color: #333;
+}
+
+.category-list li a:hover,
+.archive-list li a:hover {
+    color: orange;
+}
+
+
+/* ============================
+   KONTEN BERITA
+============================ */
+.berita-content {
+    width: 78%;
+}
+
+.berita-item {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 45px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.10);
+    transition: all 0.35s ease;
+}
+
+.berita-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ============================
+   GAMBAR BERITA
+============================ */
+.berita-img {
+    width: 40%;
+    position: relative;
+    overflow: hidden;
+}
+
+.berita-img img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.berita-item:hover .berita-img img {
+    transform: scale(1.1);
+}
+
+.berita-date {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: #001f3f;
+    color: white;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+.berita-date span {
+    font-size: 28px;
+    font-weight: bold;
+    display: block;
+}
+
+
+/* ============================
+   TEKS BERITA
+============================ */
+.berita-text {
+    width: 60%;
+}
+
+.berita-text h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.berita-item:hover .berita-text h2 {
+    color: #1e88e5;
+}
+
+.berita-text p {
+    font-size: 15.5px;
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 12px;
+}
+
+.berita-text a {
+    color: orange;
+    font-weight: bold;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.berita-item:hover .berita-text a {
+    transform: translateX(6px);
+}
+
+
+/* ============================
+   RESPONSIVE MOBILE
+============================ */
+@media (max-width: 992px) {
+    .berita-wrap {
+        flex-direction: column;
+    }
+
+    .sidebar,
+    .berita-content {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .berita-item {
+        flex-direction: column;
+    }
+
+    .berita-img,
+    .berita-text {
+        width: 100%;
+    }
+
+    .berita-img img {
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-berita {
+        height: 200px;
+    }
+
+    .hero-berita h1 {
+        font-size: 22px;
+    }
+}
+
+/* ============================
+   BADGE KATEGORI BERITA
+============================ */
+.badge-kategori {
+    display: inline-block;
+    background: #ff9800;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+}
+
+/* ============================
+   PAGINATION
+============================ */
+.pagination-wrap {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.pagination-wrap a {
+    display: inline-block;
+    padding: 8px 14px;
+    margin: 0 4px;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+.pagination-wrap a:hover {
+    background: #001f3f;
+    color: #fff;
+}
+
+.pagination-wrap a.active {
+    background: #001f3f;
+    color: #fff;
+    border-color: #001f3f;
+}

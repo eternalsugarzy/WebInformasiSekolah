@@ -1,119 +1,134 @@
 <style>
-    /* ======================================= */
-    /* Styling Kartu Konten Berita */
-    /* ======================================= */
-    .single-blog {
-        background-color: #ffffff;
-        padding: 25px;
-        /* Tambahkan padding di sekitar konten utama */
-        border-radius: 8px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        /* Efek card */
-        overflow: hidden;
-    }
+/* ====================== */
+/* DETAIL BERITA SEAMLESS */
+/* ====================== */
 
-    /* Styling Gambar Utama */
-    .blog-img {
-        margin-bottom: 20px;
-        border-radius: 8px;
-        /* Tambahkan radius pada pembungkus gambar */
-        overflow: hidden;
-    }
+/* Hilangkan semua efek card */
+.single-blog {
+    background: transparent;     /* TANPA background */
+    padding: 0;                   /* TANPA padding besar */
+    border-radius: 0;             /* TANPA radius */
+    box-shadow: none;             /* TANPA shadow */
+}
 
-    /* Styling Meta Data */
-    .blog-meta {
-        padding: 15px 0;
-        border-bottom: 1px solid #eee;
-        /* Garis pemisah halus */
-        margin-bottom: 20px;
-    }
+/* ====================== */
+/* GAMBAR UTAMA */
+/* ====================== */
+.blog-img {
+    margin-bottom: 25px;
+    border-radius: 0;             /* TANPA radius */
+    overflow: hidden;
+}
 
-    .blog-meta span {
-        color: #555;
-        font-size: 14px;
-    }
+.blog-img img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+}
 
-    .blog-meta i {
-        color: #007bff;
-        /* Ikon Berwarna Biru */
-        margin-right: 5px;
-    }
+/* ====================== */
+/* META DATA */
+/* ====================== */
+.blog-meta {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
 
-    .blog-meta .blog-meta-author {
-        font-weight: 600;
-    }
+.blog-meta span {
+    color: #555;
+    font-size: 14px;
+}
 
-    /* Styling Konten */
-    .blog-content p {
-        font-size: 1.1em;
-        line-height: 1.7;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: justify;
-        /* Opsional: Membuat teks rata kanan-kiri */
-    }
+.blog-meta i {
+    color: #FF6700;
+    margin-right: 6px;
+}
 
-    /* Styling Tombol Kembali */
-    .blog-share {
-        padding-top: 20px;
-        padding-bottom: 10px;
-        text-align: left;
-        /* Posisikan tombol di kiri */
-    }
+.blog-meta-author {
+    font-weight: 700;
+    color: #001f3f;
+}
 
-    /* Lokasi: css/style.css */
+/* ====================== */
+/* ISI BERITA */
+/* ====================== */
+.blog-content p {
+    font-size: 16px;
+    line-height: 1.9;
+    color: #333;
+    margin-bottom: 22px;
+    text-align: justify;
+}
 
-    /* 1. Reset Display pada Pembungkus Teks */
-    .blog-share a.main-button {
-        /* Pastikan tombol adalah inline-block atau block */
-        display: inline-flex;
-        /* Gunakan inline-flex untuk penataan ikon yang rapi */
-        align-items: center;
-        /* Memastikan ikon dan teks sejajar di tengah */
-        white-space: nowrap;
-        /* KRUSIAL: Mencegah teks melompat baris secara tidak wajar */
+/* ====================== */
+/* TOMBOL KEMBALI */
+/* ====================== */
+.blog-share a.main-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, #0808e8, #3b5bff);
+    color: #fff !important;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 15px;
 
-        /* Styling Visual */
-        background-color: #0808e8ff;
-        color: white !important;
-        padding: 10px 20px;
-        border-radius: 5px;
-        font-weight: 600;
-        text-decoration: none;
-        line-height: normal;
-        /* Memperbaiki masalah tinggi baris */
-        font-size: 16px;
+    white-space: nowrap;     /* MENCEGAH TEKS TURUN */
+    width: auto !important; 
+    height: auto !important;
+    line-height: normal;
+}
 
-        /* Menghapus semua properti yang membatasi lebar */
-        width: auto !important;
-        height: auto !important;
-    }
+.blog-share a.main-button::before {
+    font-family: 'FontAwesome';
+    content: "\f060";
+    margin-right: 6px;
+}
 
-    /* 2. Menambahkan Ikon Panah ke Kiri (Sebelum Teks) */
-    .blog-share a.main-button::before {
-        font-family: 'FontAwesome';
-        content: "\f060";
-        /* Kode ikon panah ke kiri */
-        margin-right: 8px;
-    }
+.blog-share a.main-button::after {
+    content: none !important;
+}
 
-    /* 3. Menghapus Ikon Panah ke Kanan (Jika ada bentrokan dari icon-button) */
-    .blog-share a.main-button::after {
-        content: none !important;
-    }
+
+/* ====================== */
+/* HERO SEAMLESS */
+/* ====================== */
+.hero-area {
+    border-radius: 0;     /* Hilangkan lengkungan bawah */
+}
+
+.judul-berita {
+    font-size: 30px;
+    font-weight: 800;
+    color: #001f3f;
+    margin: 20px 0 15px;
+    line-height: 1.35;
+}
+
 </style>
 
-<div class="hero-area section" style="height: 40vh; min-height: 350px;">
+
+<div class="hero-area section" style="height: 22vh; min-height: 210px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
+
     <div class="container">
-        <div class="row" style="margin-top: 40px;">
+        <div class="row" style="margin-top: 20px;">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <ul class="hero-area-tree">
+
+                <ul class="hero-area-tree" style="font-size: 13px;">
                     <li><a href="index.php">Beranda</a></li>
                     <li>Berita</li>
                     <li><?php echo htmlspecialchars($berita['kategori']); ?></li>
                 </ul>
-                <h1 class="white-text"><?php echo htmlspecialchars($berita['judul']); ?></h1>
+
+                <!-- JUDUL DIHAPUS DARI HERO -->
             </div>
         </div>
     </div>
@@ -126,15 +141,21 @@
                 <div class="single-blog">
 
                     <div class="blog-img">
-                        <?php
-                        $path_gambar = "admin/uploads/berita/" . $berita['gambar_utama'];
-                        if (empty($berita['gambar_utama']) || !file_exists($path_gambar)) {
-                            $path_gambar = "./img/course01.jpg";
-                        }
-                        ?>
-                        <img src="<?php echo $path_gambar; ?>" alt="<?php echo htmlspecialchars($berita['judul']); ?>"
-                            style="width:100%; height:auto;">
-                    </div>
+    <?php
+    $path_gambar = "admin/uploads/berita/" . $berita['gambar_utama'];
+    if (empty($berita['gambar_utama']) || !file_exists($path_gambar)) {
+        $path_gambar = "./img/course01.jpg";
+    }
+    ?>
+    <img src="<?php echo $path_gambar; ?>" 
+         alt="<?php echo htmlspecialchars($berita['judul']); ?>">
+</div>
+
+<!-- JUDUL PINDAH KE SINI -->
+<h1 class="judul-berita">
+    <?php echo htmlspecialchars($berita['judul']); ?>
+</h1>
+
 
                     <div class="blog-meta">
                         <span class="blog-meta-author">Oleh:

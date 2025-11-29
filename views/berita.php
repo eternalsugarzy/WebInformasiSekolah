@@ -1,99 +1,4 @@
-<style>
-/* ======================================= */
-/* 1. Styling Umum Kartu (Shadow & Radius) */
-/* ======================================= */
-
-.single-blog {
-    background-color: #ffffff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 30px;
-    
-    /* KRUSIAL: Equal Height dan Flex Column */
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-}
-
-.single-blog:hover {
-    transform: translateY(-5px); /* Efek mengangkat saat hover */
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
-}
-
-.blog-img img {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-}
-
-/* ======================================= */
-/* 2. Flexbox untuk Equal Height */
-/* ======================================= */
-
-/* Mengaktifkan Flexbox pada baris di dalam section #blog */
-#blog .row {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-/* Memastikan setiap kolom mengambil tinggi penuh */
-#blog .col-md-4 {
-    display: flex;
-}
-
-/* ======================================= */
-/* 3. Styling Konten & Tombol Bottom-Aligned */
-/* ======================================= */
-
-.blog-content {
-    padding: 15px 20px 20px 20px;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-/* --- PERBAIKAN WARNA IKON META --- */
-.blog-meta i {
-    color: #007bff; /* GANTI WARNA IKON MENJADI BIRU */
-    margin-right: 5px;
-}
-/* ---------------------------------- */
-
-
-.blog-content p {
-    flex-grow: 1;
-    margin-top: 5px;
-    margin-bottom: 15px;
-}
-
-.single-blog a.blog-more {
-    margin-top: auto;
-    color: #007bff;
-    font-weight: 600;
-    text-decoration: none;
-    padding-top: 10px;
-    display: block;
-}
-
-.single-blog a.blog-more:after {
-    font-family: 'FontAwesome';
-    content: "\f061";
-    margin-left: 8px;
-    font-size: 0.9em;
-}
-
-.single-blog h3 a {
-    color: #333;
-    transition: color 0.3s ease;
-    text-decoration: none;
-}
-
-.single-blog h3 a:hover {
-    color: #007bff;
-    /* text-decoration: underline; */ /* Opsional jika ingin ada garis bawah saat hover */
-}
-</style>
+<link rel="stylesheet" href="css/berita.css">
 
 <div class="hero-area section" style="height: 40vh; min-height: 370px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
@@ -104,71 +9,113 @@
                      alt="Logo SMA Frater Don Bosco Bjm" 
                      class="logo-header-berita"
                      style="max-height: 130px;"> 
-                <h1 class="white-text">Kabar Sekolah Terbaru</h1>
+                <h1 class="white-text">Berita Sekolah Kami</h1>
+            
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
-                    <li>Arsip Berita</li>
+                    <li>Berita</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<div id="blog" class="section">
+
+<div class="berita-page">
     <div class="container">
-        <div class="row">
-            <div id="main" class="col-md-12">
-                <div class="row">
+        <div class="berita-wrap">
 
-                    <?php if (isset($data_berita) && count($data_berita) > 0) {
-                        foreach ($data_berita as $b) {
-                            $path_gambar = "admin/uploads/berita/" . $b['gambar_utama'];
-                            if (empty($b['gambar_utama']) || !file_exists($path_gambar)) {
-                                $path_gambar = "./img/course01.jpg";
-                            }
-                            ?>
-                            <div class="col-md-4">
-                                <div class="single-blog">
-                                    <div class="blog-img">
-                                        <a href="detail_berita.php?id=<?php echo $b['id_berita']; ?>">
-                                            <img src="<?php echo $path_gambar; ?>" alt=""
-                                                style="height: 200px; object-fit: cover; width: 100%;">
-                                        </a>
-                                    </div>
+            <!-- ================= SIDEBAR ================= -->
+            <div class="sidebar">
 
-                                    <div class="blog-content">
-                                        <ul class="blog-meta">
-                                            <li><i class="fa fa-user"></i>
-                                                <?php echo htmlspecialchars($b['penulis'] ?? 'Admin'); ?></li>
-                                            <li><i class="fa fa-clock-o"></i>
-                                                <?php echo date('d M Y', strtotime($b['tanggal_publikasi'])); ?></li>
-                                            <li><i class="fa fa-folder"></i> <?php echo htmlspecialchars($b['kategori']); ?>
-                                            </li>
-                                        </ul>
+                <div class="sidebar-box search-box">
+                    <h3>Search</h3>
+                    <form method="GET">
+                        <input type="text" name="q" placeholder="Cari berita...">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
 
-                                        <h3><a
-                                                href="detail_berita.php?id=<?php echo $b['id_berita']; ?>"><?php echo htmlspecialchars($b['judul']); ?></a>
-                                        </h3>
-
-                                        <p style="flex-grow: 1;">
-                                            <?php echo htmlspecialchars(substr($b['konten_lengkap'], 0, 100)); ?>...</p>
-
-                                        <a href="detail_berita.php?id=<?php echo $b['id_berita']; ?>" class="blog-more">Baca
-                                            Selengkapnya</a>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <?php
-                        }
-                    } else {
-                        echo "<div class='col-md-12 text-center'><h3>Belum ada berita yang dipublikasikan.</h3></div>";
-                    }
-                    ?>
+                <div class="sidebar-box">
+                    <h3>Category</h3>
+                    <ul class="category-list">
+    <li><a href="berita.php?kategori=Berita Sekolah">Berita Sekolah</a></li>
+    <li><a href="berita.php?kategori=Info Sekolah">Info Sekolah</a></li>
+    <li><a href="berita.php?kategori=Agenda Sekolah">Agenda Sekolah</a></li>
+    <li><a href="berita.php?kategori=Prestasi">Prestasi</a></li>
+</ul>
 
                 </div>
+
+                <div class="sidebar-box">
+                    <h3>Archives</h3>
+                    <ul class="archive-list">
+    <li><a href="berita.php?tahun=2017">2017</a></li>
+    <li><a href="berita.php?tahun=2019">2019</a></li>
+    <li><a href="berita.php?tahun=2022">2022</a></li>
+</ul>
+
+                </div>
+
             </div>
+
+            <!-- ================= KONTEN BERITA ================= -->
+            <div class="berita-content">
+
+                <?php if (!empty($data_berita)) : ?>
+                    <?php foreach ($data_berita as $row) : 
+                        
+                        $gambar = !empty($row['gambar_utama']) 
+                            ? "admin/uploads/berita/" . $row['gambar_utama'] 
+                            : "img/default.jpg";
+
+                        $tanggal = date('d', strtotime($row['tanggal_publikasi']));
+                        $bulan   = date('M, Y', strtotime($row['tanggal_publikasi']));
+                    ?>
+
+                    <div class="berita-item">
+
+                        <div class="berita-img">
+                            <img src="<?= $gambar ?>">
+                            <div class="berita-date">
+                                <span><?= $tanggal ?></span>
+                                <?= $bulan ?>
+                            </div>
+                        </div>
+
+                        <div class="berita-text">
+                            <span class="badge-kategori">
+                                 <?= htmlspecialchars($row['kategori']) ?>
+                            </span>
+                            <h2><?= htmlspecialchars($row['judul']) ?></h2>
+                            <p><?= substr(strip_tags($row['konten_lengkap']), 0, 180) ?>...</p>
+                            <a href="detail_berita.php?id=<?= $row['id_berita'] ?>">
+                                Baca Selengkapnya →
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <p style="text-align:center; padding:40px;">
+                        <b>Belum ada berita yang dipublikasikan.</b>
+                    </p>
+                <?php endif; ?>
+
+            </div>
+
+            <!-- ================= PAGINATION ================= -->
+<div class="pagination-wrap">
+    <?php for ($i = 1; $i <= $total_page; $i++) : ?>
+        <a href="?page=<?= $i ?>" 
+           class="<?= ($i == $page) ? 'active' : '' ?>">
+           <?= $i ?>
+        </a>
+    <?php endfor; ?>
+</div>
+
+
         </div>
     </div>
-</div>
 </div>

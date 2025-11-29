@@ -44,8 +44,14 @@ class BeritaModel extends Database {
 
     // [BARU] Fungsi Update Berita
     public function updateBerita($id, $judul, $konten, $kategori, $gambar = null) {
+        $id = intval($id);
+        $judul = mysqli_real_escape_string($this->koneksi, $judul);
+        $konten = mysqli_real_escape_string($this->koneksi, $konten);
+        $kategori = mysqli_real_escape_string($this->koneksi, $kategori);
+
         // Jika ada gambar baru yang diupload
         if ($gambar != null) {
+            $gambar = mysqli_real_escape_string($this->koneksi, $gambar);
             $sql = "UPDATE berita_artikel SET 
                     judul = '$judul', 
                     konten_lengkap = '$konten', 
@@ -81,8 +87,72 @@ class BeritaModel extends Database {
         return $hasil;
     }
 
-    
+    // ================= SEARCH =================
+    public function searchBerita($keyword) {
+        $keyword = mysqli_real_escape_string($this->koneksi, $keyword);
+        $sql = "SELECT * FROM berita_artikel 
+                WHERE judul LIKE '%$keyword%' 
+                OR konten_lengkap LIKE '%$keyword%' 
+                ORDER BY tanggal_publikasi DESC";
+
+        $query = $this->query($sql);
+        $hasil = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+
+    // ================= KATEGORI =================
+    public function getBeritaByKategori($kategori) {
+        $kategori = mysqli_real_escape_string($this->koneksi, $kategori);
+        $sql = "SELECT * FROM berita_artikel 
+                WHERE kategori = '$kategori' 
+                ORDER BY tanggal_publikasi DESC";
+
+        $query = $this->query($sql);
+        $hasil = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+
+    // ================= ARCHIVE =================
+    public function getBeritaByYear($tahun) {
+        $tahun = intval($tahun);
+        $sql = "SELECT * FROM berita_artikel 
+                WHERE YEAR(tanggal_publikasi) = '$tahun' 
+                ORDER BY tanggal_publikasi DESC";
+
+        $query = $this->query($sql);
+        $hasil = [];
+        while ($row = mysqli_fetch_assoc($query)) {
+            $hasil[] = $row;
+        }
+        return $hasil;
+    }
+
+    // Pagination: Ambil berita per halaman
+public function getBeritaByPage($limit, $offset) {
+    $limit = intval($limit);
+    $offset = intval($offset);
+
+    $sql = "SELECT * FROM berita_artikel 
+            ORDER BY tanggal_publikasi DESC 
+            LIMIT $limit OFFSET $offset";
+
+    $query = $this->query($sql);
+    $hasil = [];
+
+    while ($row = mysqli_fetch_assoc($query)) {
+        $hasil[] = $row;
+    }
+
+    return $hasil;
 }
 
+
+} // end class
 
 ?>

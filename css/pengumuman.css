@@ -1,0 +1,148 @@
+/* ===========================
+   LAYOUT PENGUMUMAN
+=========================== */
+
+.pengumuman-page {
+    margin-top: 120px;
+    padding: 60px 0;
+    background: #fff;
+}
+
+.pengumuman-wrap {
+    display: flex;
+    gap: 40px;              /* Jarak sidebar - konten */
+    padding-left: 15px;    /* Space kiri halaman */
+    padding-right: 15px;   /* Space kanan halaman */
+}
+
+/* ===========================
+   SIDEBAR KIRI
+=========================== */
+
+.sidebar {
+    width: 23%;            /* Lebih slim seperti berita */
+}
+
+.sidebar-box {
+    margin-bottom: 40px;
+}
+
+.sidebar-box h3 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.sidebar-box h3::after {
+    content: "";
+    width: 40px;
+    height: 3px;
+    background: orange;
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+}
+
+/* SEARCH */
+.search-box input {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.search-box button {
+    width: 100%;
+    padding: 11px;
+    background: #001f3f;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* ===========================
+   CONTENT CARD PENGUMUMAN
+=========================== */
+
+.pengumuman-content {
+    width: 77%;                  /* Full ke kanan */
+    display: grid;
+    grid-template-columns: 1fr;  /* Landscape 1 kolom full */
+    gap: 30px;
+}
+
+/* CARD */
+.single-announcement {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 34px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+    transition: all 0.35s ease;
+    border-left: 6px solid #1e88e5;
+}
+
+/* Hover efek */
+.single-announcement:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.22);
+}
+
+/* META */
+.pengumuman-meta {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: #888;
+}
+
+.pengumuman-meta li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+.pengumuman-meta i {
+    color: orange;
+    margin-right: 5px;
+}
+
+/* JUDUL */
+.single-announcement h3 {
+    font-weight: 700;
+    margin-bottom: 12px;
+    transition: color 0.3s ease;
+}
+
+.single-announcement:hover h3 {
+    color: #1e88e5;
+}
+
+/* ISI */
+.single-announcement p {
+    color: #555;
+    line-height: 1.8;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+
+@media (max-width: 991px) {
+
+    .pengumuman-wrap {
+        flex-direction: column;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .sidebar,
+    .pengumuman-content {
+        width: 100%;
+    }
+
+    .pengumuman-content {
+        grid-template-columns: 1fr;
+    }
+}
