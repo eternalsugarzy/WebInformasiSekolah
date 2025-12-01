@@ -1,26 +1,40 @@
-/* ===========================
-   LAYOUT PENGUMUMAN
-=========================== */
+/* ===========================================================
+   PENGUMUMAN PAGE — FULL WIDTH LAYOUT (TIDAK IKUT CONTAINER)
+   =========================================================== */
 
+/* Hilangkan batasan container template */
 .pengumuman-page {
-    margin-top: 120px;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-left: calc(50% - 50vw) !important;   /* tarik keluar dari container */
+    margin-right: calc(50% - 50vw) !important;
     padding: 60px 0;
     background: #fff;
+    box-sizing: border-box;
 }
 
+/* FULL WIDTH WRAPPER */
 .pengumuman-wrap {
     display: flex;
-    gap: 40px;              /* Jarak sidebar - konten */
-    padding-left: 15px;    /* Space kiri halaman */
-    padding-right: 15px;   /* Space kanan halaman */
+    align-items: flex-start;
+    width: 100%;
+    max-width: 1400px;     /* agar nyaman di layar wide */
+    margin: 0 auto;        /* tetap center */
+    gap: 30px;
+    padding: 0 20px;
+    box-sizing: border-box;
 }
 
-/* ===========================
-   SIDEBAR KIRI
-=========================== */
+/* ==========================
+   SIDEBAR (MENTOK KIRI)
+   ========================== */
 
 .sidebar {
-    width: 23%;            /* Lebih slim seperti berita */
+    flex: 0 0 260px;     /* fix width */
+    max-width: 260px;
+    min-width: 220px;
+    background: #fff;
+    box-sizing: border-box;
 }
 
 .sidebar-box {
@@ -62,14 +76,17 @@
     cursor: pointer;
 }
 
-/* ===========================
-   CONTENT CARD PENGUMUMAN
-=========================== */
+/* ==========================
+   KONTEN — FULL WIDTH
+   ========================== */
 
 .pengumuman-content {
-    width: 77%;                  /* Full ke kanan */
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+
     display: grid;
-    grid-template-columns: 1fr;  /* Landscape 1 kolom full */
+    grid-template-columns: 1fr; /* satu kolom besar */
     gap: 30px;
 }
 
@@ -81,9 +98,10 @@
     box-shadow: 0 4px 18px rgba(0,0,0,0.10);
     transition: all 0.35s ease;
     border-left: 6px solid #1e88e5;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* Hover efek */
 .single-announcement:hover {
     transform: translateY(-8px);
     box-shadow: 0 14px 36px rgba(0,0,0,0.22);
@@ -125,24 +143,142 @@
     line-height: 1.8;
 }
 
-/* ===========================
+/* THUMBNAIL */
+.single-announcement .pengumuman-thumb {
+    margin-bottom: 12px;
+}
+
+.single-announcement .pengumuman-thumb img {
+    width: 100%;
+    border-radius: 6px;
+    display: block;
+}
+
+/* ==========================
    RESPONSIVE
-=========================== */
+   ========================== */
 
 @media (max-width: 991px) {
-
     .pengumuman-wrap {
         flex-direction: column;
-        padding-left: 10px;
-        padding-right: 10px;
+        padding: 0 16px;
     }
 
-    .sidebar,
+    .sidebar {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
     .pengumuman-content {
         width: 100%;
-    }
-
-    .pengumuman-content {
         grid-template-columns: 1fr;
     }
 }
+
+@media (max-width: 480px) {
+    .single-announcement {
+        padding: 18px 20px;
+    }
+}
+
+/* ===========================
+  FORCE: Pengumuman Full-Width
+  Override container template dan pastikan content mengisi layar
+  Paste ini di paling bawah css/pengumuman.css
+   =========================== */
+
+/* Tarik keluar page dari container template sehingga bisa full viewport width */
+.pengumuman-page {
+    position: relative !important;
+    width: 100vw !important;
+    left: 50% !important;
+    right: 50% !important;
+    margin-left: -50vw !important;   /* tarik keluar dari container */
+    margin-right: -50vw !important;
+    padding-top: 60px !important;
+    padding-bottom: 60px !important;
+    background: #fff !important;
+    box-sizing: border-box !important;
+    z-index: 1;
+  }
+  
+  /* Pastikan container di dalam pengumuman tidak membatasi lebar */
+  .pengumuman-page .container {
+    max-width: 100% !important;    /* hapus max-width bootstrap */
+    width: 100% !important;
+    padding-left: 18px !important;  /* jarak kiri konten dengan viewport */
+    padding-right: 18px !important; /* jarak kanan */
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Wrapper full-width, gunakan ruang penuh dan center content area bila perlu */
+  .pengumuman-wrap {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 30px !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Sidebar fixed width (menempel di kiri area pengumuman) */
+  .pengumuman-wrap .sidebar {
+    flex: 0 0 260px !important;
+    max-width: 260px !important;
+    min-width: 200px !important;
+    margin: 0 !important;
+    padding-left: 6px !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Konten isi mengisi sisa ruang */
+  .pengumuman-wrap .pengumuman-content {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    padding: 0 !important;
+  }
+  
+  /* Pastikan tiap card benar2 menutupi lebar area konten */
+  .pengumuman-content .single-announcement {
+    width: 100% !important;
+    margin: 0 0 22px 0 !important;
+    box-sizing: border-box !important;
+  }
+  
+  /* Jika masih ada padding pada parent wrappers, pastikan content tidak ter-shrink */
+  body, html {
+    overflow-x: hidden; /* mencegah muncul scroll horizontal saat tarik full-viewport */
+  }
+  
+  /* Responsive: ubah tata letak pada layar kecil */
+  @media (max-width: 991px) {
+    .pengumuman-page {
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: 100% !important;
+      left: 0 !important;
+      right: 0 !important;
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+    }
+    .pengumuman-wrap {
+      display: block !important;
+      gap: 16px !important;
+      padding: 0 !important;
+    }
+    .pengumuman-wrap .sidebar,
+    .pengumuman-wrap .pengumuman-content {
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+    }
+  }
+  
