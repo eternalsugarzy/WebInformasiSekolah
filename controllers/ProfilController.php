@@ -7,7 +7,7 @@ class ProfilController {
     public function index() {
     // Guru Model
     $guruModel = new GuruModel();
-    $data_guru = $guruModel->getAllGuru();
+    $data_guru = $guruModel->getAllGuruList();
 
     // Ambil Kepala Sekolah dari guru_staf
     $kepsek = $guruModel->getKepalaSekolah();

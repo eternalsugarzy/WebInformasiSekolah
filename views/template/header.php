@@ -28,12 +28,15 @@ $current_page = basename($_SERVER['PHP_SELF']);
         /* 1. EFEK SMOOTH SCROLL (PENTING)           */
         /* ========================================= */
         html {
-            scroll-behavior: smooth !important; /* Membuat scroll meluncur halus */
+            scroll-behavior: smooth !important;
+            /* Membuat scroll meluncur halus */
         }
 
         /* ========================================= */
         /* MODIFIKASI HEADER (FULL WIDTH & STICKY)   */
         /* ========================================= */
+
+
 
         /* HEADER UTAMA */
         #header {
@@ -53,6 +56,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
         #header.navbar-scrolled {
             background-color: #ffffff !important;
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.15);
+
         }
 
         /* CONTAINER MENJADI FULL WIDTH (MENTOK KIRI KANAN) */
@@ -66,9 +70,11 @@ $current_page = basename($_SERVER['PHP_SELF']);
             padding-right: 40px !important;
             float: none;
         }
-        
+
         #header .container:before,
-        #header .container:after { display: none !important; }
+        #header .container:after {
+            display: none !important;
+        }
 
         /* LOGO & BRAND */
         .navbar-header {
@@ -76,7 +82,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             margin: 0 !important;
             display: flex;
             align-items: center;
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
 
         .navbar-brand {
@@ -88,7 +94,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             text-decoration: none !important;
         }
 
-        .navbar-brand .logo > img {
+        .navbar-brand .logo>img {
             max-height: 60px;
             height: auto;
             width: auto;
@@ -103,14 +109,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
             color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 1px;
-            text-shadow: 0px 1px 3px rgba(0,0,0,0.6);
+            text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.6);
             white-space: nowrap;
             transition: color 0.3s ease;
         }
 
         /* NAVIGASI */
         #nav {
-            margin-left: auto !important; 
+            margin-left: auto !important;
             display: flex;
             align-items: center;
         }
@@ -134,18 +140,27 @@ $current_page = basename($_SERVER['PHP_SELF']);
             font-weight: 700;
             font-size: 17px;
             text-decoration: none;
-            text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
             transition: color 0.3s ease;
-            padding: 10px 0; 
+            padding: 10px 0;
             display: block;
             position: relative;
         }
 
         /* Hover & Active */
-        #nav .main-menu li a:hover { color: #FFC107 !important; }
+        #nav .main-menu li a:hover {
+            color: #FFC107 !important;
+        }
+
         #nav .main-menu li.active a::after {
-            content: ''; display: block; width: 100%; height: 3px;
-            background: #FFC107; position: absolute; bottom: 0; left: 0;
+            content: '';
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: #FFC107;
+            position: absolute;
+            bottom: 0;
+            left: 0;
         }
 
         /* WARNA MENU SAAT SCROLL (HITAM) */
@@ -153,32 +168,86 @@ $current_page = basename($_SERVER['PHP_SELF']);
             color: #333333 !important;
             text-shadow: none;
         }
-        #header.navbar-scrolled #nav .main-menu li a:hover { color: #045bb8ff !important; }
-        #header.navbar-scrolled #nav .main-menu li.active a { color: #045bb8ff !important; }
-        #header.navbar-scrolled #nav .main-menu li.active a::after { background: #045bb8ff; }
-        
-       
+
+        #header.navbar-scrolled #nav .main-menu li a:hover {
+            color: #045bb8ff !important;
+        }
+
+        #header.navbar-scrolled #nav .main-menu li.active a {
+            color: #045bb8ff !important;
+        }
+
+        #header.navbar-scrolled #nav .main-menu li.active a::after {
+            background: #045bb8ff;
+        }
+
+
 
         /* TOMBOL MOBILE */
         .navbar-toggle {
-            display: none; 
+            display: none;
             background-color: #045bb8ff !important;
             border: none;
             margin-top: 0;
         }
-        .navbar-toggle span { background-color: #fff !important; }
+
+        .navbar-toggle span {
+            background-color: #fff !important;
+        }
 
         /* RESPONSIF */
         @media (max-width: 991px) {
-            #header .container { 
-                display: block !important; 
-                padding-left: 15px !important; 
+            #header .container {
+                display: block !important;
+                padding-left: 15px !important;
                 padding-right: 15px !important;
             }
-            .navbar-header { display: flex; justify-content: space-between; width: 100%; }
-            .navbar-toggle { display: block; }
-            #nav { display: none; } 
-            .brand-text { font-size: 16px; }
+
+            .navbar-header {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .navbar-toggle {
+                display: block;
+            }
+
+            #nav {
+                display: none;
+            }
+
+            .brand-text {
+                font-size: 16px;
+            }
+        }
+
+        /* Lokasi: views/template/header.php (di dalam tag <style>) */
+
+        /* WARNA DEFAULT SAAT TRANSPARAN (PUTIH) */
+        .brand-text {
+            /* ... (CSS default yang sudah ada) ... */
+            color: #ffffff;
+            /* Pastikan defaultnya putih */
+        }
+
+        /* KRUSIAL: WARNA MENU & LOGO SAAT SCROLL (HITAM) */
+        #header.navbar-scrolled .brand-text {
+            color: #333333 !important;
+            /* Ubah warna teks menjadi hitam/abu-abu saat scrolled */
+            text-shadow: none;
+            /* Hilangkan shadow saat background menjadi solid */
+        }
+
+        /* Menargetkan Logo Image saat scroll (Opsional: agar ikon tidak hilang) */
+        #header.navbar-scrolled .navbar-brand .logo>img {
+            filter: none;
+            /* Hapus filter jika ada yang membuatnya putih */
+        }
+
+        /* Tambahan: Pastikan warna link logo ikut berubah jika logo hanya teks */
+        #header.navbar-scrolled .navbar-brand a {
+            color: #333333 !important;
         }
     </style>
 </head>
@@ -187,7 +256,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
     <header id="header" class="transparent-nav">
         <div class="container">
-            
+
             <div class="navbar-header">
                 <div class="navbar-brand">
                     <a class="logo" href="index.php" style="display:flex; align-items:center; text-decoration:none;">
@@ -223,16 +292,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
                     <li class="<?php echo ($current_page == 'ppdb.php') ? 'active' : ''; ?>">
                         <a href="ppdb.php">PPDB</a>
                     </li>
-                    
+
                     <li><a href="index.php#contact">Kontak</a></li>
                 </ul>
             </nav>
-            
+
         </div>
     </header>
 
     <script>
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             var header = document.getElementById('header');
             if (window.scrollY > 50) {
                 header.classList.add('navbar-scrolled');
@@ -243,4 +312,5 @@ $current_page = basename($_SERVER['PHP_SELF']);
     </script>
 
 </body>
+
 </html>
