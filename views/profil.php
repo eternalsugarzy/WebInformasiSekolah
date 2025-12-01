@@ -135,7 +135,7 @@
     /* ========== KEPALA SEKOLAH ========== */
     .kepsek-card {
         display: flex;
-        align-items: center;
+       
         gap: 35px;
     }
 
@@ -237,7 +237,6 @@
                             ?>
                             <img src="<?= $foto_kepsek; ?>" alt="Kepala Sekolah">
                         </div>
-
                         <!-- INFO KEPALA SEKOLAH -->
                         <div class="kepsek-info">
                             <h3>
@@ -264,7 +263,7 @@
             <div class="row">
                 <div class="col-md-5">
                     <div style="border-radius: 8px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1);">
-                        <img src="./img/about.png" alt="Gedung Sekolah" style="width: 100%; display: block;">
+                        <img src="./img/logo2.png" alt="Gedung Sekolah" style="width: 100%; display: block;">
                     </div>
                 </div>
                 <div class="col-md-7">
