@@ -132,6 +132,61 @@
     font-size: 14px;
 }
 
+/* ========== KEPALA SEKOLAH ========== */
+.kepsek-card {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.kepsek-photo {
+    width: 200px;
+    height: 240px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+
+.kepsek-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.kepsek-info h3 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #001f3f;
+    margin-bottom: 10px;
+}
+
+.kepsek-info span {
+    display: inline-block;
+    background: #FF6700;
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 30px;
+    font-size: 12px;
+    margin-bottom: 15px;
+}
+
+.kepsek-info p {
+    font-size: 15px;
+    color: #444;
+    line-height: 1.8;
+    margin-top: 10px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .kepsek-card {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
 /* ========== HERO ========== */
 /*.hero-area {
     border-bottom-left-radius: 60px;
@@ -191,6 +246,48 @@
                 </div>
             </div>
         </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="profile-card">
+
+            <div class="kepsek-card">
+
+                <!-- FOTO KEPALA SEKOLAH -->
+                <div class="kepsek-photo">
+                    <?php
+                        $foto_kepsek = !empty($kepsek['foto']) 
+                            ? "admin/uploads/guru/" . $kepsek['foto']
+                            : "img/default-user.png";
+                    ?>
+                    <img src="<?= $foto_kepsek; ?>" alt="Kepala Sekolah">
+                </div>
+
+                <!-- INFO KEPALA SEKOLAH -->
+                <div class="kepsek-info">
+                    <h3>
+                        <?= htmlspecialchars($kepsek['nama_lengkap'] ?? 'Nama Kepala Sekolah'); ?>
+                    </h3>
+
+                    <span><?= htmlspecialchars($kepsek['jabatan'] ?? 'Kepala Sekolah'); ?></span>
+
+                    <p>
+                        <?= nl2br(htmlspecialchars(
+                            $profil['sambutan_kepsek'] 
+                            ?? 'Sambutan kepala sekolah belum tersedia.'
+                        )); ?>
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
 
         <div class="row">
             <div class="col-md-12">

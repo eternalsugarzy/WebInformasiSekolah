@@ -55,6 +55,13 @@ require_once 'template/sidebar.php';
                             <label style="color: #0056b3;"><i class="fa fa-youtube-play"></i> Link Video YouTube (Halaman Depan)</label>
                             <input type="text" name="video" class="form-control" value="<?php echo htmlspecialchars($data['link_video'] ?? ''); ?>" placeholder="Paste link YouTube di sini (Contoh: https://www.youtube.com/watch?v=xxxxx)">
                         </div>
+                                <div class="form-group">
+                                <label>Sambutan Kepala Sekolah</label>
+                                <textarea name="sambutan_kepsek" class="form-control" rows="5">
+                                    <?php echo htmlspecialchars($data['sambutan_kepsek'] ?? ''); ?>
+                                </textarea>
+                            </div>
+
 
                         <hr>
                         <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan Profil</button>
