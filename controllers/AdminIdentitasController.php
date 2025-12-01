@@ -33,6 +33,8 @@ class AdminIdentitasController {
             
             // [BARU] Ambil Link Video
             $link_video = $_POST['video'];
+            $sambutan_kepsek = $_POST['sambutan_kepsek'];
+
 
             // Upload Poster (Jika ada)
             $nama_poster = null;
@@ -47,7 +49,16 @@ class AdminIdentitasController {
 
             $model = new IdentitasModel();
             // Kirim data ke Model
-            $model->updateIdentitas($sejarah, $visi, $misi, $fasilitas, $nama_poster, $link_video);
+            $model->updateIdentitas(
+                $sejarah, 
+                $visi, 
+                $misi, 
+                $fasilitas, 
+                $nama_poster, 
+                $link_video, 
+                $sambutan_kepsek   // ✅ TAMBAHAN
+            );
+
             
             // Redirect menggunakan JS agar aman
             echo "<script>alert('Data Berhasil Diperbarui!'); window.location='identitas.php';</script>";

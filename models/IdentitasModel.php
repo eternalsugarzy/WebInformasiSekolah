@@ -12,30 +12,34 @@ class IdentitasModel extends Database {
 
     // Update Data (Hanya kolom yang diminta)
     // Update Data Identitas (Sejarah, Visi, Misi, Fasilitas, Poster, Video)
-    public function updateIdentitas($sejarah, $visi, $misi, $fasilitas, $poster = null, $video = null) {
-        
-        $sejarah = mysqli_real_escape_string($this->koneksi, $sejarah);
-        $visi = mysqli_real_escape_string($this->koneksi, $visi);
-        $misi = mysqli_real_escape_string($this->koneksi, $misi);
-        $fasilitas = mysqli_real_escape_string($this->koneksi, $fasilitas);
-        $video = mysqli_real_escape_string($this->koneksi, $video);
+    public function updateIdentitas($sejarah, $visi, $misi, $fasilitas, $poster = null, $video = null, $sambutan_kepsek = null) {
 
-        $sql = "UPDATE identitas_sekolah SET 
-                sejarah = '$sejarah', 
-                visi = '$visi', 
-                misi = '$misi', 
-                fasilitas = '$fasilitas',
-                link_video = '$video'"; // Update link video
+    $sejarah   = mysqli_real_escape_string($this->koneksi, $sejarah);
+    $visi      = mysqli_real_escape_string($this->koneksi, $visi);
+    $misi      = mysqli_real_escape_string($this->koneksi, $misi);
+    $fasilitas = mysqli_real_escape_string($this->koneksi, $fasilitas);
+    $video     = mysqli_real_escape_string($this->koneksi, $video);
+    $sambutan_kepsek = mysqli_real_escape_string($this->koneksi, $sambutan_kepsek);
 
-        // Cek jika ada poster baru
-        if ($poster != null) {
-            $sql .= ", file_poster = '$poster'";
-        }
 
-        $sql .= " WHERE id_identitas = 1";
-        
-        return $this->query($sql);
+    $sql = "UPDATE identitas_sekolah SET 
+        sejarah = '$sejarah', 
+        visi = '$visi', 
+        misi = '$misi', 
+        fasilitas = '$fasilitas',
+        sambutan_kepsek = '$sambutan_kepsek',
+        link_video = '$video'";
+
+
+    if ($poster != null) {
+        $sql .= ", file_poster = '$poster'";
     }
+
+    $sql .= " WHERE id_identitas = 1";
+
+    return $this->query($sql);
+}
+
 
     // --- FITUR POSTER SLIDER ---
 

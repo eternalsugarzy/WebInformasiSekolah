@@ -76,5 +76,16 @@ class GuruModel extends Database {
         }
         return $this->query($sql);
     }
+
+    public function getKepalaSekolah() {
+    $sql = "SELECT * FROM guru_staf 
+            WHERE jabatan = 'Kepala Sekolah' 
+            LIMIT 1";
+
+    $query = $this->query($sql);
+    return mysqli_fetch_assoc($query);
+}
+
+
 }
 ?>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 27, 2025 at 01:58 PM
+-- Generation Time: Dec 01, 2025 at 10:27 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -144,15 +144,16 @@ CREATE TABLE `identitas_sekolah` (
   `visi` text,
   `misi` text,
   `fasilitas` text,
-  `file_poster` varchar(255) DEFAULT NULL
+  `file_poster` varchar(255) DEFAULT NULL,
+  `link_video` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `identitas_sekolah`
 --
 
-INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `misi`, `fasilitas`, `file_poster`) VALUES
-(1, 'Sekolah ini didirikan pada tahun 1990 dengan semangat pengabdian...', 'Terwujudnya siswa yang cerdas dan berkarakter.', '1. Meningkatkan disiplin.\r\n2. Mengembangkan potensi akademik.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg');
+INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `misi`, `fasilitas`, `file_poster`, `link_video`) VALUES
+(1, 'Sekolah ini didirikan pada tahun 1990 dengan semangat pengabdian...', 'Terwujudnya siswa yang cerdas dan berkarakter.', '1. Meningkatkan disiplin.\r\n2. Mengembangkan potensi akademik.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg', 'https://youtu.be/AWyrBXIUE7M?si=3IQhJ2ET-Sdu50uv');
 
 -- --------------------------------------------------------
 
