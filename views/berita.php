@@ -50,15 +50,6 @@
                     </ul>
                 </div>
 
-                <div class="sidebar-box">
-                    <h3>Archives</h3>
-                    <ul class="archive-list">
-                        <li><a href="berita.php?tahun=2017">2017</a></li>
-                        <li><a href="berita.php?tahun=2019">2019</a></li>
-                        <li><a href="berita.php?tahun=2022">2022</a></li>
-                    </ul>
-                </div>
-
             </div>
 
             <!-- ================= KONTEN BERITA ================= -->

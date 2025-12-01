@@ -6,6 +6,15 @@ class Database {
     
     protected $koneksi;
 
+    public function escape($string) {
+        // Cek jika koneksi adalah objek yang valid sebelum memanggil mysqli_real_escape_string
+        if (is_object($this->koneksi)) {
+            return mysqli_real_escape_string($this->koneksi, $string);
+        }
+        // Jika koneksi tidak ada (misalnya, gagal saat startup), kembalikan string asli
+        return $string;
+    }
+
     public function __construct() {
         // Mengambil variabel $koneksi dari file koneksi.php
         global $koneksi; 

@@ -12,7 +12,7 @@ class AdminGuruController {
 
     public function index() {
         $model = new GuruModel();
-        $data_guru = $model->getAllGuru();
+        $data_guru = $model->getAllGuruList();
         
         $title = "Kelola Data Guru";
         $nama_admin = $_SESSION['admin_nama'];
