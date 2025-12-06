@@ -174,49 +174,7 @@
 
         </div>
         
-        <div class="row">
-            <div class="col-md-12"> <div class="contact-form-wrapper">
-                    <div class="form-header">
-                        <h3>Kirim Pesan / Pertanyaan</h3>
-                        <p class="text-muted">Isi formulir di bawah ini untuk mengirim pesan langsung kepada kami.</p>
-                    </div>
-
-                    <form action="contact.php?action=submit" method="POST"> 
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Nama Lengkap</label>
-                                    <input class="input" type="text" name="nama" placeholder="Masukkan Nama" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input class="input" type="email" name="email" placeholder="Masukkan Email" required>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <label>Subjek</label>
-                                    <input class="input" type="text" name="subjek" placeholder="Judul Pesan" required>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label>Isi Pesan</label>
-                            <textarea class="input" name="pesan" placeholder="Tulis pesan Anda di sini..." required></textarea>
-                        </div>
-                        
-                        <div class="text-right">
-                            <button class="main-button icon-button" style="background-color: #FF6700; color: white; border:none; padding: 15px 40px; border-radius: 50px; font-weight: bold; font-size: 16px;">
-                                <i class="fa fa-paper-plane"></i> KIRIM PESAN
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+        
 
     </div>
 </div>

@@ -1,5 +1,5 @@
 <?php 
-$title = "Tambah Galeri";
+$title = "Tambah Pengumuman";
 require_once 'template/header.php'; 
 require_once 'template/sidebar.php'; 
 ?>
