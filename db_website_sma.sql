@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2025 at 10:27 AM
+-- Generation Time: Dec 03, 2025 at 08:19 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -123,7 +123,7 @@ CREATE TABLE `guru_staf` (
 --
 
 INSERT INTO `guru_staf` (`id_guru`, `nip`, `nama_lengkap`, `jabatan`, `bidang_studi`, `email`, `foto`) VALUES
-(9, '0101 171175 001', 'Fr. Danny Arifin D. Latumahina, S.Ag., M.Pd., CMM.', 'Kepala Sekolah', '', '', '1764248858_525.png'),
+(9, '0101 171175 001', 'Fr. Danny Arifin D. Latumahina, S.Ag., M.Pd., CMM.', 'Kepala Sekolah', '', '', '1764600874_401.jpg'),
 (10, '0195 191269 002', 'Dra. Angelina Sri Widiyati.', 'Guru Mapel', 'Bahasa Indonesia', '', '1764248924_460.png'),
 (11, '0197 180171  003', 'Anastasia Endah Purnawati, S. Pd.', 'Guru Mapel', 'Fisika', '', '1764248954_917.png'),
 (12, '0199  251270 005', 'Maria Trihariani Krismihastuti, S.Pd', 'Guru Mapel', 'Sejarah', '', '1764248998_379.png'),
@@ -142,6 +142,7 @@ CREATE TABLE `identitas_sekolah` (
   `id_identitas` int NOT NULL,
   `sejarah` text,
   `visi` text,
+  `sambutan_kepsek` text,
   `misi` text,
   `fasilitas` text,
   `file_poster` varchar(255) DEFAULT NULL,
@@ -152,8 +153,8 @@ CREATE TABLE `identitas_sekolah` (
 -- Dumping data for table `identitas_sekolah`
 --
 
-INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `misi`, `fasilitas`, `file_poster`, `link_video`) VALUES
-(1, 'Sekolah ini didirikan pada tahun 1990 dengan semangat pengabdian...', 'Terwujudnya siswa yang cerdas dan berkarakter.', '1. Meningkatkan disiplin.\r\n2. Mengembangkan potensi akademik.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg', 'https://youtu.be/AWyrBXIUE7M?si=3IQhJ2ET-Sdu50uv');
+INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `sambutan_kepsek`, `misi`, `fasilitas`, `file_poster`, `link_video`) VALUES
+(1, 'SMA Frater Don Bosco Banjarmasin didirikan pada tahun 1958, berdasarkan SK Pendirian U.P. 15/1958/P.N.B, dengan tujuan untuk memberikan pendidikan yang berkualitas, berbasis kasih persaudaraan, dan berlandaskan nilai-nilai keimanan. Sekolah ini dikelola oleh ordo Frater Don Bosco dan telah berperan penting dalam mencetak generasi muda yang berkarakter, berilmu, dan berbudi pekerti. Sebagai sekolah swasta, SMA Frater Don Bosco memiliki akreditasi A dan dikenal dengan komitmennya dalam mengembangkan potensi siswa baik secara akademis maupun non-akademis. Dalam perjalanan sejarahnya, sekolah ini terus berusaha untuk memberikan pendidikan yang menyentuh aspek spiritual, moral, dan intelektual, melalui berbagai program pendidikan yang efektif dan menyenangkan. Sekolah ini juga aktif dalam mempererat kerjasama dengan berbagai pihak terkait, termasuk orang tua, masyarakat, dan lembaga pendidikan lainnya.', 'BERIMAN, BERILMU, BERLANDASKAN KASIH PERSAUDARAAN MENUJU PRIBADI \r\nMANUSIA SEUTUHNYA', 'Dengan penuh rasa syukur, kami menyampaikan terima kasih kepada seluruh warga sekolah serta masyarakat yang telah mendukung terbangunnya lingkungan pendidikan yang semakin maju. Berkat kerja sama dan komitmen bersama, Website sekolah ini\r\n dapat kami perbarui dan kembangkan sehingga mampu menjadi sarana informasi yang lebih lengkap, transparan, dan mudah diakses oleh seluruh pemangku kepentingan.\r\n\r\nDi tengah perkembangan era globalisasi serta kemajuan teknologi informasi yang semakin cepat, keberadaan website sekolah menjadi kebutuhan penting dalam dunia pendidikan. Website ini menjadi ruang publik untuk menyampaikan informasi, perkembangan kegiatan sekolah, prestasi peserta didik, serta berbagai program yang kami jalankan. Dengan demikian, masyarakat dapat mengikuti secara langsung dinamika dan kemajuan yang dicapai oleh SMA Frater Don Bosco Banjarmasin.\r\n\r\nKami mengucapkan apresiasi kepada tim penyusun dan pengelola website yang telah bekerja keras menghadirkan platform ini dengan sebaik-baiknya. Kami menyadari bahwa masih ada banyak hal yang perlu ditingkatkan. Oleh karena itu, kami sangat terbuka terhadap kritik dan saran yang konstruktif dari seluruh civitas akademika maupun masyarakat demi penyempurnaan website sekolah ke depan.\r\n\r\nHarapan kami, website ini dapat menjadi ruang interaksi positif yang menghubungkan sekolah dengan masyarakat luas, mempererat komunikasi, serta menghadirkan manfaat bagi semua pihak yang membutuhkan informasi tentang sekolah. Semoga segala upaya yang kita lakukan bersama membawa kebaikan, kemajuan, dan masa depan yang lebih cerah bagi generasi muda.\r\n\r\nTerima kasih.\r\n\r\nHormat saya,\r\nKepala SMA Frater Don Bosco Banjarmasin', '1. Meningkatkan toleransi hidup beragama.\r\n2. Menyelenggarakan kegiatan keagamaan secara lebih efektif.\r\n3. Meningkatkan budaya disiplin dalam bekerja.\r\n4. Menjalin kerjasama yang erat dengan stakeholders.\r\n5. Melaksanakan kegiatan pembelajaran yang efektif dan menyenangkan.\r\n6. Melakukan supervisi untuk meningkatkan kualitas pembelajaran.\r\n7. Meningkatkan prestasi akademik dan non‑akademik peserta didik.\r\n8. Menghasilkan lulusan yang berkompetisi secara global.\r\n9. Mengembangkan nilai‑nilai kasih dan persaudaraan secara konkret.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg', 'https://youtu.be/AWyrBXIUE7M?si=3IQhJ2ET-Sdu50uv');
 
 -- --------------------------------------------------------
 

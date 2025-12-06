@@ -1,0 +1,312 @@
+/* ========================================= */
+/* 1. EFEK SMOOTH SCROLL                     */
+/* ========================================= */
+html {
+    scroll-behavior: smooth !important;
+}
+
+/* ========================================= */
+/* 2. HEADER UTAMA (STICKY & FULL WIDTH)     */
+/* ========================================= */
+#header {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background-color: transparent;
+    border-bottom: none;
+}
+
+/* ✅ SAAT SCROLL: PUTIH TANPA GAP */
+#header.navbar-scrolled {
+    background-color: #ffffff !important;
+    box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.18);
+    top: 0 !important;          /* PASTIKAN NEMPEL ATAS */
+    transform: none !important;/* HILANGKAN GERAK TURUN */
+}
+
+/* Container Full Width */
+#header .container {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+    float: none;
+}
+
+#header .container:before,
+#header .container:after {
+    display: none !important;
+}
+
+/* ========================================= */
+/* 3. LOGO & BRAND (TIDAK BERUBAH SAAT SCROLL) */
+/* ========================================= */
+.navbar-header {
+    float: none !important;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.navbar-brand {
+    float: none !important;
+    padding: 0 !important;
+    height: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    text-decoration: none !important;
+}
+
+.navbar-brand img,
+.navbar-brand .logo img {
+    max-height: 80px !important;
+    height: 80px !important;
+    width: auto !important;
+    margin-right: 10px !important;
+}
+
+/* Teks Brand */
+.brand-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0px 1px 3px rgba(0,0,0,0.6);
+    white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+/* Warna teks saat scroll */
+#header.navbar-scrolled .brand-text {
+    color: #333333 !important;
+    text-shadow: none;
+}
+
+/* ========================================= */
+/* 4. MENU NAVIGASI (DESKTOP)                */
+/* ========================================= */
+#nav {
+    margin-left: auto !important;
+    display: flex;
+    align-items: center;
+}
+
+#nav .main-menu {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+#nav .main-menu li {
+    margin-left: 25px;
+}
+
+#nav .main-menu li a {
+    color: #ffffff !important;
+    font-weight: 700;
+    font-size: 22px;
+    text-decoration: none;
+    text-shadow: 0px 1px 2px rgba(0,0,0,0.5);
+    transition: color 0.3s ease;
+    padding: 10px 0;
+    display: block;
+    position: relative;
+}
+
+#nav .main-menu li a:hover {
+    color: #FFC107 !important;
+}
+
+#nav .main-menu li.active a::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 3px;
+    background: #FFC107;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+
+/* Warna menu saat scroll */
+#header.navbar-scrolled #nav .main-menu li a {
+    color: #333333 !important;
+    text-shadow: none;
+}
+
+#header.navbar-scrolled #nav .main-menu li a:hover {
+    color: #045bb8ff !important;
+}
+
+#header.navbar-scrolled #nav .main-menu li.active a {
+    color: #045bb8ff !important;
+}
+
+#header.navbar-scrolled #nav .main-menu li.active a::after {
+    background: #045bb8ff;
+}
+
+/* ========================================= */
+/* 5. TOGGLE BUTTON (MOBILE)                 */
+/* ========================================= */
+/* ========================================= */
+/* RESPONSIVE TABLET (≤ 1024px)              */
+/* ========================================= */
+@media (max-width: 1024px) {
+
+    .navbar-brand img {
+        max-height: 55px !important;
+    }
+
+    .brand-text {
+        font-size: 22px !important;
+    }
+
+    #nav .main-menu li a {
+        font-size: 18px !important;
+        padding: 10px 0 !important;
+    }
+}
+
+/* ========================================= */
+/* RESPONSIVE HP (≤ 991px)                   */
+/* ========================================= */
+@media (max-width: 991px) {
+
+    #header {
+        padding: 6px 0 !important;
+    }
+
+    #header .container {
+        padding-left: 15px !important;
+        padding-right: 15px !important;
+    }
+
+    .navbar-header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-toggle {
+        display: block !important;
+    }
+
+    .navbar-brand img {
+        max-height: 32px !important;
+    }
+
+    .brand-text {
+        font-size: 17px !important;
+    }
+
+    #nav {
+        display: none;
+        width: 100%;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        border-radius: 0 0 12px 12px;
+        overflow: hidden;
+        animation: navSlide 0.3s ease;
+    }
+
+    #nav.open {
+        display: block !important;
+    }
+
+    #nav .main-menu {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    #nav .main-menu li {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+    }
+
+    #nav .main-menu li:last-child {
+        border-bottom: none;
+    }
+
+    #nav .main-menu li a {
+        width: 100%;
+        padding: 14px 20px !important;
+        font-size: 17px !important;
+        color: #333 !important;
+        text-shadow: none !important;
+    }
+
+    #nav .main-menu li a:hover {
+        background: #f4f4f4;
+        color: #045bb8ff !important;
+    }
+}
+
+/* ========================================= */
+/* ANIMASI MENU MOBILE ONLY                 */
+/* ========================================= */
+@keyframes navSlide {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ========================================= */
+/* BATASI TINGGI HEADER PUTIH - HP & TABLET */
+/* ========================================= */
+
+/* TABLET LANDSCAPE & KE BAWAH */
+@media (max-width: 1024px) {
+
+    #nav {
+        max-height: 75vh;          /* Batas tinggi agar tidak kepanjangan */
+        overflow-y: auto;         /* Scroll jika menu lebih panjang */
+        overscroll-behavior: contain;
+    }
+}
+
+/* HP */
+@media (max-width: 768px) {
+
+    #nav {
+        max-height: 68vh;          /* Lebih pendek di HP */
+        overflow-y: auto;
+        padding-bottom: 8px;
+    }
+
+    #nav .main-menu li a {
+        padding-top: 12px !important;
+        padding-bottom: 12px !important;
+    }
+}
+
+/* HP KECIL */
+@media (max-width: 480px) {
+
+    #nav {
+        max-height: 62vh;
+    }
+}
+
