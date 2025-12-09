@@ -1,30 +1,49 @@
 <?php
+// admin/laporan.php (Router untuk semua aksi laporan)
+
 session_start();
-require_once '../controllers/AdminLaporanController.php';
+
+// 1. Perbaiki path ke Controller (Diasumsikan controllers berada di folder 'controllers' di root)
+require_once '../controllers/AdminLaporanController.php'; 
+
 
 $controller = new AdminLaporanController();
-$aksi = isset($_GET['aksi']) ? $_GET['aksi'] : 'index';
+$action = $_GET['action'] ?? 'index'; // Ambil aksi dari URL, default ke index
 
-switch ($aksi) {
-    case 'guru':
-        $controller->pageGuru();
+// --- Routing Logic ---
+switch ($action) {
+    case 'index':
+        // Memuat daftar 5 tautan laporan
+        $controller->index();
         break;
-    case 'berita':
+        
+    case 'pageBerita':
+        // Memuat form filter laporan berita
         $controller->pageBerita();
         break;
-    case 'ppdb':
+        
+    case 'pageGuru':
+        // Memuat form filter laporan guru
+        $controller->pageGuru();
+        break;
+        
+    case 'pagePPDB':
         $controller->pagePPDB();
         break;
-    // [TAMBAHAN BARU]
-    case 'pengumuman':
+        
+    case 'pagePengumuman':
         $controller->pagePengumuman();
         break;
-    case 'galeri':
+        
+    case 'pageGaleri':
         $controller->pageGaleri();
         break;
-    // [AKHIR TAMBAHAN]
+        
     default:
-        header("Location: index.php");
+        // Handle 404 atau kembali ke index
+        $controller->index();
         break;
 }
+
+
 ?>

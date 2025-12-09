@@ -10,7 +10,7 @@ if (!isset($_SESSION['user_admin'])) {
 // 2. Panggil Model Guru
 require_once '../models/GuruModel.php';
 $model = new GuruModel();
-$data_guru = $model->getAllGuru();
+$data_guru = $model->getAllGuruList();
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ $data_guru = $model->getAllGuru();
         /* Kop Surat */
         .kop-surat { 
             border-bottom: 3px solid #000; 
-            padding-bottom: 15px; 
+            padding-bottom: 25px; 
             margin-bottom: 30px; 
             text-align: center; 
             position: relative; 
@@ -65,12 +65,12 @@ $data_guru = $model->getAllGuru();
 <body onload="window.print()">
 
     <div class="kop-surat">
-        <img src="../img/logo.png" alt="Logo Sekolah" style="filter: invert(1);"> 
-        
+        <img src="../img/logo.png">
         <h2>SMA FRATER DON BOSCO</h2>
-        <h4>Laporan Data Tenaga Pendidik dan Kependidikan</h4>
-        <p>Jl. Tugu Pahlawan No. 123, Banjarmasin, Kalimantan Selatan | Telp: (0511) 1234567</p>
+        <h4>Laporan Arsip Pengumuman & Informasi Penting</h4>
+        <p>Jl. Tugu Pahlawan No. 123, Banjarmasin | Telp: (0511) 1234567</p>
     </div>
+
 
     <h3 class="judul-laporan">DATA GURU & STAF PENGAJAR</h3>
 

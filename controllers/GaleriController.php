@@ -8,14 +8,34 @@ class GaleriController {
     public function index() {
         $model = new GaleriModel();
         
-        // 1. Ambil semua album
-        $data_album = $model->getAllAlbums(); 
+        // ===========================================
+        // 🎯 LOGIKA PAGINATION 🎯
+        // ===========================================
+        $limit = 6; // Maksimal 6 album per halaman
+
+        // 1. Tentukan halaman saat ini (Current Page)
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        if ($page < 1) $page = 1;
+
+        // 2. Hitung total album dan total halaman
+        $total_albums = $model->countAllAlbums(); // Menggunakan fungsi baru
+        $total_pages = ceil($total_albums / $limit);
+        
+        // 3. Validasi halaman dan hitung OFFSET
+        if ($page > $total_pages && $total_pages > 0) {
+            $page = $total_pages;
+        }
+        $start = ($page - 1) * $limit; 
+        
+        // 4. Ambil album dengan LIMIT dan OFFSET
+        $data_album = $model->getAllAlbums($limit, $start); // Menggunakan fungsi yang sudah diupdate
 
         $title = "Galeri Kegiatan - SMA Maju Jaya";
 
-        // 2. Panggil View Frontend
+        // 5. Panggil View Frontend
         require_once 'views/template/header.php';
-        require_once 'views/galeri.php';
+        // View Anda (galeri.php) sekarang memiliki akses ke $data_album, $page, dan $total_pages
+        require_once 'views/galeri.php'; 
         require_once 'views/template/footer.php';
     }
 

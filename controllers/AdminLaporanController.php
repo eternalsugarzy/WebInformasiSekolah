@@ -2,10 +2,20 @@
 class AdminLaporanController {
 
     public function __construct() {
+        // Logika autentikasi dan pengalihan harus ada di sini
         if (!isset($_SESSION['user_admin'])) {
             header("Location: login.php");
             exit;
         }
+    }
+
+    // 🎯 FUNGSI BARU: Halaman Index/Daftar Tautan Laporan 🎯
+    public function index() {
+        $title = "Daftar Laporan Arsip";
+        $nama_admin = $_SESSION['admin_nama'];
+        
+        // PENTING: File ini harus berisi 5 tautan ke laporan spesifik
+        require_once '../views/admin/laporan/laporan_index.php'; 
     }
 
     // Halaman Filter Laporan Guru
@@ -29,14 +39,14 @@ class AdminLaporanController {
         require_once '../views/admin/laporan/laporan_ppdb.php';
     }
 
-    // [BARU] Halaman Laporan Pengumuman
+    // Halaman Laporan Pengumuman
     public function pagePengumuman() {
         $title = "Laporan Pengumuman";
         $nama_admin = $_SESSION['admin_nama'];
         require_once '../views/admin/laporan/laporan_pengumuman.php';
     }
 
-    // [BARU] Halaman Laporan Galeri
+    // Halaman Laporan Galeri
     public function pageGaleri() {
         $title = "Laporan Galeri";
         $nama_admin = $_SESSION['admin_nama'];

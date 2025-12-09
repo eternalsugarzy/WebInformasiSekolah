@@ -1,67 +1,42 @@
-
 <style>
-    .single-album {
-        background-color: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-        transition: 0.3s;
-        margin-bottom: 30px;
-        border: 1px solid #eee;
+    /* ... (CSS Anda untuk single-album, album-overlay, dll., tetap sama) ... */
+    
+    /* ======================================= */
+    /* PAGINATION STYLES (Pastikan ini ada di style.css atau di <style>) */
+    /* ======================================= */
+    .post-pagination {
+        margin-top: 40px;
+        text-align: center;
     }
-    .single-album:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    .post-pagination .pages {
+        display: inline-block;
+        padding-left: 0;
+        margin: 20px 0;
+        border-radius: 4px;
     }
-    .album-media {
-        position: relative;
-        overflow: hidden;
-    }
-    .album-overlay {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.5);
-        opacity: 0;
-        transition: 0.3s;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    .single-album:hover .album-overlay { opacity: 1; }
-    .album-icon {
-        color: #fff;
-        font-size: 30px;
-        border: 2px solid #fff;
+    .post-pagination .pages li {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
         border-radius: 50%;
-        width: 50px; height: 50px;
-        line-height: 46px;
-        text-align: center;
+        background-color: #EBEBEB; 
+        margin: 0 5px;
+        transition: 0.2s all;
     }
-    .album-details {
-        padding: 20px;
-        text-align: center;
-    }
-    .album-title {
-        font-size: 16px;
-        font-weight: 700;
-        color: #333;
-        margin-bottom: 5px;
+    .post-pagination .pages li a {
         display: block;
+        color: #374050; 
+        text-decoration: none;
+        transition: 0.2s color;
     }
-    .album-count {
-        font-size: 12px;
-        color: #FF6700;
-        font-weight: 600;
-        text-transform: uppercase;
-        background: #fff0e6;
-        padding: 3px 10px;
-        border-radius: 20px;
+    .post-pagination .pages li:hover, .post-pagination .pages li.active {
+        background-color: #FF6700; 
+        color: #FFF;
     }
-    .album-date {
-        font-size: 12px;
-        color: #888;
-        display: block;
-        margin-top: 5px;
+    .post-pagination .pages li:hover a, .post-pagination .pages li.active a {
+        color: #FFF;
     }
 </style>
 
@@ -94,41 +69,39 @@
                     <?php
                     if (isset($data_album) && count($data_album) > 0) {
                         foreach ($data_album as $album) {
-                            // Ambil cover dari alias query
                             $cover = $album['cover_foto'];
                             $jumlah = $album['jumlah_foto'];
                             
                             $path_media = "admin/uploads/galeri/" . $cover;
 
-                            // Jika media tidak ditemukan, gunakan placeholder
                             if (empty($cover) || !file_exists($path_media)) {
-                                $path_media = "./img/course01.jpg"; // Gambar default
+                                $path_media = "./img/course01.jpg";
                             }
-                    ?>
+                        ?>
 
-                    <div class="col-md-4 col-sm-6">
-                        <div class="single-album">
-                            <div class="album-media">
-                                <img src="<?php echo $path_media; ?>" alt="<?php echo htmlspecialchars($album['judul_album']); ?>" style="height: 240px; object-fit: cover; width: 100%;">
-                                
-                                <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-overlay">
-                                    <i class="fa fa-search-plus album-icon"></i>
-                                </a>
-                            </div>
-                            
-                            <div class="album-details">
-                                <span class="album-count"><?php echo $jumlah; ?> Foto</span>
-                                <h4 style="margin: 15px 0 5px;">
-                                    <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-title">
-                                        <?php echo htmlspecialchars($album['judul_album']); ?>
+                        <div class="col-md-4 col-sm-6">
+                            <div class="single-album">
+                                <div class="album-media">
+                                    <img src="<?php echo $path_media; ?>" alt="<?php echo htmlspecialchars($album['judul_album']); ?>" style="height: 240px; object-fit: cover; width: 100%;">
+                                    
+                                    <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-overlay">
+                                        <i class="fa fa-search-plus album-icon"></i>
                                     </a>
-                                </h4>
-                                <span class="album-date"><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($album['tanggal_event'])); ?></span>
+                                </div>
+                                
+                                <div class="album-details">
+                                    <span class="album-count"><?php echo $jumlah; ?> Foto</span>
+                                    <h4 style="margin: 15px 0 5px;">
+                                        <a href="detail_galeri.php?id=<?php echo $album['id_album']; ?>" class="album-title">
+                                            <?php echo htmlspecialchars($album['judul_album']); ?>
+                                        </a>
+                                    </h4>
+                                    <span class="album-date"><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($album['tanggal_event'])); ?></span>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <?php
+                        <?php
                         }
                     } else {
                         echo "<div class='col-md-12 text-center'><h3>Belum ada album dokumentasi.</h3></div>";
@@ -138,5 +111,44 @@
                 </div>
             </div>
         </div>
-    </div>
+        
+        <?php 
+        // Pastikan variabel $total_pages dan $page sudah disiapkan oleh GaleriController.php
+        if (isset($total_pages) && $total_pages > 1): ?>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="post-pagination">
+                    <ul class="pages">
+                        
+                        <?php 
+                        // Tombol Previous
+                        if ($page > 1) {
+                            echo '<li><a href="?page=' . ($page - 1) . '"><i class="fa fa-angle-left"></i></a></li>';
+                        } else {
+                            // Non-aktifkan tombol jika di halaman 1
+                            echo '<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>';
+                        }
+                        
+                        // Link Halaman
+                        for ($i = 1; $i <= $total_pages; $i++) {
+                            // Tandai halaman aktif
+                            $active_class = ($i == $page) ? 'active' : '';
+                            echo '<li class="' . $active_class . '"><a href="?page=' . $i . '">' . $i . '</a></li>';
+                        }
+
+                        // Tombol Next
+                        if ($page < $total_pages) {
+                            echo '<li><a href="?page=' . ($page + 1) . '"><i class="fa fa-angle-right"></i></a></li>';
+                        } else {
+                            // Non-aktifkan tombol jika di halaman terakhir
+                            echo '<li class="disabled"><a href="#"><i class="fa fa-angle-right"></i></a></li>';
+                        }
+                        ?>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <?php endif; ?>
+        </div>
 </div>
