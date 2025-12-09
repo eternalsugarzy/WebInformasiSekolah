@@ -3,15 +3,17 @@ require_once 'Database.php';
 
 class GaleriModel extends Database {
 
-    // 1. Ambil Semua Album (Untuk List Admin)
-    // Kita update query-nya agar menghitung jumlah foto dan mengambil 1 foto sebagai cover
-    public function getAllAlbums() {
-        // Subquery untuk mengambil 1 foto sebagai cover & hitung jumlah
+    public function getAllAlbums($limit = null, $start = null) {
+        $limit_sql = "";
+        if ($limit !== null && $start !== null) {
+            $limit_sql = " LIMIT $start, $limit";
+        }
+        
         $sql = "SELECT g.*, 
                 (SELECT file_foto FROM galeri_fotos WHERE id_album = g.id_album LIMIT 1) as cover_foto,
                 (SELECT COUNT(*) FROM galeri_fotos WHERE id_album = g.id_album) as jumlah_foto
                 FROM galeri_media g 
-                ORDER BY g.id_album DESC";
+                ORDER BY g.id_album DESC" . $limit_sql;
         
         $query = $this->query($sql);
         $data_album = [];
@@ -22,6 +24,14 @@ class GaleriModel extends Database {
             }
         }
         return $data_album;
+    }
+
+    // 🎯 FUNGSI BARU: Menghitung Total Album 🎯
+    public function countAllAlbums() {
+        $sql = "SELECT COUNT(id_album) as total FROM galeri_media";
+        $query = $this->query($sql);
+        $result = mysqli_fetch_assoc($query);
+        return $result['total'];
     }
 
     // Alias agar controller yang lama tetap jalan
