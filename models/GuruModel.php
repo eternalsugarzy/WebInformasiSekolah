@@ -3,6 +3,34 @@ require_once 'Database.php';
 
 class GuruModel extends Database {
 
+    public function getGuruBySearch($keyword) { 
+        // 1. Amankan input menggunakan fungsi escape dari kelas induk
+        // (Asumsi: Anda sudah memperbaiki fungsi escape() di Database.php)
+        $keyword = $this->escape($keyword); 
+        
+        $sql = "SELECT id_guru, nip, nama_lengkap, jabatan, bidang_studi, email, foto 
+                  FROM guru_staf";
+        
+        // 2. Kondisi pencarian
+        $where = " WHERE nama_lengkap LIKE '%$keyword%' 
+                         OR bidang_studi LIKE '%$keyword%'
+                         OR jabatan LIKE '%$keyword%'";
+        
+        // 3. Pengurutan data (disarankan hierarki, tapi menggunakan nama agar aman)
+        $order = " ORDER BY nama_lengkap ASC";
+
+        $final_sql = $sql . $where . $order;
+        $query = $this->query($final_sql);
+        
+        $data_guru = [];
+        if ($query) {
+            while ($row = mysqli_fetch_assoc($query)) {
+                $data_guru[] = $row;
+            }
+        }
+        return $data_guru;
+    }
+
     /**
      * Mengambil SEMUA data guru dan staf, diurutkan berdasarkan HIERARKI JABATAN, 
      * atau difilter berdasarkan keyword pencarian (Nama, Jabatan, Bidang Studi).
