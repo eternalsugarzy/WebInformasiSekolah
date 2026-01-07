@@ -1,22 +1,28 @@
 <?php
-// Menggunakan __DIR__ untuk jalur absolut yang aman dari lokasi controller
 require_once __DIR__ . '/../models/PengumumanModel.php'; 
 
 class PengumumanController {
 
     public function index() {
-        // 1. Minta data ke Model
+
         $pengumumanModel = new PengumumanModel();
-        // Variabel yang akan disuntikkan ke View
-        $data_pengumuman = $pengumumanModel->getAllActivePengumuman(); 
-        
-        // 2. Siapkan Judul Halaman
+
+        // 🔍 Ambil keyword dari URL
+        $keyword = isset($_GET['q']) ? trim($_GET['q']) : '';
+
+        // 🔁 Tentukan data berdasarkan keyword
+        if (!empty($keyword)) {
+            $data_pengumuman = $pengumumanModel->searchActivePengumuman($keyword);
+        } else {
+            $data_pengumuman = $pengumumanModel->getAllActivePengumuman();
+        }
+
+        // Judul halaman
         $title = "Pengumuman Sekolah - SMA Maju Jaya"; 
 
-        // 3. Panggil View dengan menyertakan template header dan footer
-        // Menggunakan BASE_PATH atau jalur relatif yang benar dari Controller
+        // Load View
         require_once __DIR__ . '/../views/template/header.php';
-        require_once __DIR__ . '/../views/pengumuman.php'; // View utama pengumuman
+        require_once __DIR__ . '/../views/pengumuman.php';
         require_once 'views/template/footer.php';
     }
 }

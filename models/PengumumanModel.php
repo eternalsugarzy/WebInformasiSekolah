@@ -11,20 +11,47 @@ class PengumumanModel extends Database {
                   ORDER BY tanggal_penting DESC, id_pengumuman DESC";
         
         $query = $this->query($sql);
-        
-        // V A R I A B E L  I N I  H A R U S  D I D E F I N I S I K A N
-        $data_pengumuman = []; // <--- BARIS PERBAIKAN: INISIALISASI
-        
-        // Anda perlu menambahkan logika untuk mengisi array ini
+        $data_pengumuman = [];
+
         if ($query) {
             while ($row = mysqli_fetch_assoc($query)) {
                 $data_pengumuman[] = $row;
             }
         }
         
-        return $data_pengumuman; // Sekarang variabel ini sudah terdefinisi
+        return $data_pengumuman;
     }
-    // 1. Ambil Pengumuman Terbaru (Dipakai di HomeController)
+
+    // 🔍 SEARCH PENGUMUMAN AKTIF
+    public function searchActivePengumuman($keyword) {
+
+    // sanitasi aman TANPA koneksi mysqli
+    $keyword = trim($keyword);
+    $keyword = htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8');
+
+    $sql = "SELECT id_pengumuman, judul, isi_pengumuman, tanggal_penting
+            FROM pengumuman
+            WHERE status = 'Aktif'
+            AND (
+                judul LIKE '%$keyword%'
+                OR isi_pengumuman LIKE '%$keyword%'
+            )
+            ORDER BY tanggal_penting DESC, id_pengumuman DESC";
+
+    $query = $this->query($sql);
+
+    $data_pengumuman = [];
+    if ($query) {
+        while ($row = mysqli_fetch_assoc($query)) {
+            $data_pengumuman[] = $row;
+        }
+    }
+
+    return $data_pengumuman;
+}
+
+
+    // 1. Ambil Pengumuman Terbaru
     public function getPengumumanTerbaru($limit) {
         $limit = intval($limit); 
         $sql = "SELECT * FROM pengumuman WHERE status = 'Aktif' ORDER BY tanggal_penting DESC LIMIT $limit";
@@ -37,8 +64,6 @@ class PengumumanModel extends Database {
     }
 
     // --- FITUR ADMIN (BACKEND) ---
-
-    // 2. Ambil SEMUA pengumuman (Dipakai di AdminPengumumanController)
     public function getAllPengumuman() {
         $sql = "SELECT * FROM pengumuman ORDER BY tanggal_penting DESC";
         $query = $this->query($sql);
@@ -49,7 +74,6 @@ class PengumumanModel extends Database {
         return $hasil;
     }
 
-    // 3. Ambil 1 Pengumuman by ID (Dipakai untuk Edit)
     public function getPengumumanById($id) {
         $id = intval($id);
         $sql = "SELECT * FROM pengumuman WHERE id_pengumuman = $id";
@@ -57,7 +81,6 @@ class PengumumanModel extends Database {
         return mysqli_fetch_assoc($query);
     }
 
-    // 4. Update Pengumuman
     public function updatePengumuman($id, $judul, $isi, $tanggal, $status) {
         $sql = "UPDATE pengumuman SET 
                 judul = '$judul', 
@@ -68,14 +91,12 @@ class PengumumanModel extends Database {
         return $this->query($sql);
     }
 
-    // 5. Hapus Pengumuman
     public function hapusPengumuman($id) {
         $id = intval($id);
         $sql = "DELETE FROM pengumuman WHERE id_pengumuman = $id";
         return $this->query($sql);
     }
 
-    // 6. Hitung Total Pengumuman Aktif (Dipakai di Dashboard)
     public function countPengumumanAktif() {
         $sql = "SELECT COUNT(*) as total FROM pengumuman WHERE status = 'Aktif'";
         $query = $this->query($sql);
@@ -83,6 +104,4 @@ class PengumumanModel extends Database {
         return $data['total'];
     }
 }
-
-
 ?>
