@@ -173,8 +173,7 @@
 
 
                     <div class="blog-meta">
-                        <span class="blog-meta-author">Oleh:
-                            **<?php echo htmlspecialchars($berita['penulis'] ?? 'Admin'); ?>**</span>
+                        <span class="blog-meta-author">Oleh: <?php echo htmlspecialchars($berita['penulis'] ?? 'Admin'); ?></span>
                         <div class="pull-right">
                             <span><i class="fa fa-calendar"></i>
                                 <?php echo date('d M Y', strtotime($berita['tanggal_publikasi'])); ?></span>
