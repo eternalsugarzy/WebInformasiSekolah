@@ -43,9 +43,9 @@
                 <div class="sidebar-box">
                     <h3>Category</h3>
                     <ul class="category-list">
-                        <li><a href="berita.php?kategori=Berita Sekolah">Berita Sekolah</a></li>
-                        <li><a href="berita.php?kategori=Info Sekolah">Info Sekolah</a></li>
-                        <li><a href="berita.php?kategori=Agenda Sekolah">Agenda Sekolah</a></li>
+                        <li><a href="berita.php?kategori=Akademik">Akademik</a></li>
+                        <li><a href="berita.php?kategori=Pengumuman">Pengumuman</a></li>
+                        <li><a href="berita.php?kategori=Kegiatan Sekolah">Kegiatan Sekolah</a></li>
                         <li><a href="berita.php?kategori=Prestasi">Prestasi</a></li>
                     </ul>
                 </div>
