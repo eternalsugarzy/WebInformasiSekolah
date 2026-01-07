@@ -7,245 +7,168 @@
 /* DETAIL GALERI SEAMLESS + LIGHTBOX */
 /* ====================== */
 
-/* Basic seamless styles (dipertahankan dari versi sebelumnya) */
-.hero-area { border-radius: 0; height: 40vh; min-height: 350px; position: relative; }
+.hero-area { border-radius: 0; height: 30vh; min-height: 220px; position: relative; }
 .hero-area .bg-image { position: absolute; inset: 0; background-size: cover; background-position: center; }
 .hero-area .container { position: relative; z-index: 2; }
 .hero-area .hero-area-tree { color: rgba(255,255,255,0.95); margin-top: 20px; list-style: none; padding: 0; display: inline-flex; gap: 8px; font-size: 13px; }
 .hero-area .hero-area-tree li a { color: rgba(255,255,255,0.95); text-decoration: none; }
-.hero-area .col-md-10 { padding-top: 100px; }
 
 .single-blog { background: transparent; padding: 0; border-radius: 0; box-shadow: none; }
-.blog-img { margin-bottom: 25px; border-radius: 0; overflow: hidden; }
-.blog-img img { width: 100%; height: 420px; object-fit: cover; }
 
-.judul-berita { font-size: 30px; font-weight: 800; color: #001f3f; margin: 20px 0 15px; line-height: 1.35; }
+/* ====================== */
+/* GAMBAR SAMPUL (PROPORSIONAL & DIPERKECIL) */
+/* ====================== */
+.blog-img { 
+    margin: 0 auto 25px auto; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    max-width: 500px; /* Ukuran sampul yang ideal agar tidak terlalu besar */
+    display: block;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.blog-img img { 
+    width: 100%; 
+    height: auto; /* Mengikuti format foto asli */
+    display: block; 
+    object-fit: contain; 
+}
+
+.judul-berita { font-size: 30px; font-weight: 800; color: #001f3f; margin: 20px 0 15px; line-height: 1.35; text-align: center; }
 .blog-meta { padding: 15px 0; border-bottom: 1px solid #ddd; margin-bottom: 25px; display: flex; justify-content: space-between; flex-wrap: wrap; }
 .blog-meta span { color: #555; font-size: 14px; }
 .blog-meta i { color: #FF6700; margin-right: 6px; }
 .blog-meta-author { font-weight: 700; color: #001f3f; }
 .blog-content p { font-size: 16px; line-height: 1.9; color: #333; margin-bottom: 22px; text-align: justify; }
 
-.gallery-grid-item { margin-bottom: 20px; border-radius: 8px; overflow: hidden; position: relative; box-shadow: 0 4px 10px rgba(0,0,0,0.06); cursor: pointer; border: 1px solid #eee; background: #fff; }
-.gallery-grid-item img { width: 100%; height: 180px; object-fit: cover; transition: transform 0.4s ease; }
+/* ====================== */
+/* GRID DOKUMENTASI (AUTO HEIGHT) */
+/* ====================== */
+.gallery-grid-item { 
+    margin-bottom: 20px; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    position: relative; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06); 
+    cursor: pointer; 
+    border: 1px solid #eee; 
+    background: #fff;
+}
+.gallery-grid-item img { 
+    width: 100%; 
+    height: auto; /* Foto grid tampil utuh sesuai aslinya */
+    transition: transform 0.4s ease; 
+    display: block;
+}
 .gallery-grid-item:hover img { transform: scale(1.06); }
 
-/* tombol kembali */
-.blog-share a.main-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #0808e8, #3b5bff); color: #fff !important; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 15px; white-space: nowrap; width: auto !important; height: auto !important; line-height: normal; }
+/* Tombol Kembali */
+.blog-share a.main-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #0808e8, #3b5bff); color: #fff !important; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 15px; white-space: nowrap; }
 .blog-share a.main-button::before { font-family: 'FontAwesome'; content: "\f060"; margin-right: 6px; }
-.blog-share a.main-button::after { content: none !important; }
 
 /* ====================== */
-/* LIGHTBOX / MODAL CSS */
+/* LIGHTBOX / MODAL */
 /* ====================== */
-#lightboxModal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0,0,0,0.85);
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
+#lightboxModal { display: none; position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.9); align-items: center; justify-content: center; padding: 20px; }
 #lightboxModal.open { display: flex; }
+.lightbox-inner { max-width: 1100px; width: 100%; max-height: 90vh; position: relative; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+.lightbox-image-wrap img { max-width: 100%; max-height: 80vh; object-fit: contain; border-radius: 4px; }
+.lightbox-caption { margin-top: 15px; color: #fff; text-align: center; }
+.lightbox-control { position: absolute; top: 50%; transform: translateY(-50%); color: #fff; background: rgba(0,0,0,0.5); border: none; padding: 15px; border-radius: 50%; cursor: pointer; font-size: 24px; }
+.lightbox-prev { left: 10px; }
+.lightbox-next { right: 10px; }
+.lightbox-topbar { position: absolute; top: 20px; right: 20px; z-index: 10; }
+.lb-icon-btn { background: #ff4d4d; color: #fff; border: none; padding: 5px 12px; border-radius: 4px; font-size: 20px; cursor: pointer; }
 
-.lightbox-inner {
-    max-width: 1100px;
-    width: 100%;
-    max-height: 90vh;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-/* area gambar */
-.lightbox-image-wrap {
-    width: 100%;
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.lightbox-image-wrap img {
-    max-width: 100%;
-    max-height: 80vh;
-    object-fit: contain;
-    border-radius: 6px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-}
-
-/* caption */
-.lightbox-caption {
-    margin-top: 12px;
-    color: #fff;
-    font-size: 15px;
-    text-align: center;
-    max-width: 100%;
-}
-
-/* controls */
-.lightbox-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #fff;
-    background: rgba(0,0,0,0.35);
-    border: none;
-    padding: 12px 14px;
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 20px;
-}
-.lightbox-control:focus { outline: 2px solid rgba(255,255,255,0.2); }
-
-/* prev/next positions */
-.lightbox-prev { left: 12px; }
-.lightbox-next { right: 12px; }
-
-/* top bar (Close + Kembali) */
-.lightbox-topbar {
-    position: absolute;
-    top: 16px;
-    left: 16px;
-    right: 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    pointer-events: none; /* allow button-specific pointer-events */
-}
-.lightbox-topbar .left, .lightbox-topbar .right { pointer-events: auto; display: flex; gap: 8px; align-items: center; }
-
-/* style tombol Kembali & Close */
-.lb-btn {
-    background: rgba(255,255,255,0.08);
-    color: #fff;
-    border: 1px solid rgba(255,255,255,0.08);
-    padding: 8px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    text-decoration: none;
-}
-.lb-icon-btn {
-    background: rgba(0,0,0,0.45);
-    color: #fff;
-    border: none;
-    padding: 8px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-/* small screens */
 @media (max-width: 767px) {
-    .blog-img img { height: 220px; }
-    .gallery-grid-item img { height: 140px; }
-    .lightbox-control { padding: 8px 10px; font-size: 18px; }
-    .lightbox-caption { font-size: 13px; }
+    .judul-berita { font-size: 24px; }
+    .blog-img { max-width: 100%; }
 }
 </style>
 
 <div class="hero-area section">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
     <div class="container">
-        <div class="row" style="margin-top: 20px;">
+        <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
+                    <li><i class="fa fa-angle-right"></i></li>
                     <li><a href="galeri.php">Galeri</a></li>
-                    <li>Detail</li>
+                    <li><i class="fa fa-angle-right"></i></li>
+                    <li>Detail Album</li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
 
-<div id="media-detail" class="section" style="margin-top: 50px;">
+<div id="media-detail" class="section">
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="single-blog">
+                    
                     <div class="blog-img">
                         <?php
                         $cover_path = "";
                         if (!empty($album['gambar_cover'])) {
                             $cover_path = "admin/uploads/galeri/" . $album['gambar_cover'];
-                            if (!file_exists($cover_path)) $cover_path = "";
                         }
-                        if (empty($cover_path) && isset($fotos) && count($fotos) > 0) {
-                            $maybe = "admin/uploads/galeri/" . $fotos[0]['file_foto'];
-                            if (file_exists($maybe)) $cover_path = $maybe;
+                        if ((empty($cover_path) || !file_exists($cover_path)) && isset($fotos[0])) {
+                            $cover_path = "admin/uploads/galeri/" . $fotos[0]['file_foto'];
                         }
-                        if (empty($cover_path)) $cover_path = "./img/placeholder-galeri.jpg";
+                        if (empty($cover_path) || !file_exists($cover_path)) $cover_path = "./img/placeholder-galeri.jpg";
                         ?>
-                        <img src="<?php echo $cover_path; ?>" alt="<?php echo htmlspecialchars($album['judul_album'] ?? 'Detail Album'); ?>">
+                        <img src="<?php echo $cover_path; ?>" alt="<?php echo htmlspecialchars($album['judul_album']); ?>">
                     </div>
 
-                    <h1 class="judul-berita"><?php echo htmlspecialchars($album['judul_album'] ?? 'Detail Album'); ?></h1>
+                    <h1 class="judul-berita"><?php echo htmlspecialchars($album['judul_album']); ?></h1>
 
                     <div class="blog-meta">
-                        <span class="blog-meta-author">Oleh:
-                            <strong><?php echo htmlspecialchars($album['penanggung_jawab'] ?? ($album['penulis'] ?? 'Admin')); ?></strong>
-                        </span>
+                        <span class="blog-meta-author">Penanggung Jawab: <strong><?php echo htmlspecialchars($album['penanggung_jawab'] ?? 'Admin'); ?></strong></span>
                         <div class="pull-right">
-                            <span><i class="fa fa-calendar"></i>
-                                <?php
-                                $tgl = $album['tanggal_event'] ?? null;
-                                if ($tgl && $tgl !== '1970-01-01') {
-                                    echo date('d M Y', strtotime($tgl));
-                                } else {
-                                    echo '-';
-                                }
-                                ?>
-                            </span>
-                            <span style="margin-left: 15px;"><i class="fa fa-photo"></i>
-                                <?php echo isset($fotos) ? count($fotos) . ' Foto' : '0 Foto'; ?></span>
+                            <span><i class="fa fa-calendar"></i> <?php echo date('d M Y', strtotime($album['tanggal_event'])); ?></span>
+                            <span style="margin-left: 15px;"><i class="fa fa-photo"></i> <?php echo count($fotos); ?> Foto</span>
                         </div>
                     </div>
 
                     <div class="blog-content">
-                        <p><?php echo nl2br(htmlspecialchars($album['deskripsi'] ?? 'Tidak ada deskripsi tersedia.')); ?></p>
+                        <p><?php echo nl2br(htmlspecialchars($album['deskripsi'])); ?></p>
                     </div>
 
                     <hr>
+                    <h4 style="margin-bottom: 25px;"><i class="fa fa-th-large"></i> Dokumentasi Foto</h4>
 
-                    <h4 style="margin-bottom: 20px; color: #333;">Dokumentasi Foto:</h4>
-
-                    <div class="row" id="galleryGrid">
+                    [Image of a responsive photo gallery grid with different image orientations like landscape and portrait]
+                    <div class="row" id="galleryGrid" style="display: flex; flex-wrap: wrap;">
                         <?php
                         $lightbox_images = [];
-                        if (isset($fotos) && count($fotos) > 0) {
-                            foreach ($fotos as $f) {
+                        if (!empty($fotos)) {
+                            foreach ($fotos as $index => $f) {
                                 $path = "admin/uploads/galeri/" . $f['file_foto'];
-                                if (!file_exists($path)) $path = "./img/placeholder-galeri.jpg";
-                                $caption = isset($f['keterangan']) ? $f['keterangan'] : '';
-                                // for JS array
-                                $lightbox_images[] = [
-                                    'src' => $path,
-                                    'caption' => $caption
-                                ];
+                                if (!file_exists($path)) continue;
+                                
+                                $caption = htmlspecialchars($f['keterangan'] ?? '');
+                                $lightbox_images[] = ['src' => $path, 'caption' => $caption];
                                 ?>
-                                <div class="col-md-4 col-sm-6">
+                                <div class="col-md-4 col-sm-6" style="margin-bottom: 20px;">
                                     <div class="gallery-grid-item">
-                                        <!-- data-index akan dipakai JS untuk membuka image dengan index -->
-                                        <a href="<?php echo $path; ?>" class="gallery-link" data-index="<?php echo count($lightbox_images)-1; ?>" title="<?php echo htmlspecialchars($caption); ?>">
-                                            <img src="<?php echo $path; ?>" alt="<?php echo htmlspecialchars($caption ?: 'Foto Dokumentasi'); ?>">
+                                        <a href="#" class="gallery-link" data-index="<?php echo count($lightbox_images)-1; ?>">
+                                            <img src="<?php echo $path; ?>" alt="<?php echo $caption; ?>">
                                         </a>
                                     </div>
+                                    <?php if($caption): ?>
+                                        <p class="text-center text-muted" style="font-size: 11px; margin-top: -10px;"><?php echo $caption; ?></p>
+                                    <?php endif; ?>
                                 </div>
                                 <?php
                             }
-                        } else {
-                            echo "<div class='col-md-12'><div class='alert alert-warning'>Belum ada foto di album ini.</div></div>";
                         }
                         ?>
                     </div>
 
-                    <div class="blog-share" style="margin-top: 20px;">
-                        <a href="galeri.php" class="main-button icon-button">Kembali ke Arsip Galeri</a>
+                    <div class="blog-share text-center" style="margin-top: 40px;">
+                        <a href="galeri.php" class="main-button">Kembali ke Arsip Galeri</a>
                     </div>
 
                 </div>
@@ -254,148 +177,57 @@
     </div>
 </div>
 
-<!-- LIGHTBOX MODAL -->
-<div id="lightboxModal" aria-hidden="true" role="dialog" aria-label="Lightbox Foto">
-    <div class="lightbox-inner" role="document">
-        <div class="lightbox-topbar">
-            <div class="left">
-                <button class="lb-btn" id="lbBackBtn" title="Kembali ke galeri">Kembali</button>
-            </div>
-            <div class="right">
-                <button class="lb-icon-btn" id="lbCloseBtn" aria-label="Tutup (Esc)">&times;</button>
-            </div>
-        </div>
-
+<div id="lightboxModal">
+    <div class="lightbox-topbar">
+        <button class="lb-icon-btn" id="lbCloseBtn">&times; Close</button>
+    </div>
+    <div class="lightbox-inner">
         <div class="lightbox-image-wrap">
-            <button class="lightbox-control lightbox-prev" id="lbPrevBtn" aria-label="Foto sebelumnya" title="Sebelumnya">&#10094;</button>
-            <img id="lightboxImage" src="" alt="Foto galeri">
-            <button class="lightbox-control lightbox-next" id="lbNextBtn" aria-label="Foto selanjutnya" title="Selanjutnya">&#10095;</button>
+            <button class="lightbox-control lightbox-prev" id="lbPrevBtn">&#10094;</button>
+            <img id="lightboxImage" src="">
+            <button class="lightbox-control lightbox-next" id="lbNextBtn">&#10095;</button>
         </div>
-
         <div class="lightbox-caption" id="lightboxCaption"></div>
     </div>
 </div>
 
 <script>
-/* ========== Lightbox JS ========== */
 (function() {
-    // Build image array from PHP-generated JS object
-    var images = <?php echo json_encode($lightbox_images, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT); ?>;
-
+    var images = <?php echo json_encode($lightbox_images); ?>;
     var modal = document.getElementById('lightboxModal');
     var imgEl = document.getElementById('lightboxImage');
     var captionEl = document.getElementById('lightboxCaption');
     var currentIndex = 0;
 
-    var galleryLinks = document.querySelectorAll('.gallery-link');
-
     function openModal(index) {
-        if (!images || images.length === 0) return;
-        currentIndex = (index + images.length) % images.length;
-        var item = images[currentIndex];
-        // set image and caption
-        imgEl.src = item.src;
-        imgEl.alt = item.caption || ('Foto ' + (currentIndex + 1));
-        captionEl.textContent = item.caption || ('Foto ' + (currentIndex + 1) + ' dari ' + images.length);
-        // show modal
+        currentIndex = index;
+        imgEl.src = images[currentIndex].src;
+        captionEl.textContent = images[currentIndex].caption || "Foto " + (currentIndex + 1);
         modal.classList.add('open');
-        modal.setAttribute('aria-hidden', 'false');
-        // focus for accessibility
-        document.getElementById('lbCloseBtn').focus();
-        // preload neighbor
-        preloadImage((currentIndex + 1) % images.length);
-        preloadImage((currentIndex - 1 + images.length) % images.length);
     }
 
-    function closeModal() {
-        modal.classList.remove('open');
-        modal.setAttribute('aria-hidden', 'true');
-        imgEl.src = '';
-        captionEl.textContent = '';
-    }
+    function closeModal() { modal.classList.remove('open'); }
 
-    function showNext() {
-        openModal(currentIndex + 1);
-    }
-
-    function showPrev() {
-        openModal(currentIndex - 1);
-    }
-
-    function preloadImage(i) {
-        var p = new Image();
-        p.src = images[i].src;
-    }
-
-    // attach click handlers to thumbnails
-    galleryLinks.forEach(function(a) {
-        a.addEventListener('click', function(e) {
+    document.querySelectorAll('.gallery-link').forEach(function(el) {
+        el.addEventListener('click', function(e) {
             e.preventDefault();
-            var idx = parseInt(this.getAttribute('data-index'), 10);
-            if (isNaN(idx)) idx = 0;
-            openModal(idx);
+            openModal(parseInt(this.dataset.index));
         });
     });
 
-    // controls
-    document.getElementById('lbCloseBtn').addEventListener('click', function() {
-        closeModal();
-    });
-    document.getElementById('lbBackBtn').addEventListener('click', function() {
-        // tombol Kembali: close modal (kamu bisa ubah agar menuju page sebelumnya jika mau)
-        closeModal();
-        // scroll ke grid (mengembalikan fokus ke galeri)
-        var grid = document.getElementById('galleryGrid');
-        if (grid) {
-            grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            // fokuskan thumbnail pertama
-            var firstLink = grid.querySelector('.gallery-link');
-            if (firstLink) firstLink.focus();
-        }
-    });
-    document.getElementById('lbNextBtn').addEventListener('click', function() { showNext(); });
-    document.getElementById('lbPrevBtn').addEventListener('click', function() { showPrev(); });
-
-    // keyboard support
-    document.addEventListener('keydown', function(e) {
+    document.getElementById('lbCloseBtn').onclick = closeModal;
+    document.getElementById('lbNextBtn').onclick = function() { openModal((currentIndex + 1) % images.length); };
+    document.getElementById('lbPrevBtn').onclick = function() { openModal((currentIndex - 1 + images.length) % images.length); };
+    
+    window.onclick = function(e) { if (e.target == modal) closeModal(); };
+    document.onkeydown = function(e) {
         if (modal.classList.contains('open')) {
-            if (e.key === 'ArrowRight') { e.preventDefault(); showNext(); }
-            else if (e.key === 'ArrowLeft') { e.preventDefault(); showPrev(); }
-            else if (e.key === 'Escape') { e.preventDefault(); closeModal(); }
+            if (e.key === "Escape") closeModal();
+            if (e.key === "ArrowRight") document.getElementById('lbNextBtn').click();
+            if (e.key === "ArrowLeft") document.getElementById('lbPrevBtn').click();
         }
-    });
-
-    // click outside image closes modal
-    modal.addEventListener('click', function(e) {
-        // jika klik elemen modal (background) bukan child inner
-        if (e.target === modal) {
-            closeModal();
-        }
-    });
-
-    // Touch swipe (simple)
-    var touchStartX = null;
-    var touchEndX = null;
-    var threshold = 40; // minimal swipe jarak px
-
-    imgEl.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, {passive:true});
-    imgEl.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        if (touchStartX !== null) {
-            var diff = touchStartX - touchEndX;
-            if (Math.abs(diff) > threshold) {
-                if (diff > 0) showNext(); else showPrev();
-            }
-        }
-        touchStartX = null;
-        touchEndX = null;
-    }, {passive:true});
+    };
 })();
 </script>
 
-<?php
-// footer include seperti sebelumnya
-include_once __DIR__ . '/template/footer.php';
-?>
+<?php include_once 'template/footer.php'; ?>

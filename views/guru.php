@@ -1,6 +1,4 @@
 <?php
-
-
 /*
   Standalone page: "Guru & Staf" dengan carousel (Swiper.js)
   Pastikan:
@@ -246,28 +244,59 @@ if ($current_keyword !== '') {
         /* ===========================
        Swiper customizations
        =========================== */
-        .my-teacher-swiper {
-            position: relative;
-            padding: 10px 10px 30px;
-        }
+       .my-teacher-swiper {
+    position: relative;
+    /* Tambah padding kiri-kanan (60px) */
+}
 
-        .my-teacher-swiper .swiper-wrapper {
-            align-items: stretch;
-        }
+/* Mengatur posisi panah navigasi di luar */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #333;
+    top: 50%; /* Center secara vertikal */
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: #fff;
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+    transition: all 0.3s ease;
+}
 
-        /* slide stretch tinggi agar kartu sama */
-        .my-teacher-swiper .swiper-slide {
-            width: auto;
-            display: flex;
-            justify-content: center;
-            box-sizing: border-box;
-            padding: 8px;
-        }
+/* Posisikan panah kiri lebih jauh ke luar */
+.swiper-button-prev {
+    left: 10px; 
+}
 
-        .my-teacher-swiper .single-teacher {
-            max-width: 280px;
-            width: 100%;
-        }
+/* Posisikan panah kanan lebih jauh ke luar */
+.swiper-button-next {
+    right: 10px;
+}
+
+/* Efek hover agar tombol terlihat interaktif */
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+    background: #007bff;
+    color: #fff;
+}
+
+/* Menghilangkan ukuran font default swiper agar ikon sentral */
+.swiper-button-next:after,
+.swiper-button-prev:after {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
+/* Responsif untuk layar kecil: Panah ditarik masuk sedikit agar tidak keluar layar */
+@media (max-width: 768px) {
+    .my-teacher-swiper {
+        padding: 10px 40px 40px 40px;
+    }
+    .swiper-button-prev { left: 5px; }
+    .swiper-button-next { right: 5px; }
+}
 
         .teacher-img img {
             height: 240px;
@@ -298,6 +327,167 @@ if ($current_keyword !== '') {
         .swiper-pagination-bullet-active {
             background: #007bff;
         }
+
+        /* ===========================
+   Enhanced Buttons Style
+   =========================== */
+
+        /* Gaya tombol Cari (Search) */
+        .btn-search-custom {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            font-weight: 600;
+            border-radius: 0 5px 5px 0 !important;
+            /* Melanjutkan lengkungan input group */
+            padding: 0 25px;
+            height: 40px;
+            border: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+        }
+
+        .btn-search-custom:hover {
+            background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+            box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+            color: white;
+        }
+
+        /* Gaya tombol Detail Guru (Main CTA) */
+        .btn-detail-guru {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #001f3f;
+            /* Biru Navy Tua untuk kesan formal */
+            color: #fff !important;
+            padding: 14px 35px;
+            border-radius: 50px;
+            /* Bentuk Pill lebih modern */
+            font-weight: 700;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(0, 31, 63, 0.2);
+            border: 2px solid transparent;
+        }
+
+        .btn-detail-guru i {
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-detail-guru:hover {
+            background: #FF8C00;
+            /* Berubah menjadi Oranye saat hover sesuai tema SMA */
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 140, 0, 0.4);
+            text-decoration: none;
+        }
+
+        .btn-detail-guru:hover i {
+            transform: translateX(5px);
+            /* Panah bergerak sedikit ke kanan */
+        }
+
+        /* Mempercantik Input Group */
+        .input-group .form-control {
+            border-radius: 5px 0 0 5px !important;
+            border: 1px solid #ddd;
+            height: 40px;
+        }
+
+        .input-group .form-control:focus {
+            border-color: #007bff;
+            box-shadow: none;
+        }
+
+        /* ===========================
+   Swiper & Card Consistency
+   =========================== */
+
+        /* Memastikan wrapper swiper mengisi tinggi yang tersedia */
+        .my-teacher-swiper .swiper-wrapper {
+            display: flex;
+            align-items: stretch;
+            /* KUNCI: Membuat semua slide setinggi slide tertinggi */
+        }
+
+        .my-teacher-swiper .swiper-slide {
+            height: auto;
+            /* Biarkan flexbox yang mengatur tinggi */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .single-teacher {
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            /* Memaksa card mengisi seluruh tinggi slide */
+            width: 100%;
+            margin-bottom: 0;
+            /* Margin diatur oleh spaceBetween swiper */
+        }
+
+        /* Konsistensi Gambar */
+        .teacher-img {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            /* Tentukan tinggi pasti untuk area gambar */
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+
+        .teacher-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* KUNCI: Gambar akan memotong otomatis tanpa gepeng */
+            object-position: top;
+            /* Fokus pada wajah */
+            display: block;
+        }
+
+        /* Konsistensi Konten Teks */
+        .teacher-content {
+            padding: 20px 15px;
+            text-align: center;
+            flex-grow: 1;
+            /* Mengambil sisa ruang agar footer card sejajar */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .teacher-content h4 {
+            font-size: 17px;
+            font-weight: 700;
+            margin: 0 0 8px;
+            min-height: 40px;
+            /* Memberi ruang untuk nama 2 baris agar tetap sejajar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .teacher-content span {
+            font-size: 14px;
+            margin-bottom: 10px;
+            min-height: 34px;
+            /* Memberi ruang untuk jabatan agar tetap sejajar */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+
 
         @media (max-width: 480px) {
             .single-teacher {
@@ -364,7 +554,6 @@ if ($current_keyword !== '') {
                                     if (empty($guru['foto']) || !file_exists($path_foto)) {
                                         $path_foto = "./img/placeholder-guru.jpg";
                                     }
-                                    // safe outputs
                                     $nama = htmlspecialchars($guru['nama_lengkap'] ?? 'Nama Tidak Diketahui');
                                     $jabatan = htmlspecialchars($guru['jabatan'] ?? '-');
                                     $bidang = htmlspecialchars($guru['bidang_studi'] ?? '-');
@@ -375,13 +564,13 @@ if ($current_keyword !== '') {
                                             <div class="teacher-img">
                                                 <img src="<?php echo $path_foto; ?>" alt="<?php echo $nama; ?>">
                                                 <div class="teacher-social">
-                                                    <p>Email: <?php echo $email; ?></p>
+                                                    <p><i class="fa fa-envelope"></i> <?php echo $email; ?></p>
                                                 </div>
                                             </div>
                                             <div class="teacher-content">
                                                 <h4><?php echo $nama; ?></h4>
                                                 <span
-                                                    style="color: <?php echo ($jabatan === 'Kepala Sekolah' || stripos($jabatan, 'Wali Kelas') !== false) ? '#dc3545' : '#ff8c00'; ?>;">
+                                                    style="color: <?php echo ($jabatan === 'Kepala Sekolah') ? '#dc3545' : '#FF8C00'; ?>;">
                                                     <?php echo $jabatan; ?>
                                                 </span>
                                                 <p class="small text-muted"><?php echo $bidang; ?></p>
@@ -391,35 +580,19 @@ if ($current_keyword !== '') {
                                 <?php endforeach; ?>
                             </div>
 
-                            <!-- navigasi -->
                             <div class="swiper-button-prev"></div>
                             <div class="swiper-button-next"></div>
-
-                            <!-- pagination -->
                             <div class="swiper-pagination"></div>
-                        </div>
-                    <?php else: ?>
-                        <div class="text-center">
-                            <h3>
-                                <?php
-                                if (!empty($current_keyword)) {
-                                    echo "Data guru tidak ditemukan untuk pencarian '" . htmlspecialchars($current_keyword) . "'.";
-                                } else {
-                                    echo "Data guru dan staf belum tersedia.";
-                                }
-                                ?>
-                            </h3>
                         </div>
                     <?php endif; ?>
                 </div>
             </div>
-            <div class="row text-center" style="margin-top: 40px;">
+            <div class="row text-center" style="margin-top: 50px; margin-bottom: 50px;">
                 <div class="col-md-12">
-                    <a href="detail_guru.php?id=<?php echo $guru['id_guru']; ?>" style="background-color: #007bff; padding: 12px 30px; border-radius: 5px; color: white;">
-                         Detail Guru
+                    <a href="detail_guru.php" class="btn-detail-guru">
+                        Lihat Direktori Lengkap
                         <i class="fa fa-arrow-right"></i>
                     </a>
-                    
                 </div>
             </div>
         </div>
