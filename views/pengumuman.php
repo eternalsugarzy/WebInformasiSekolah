@@ -1,14 +1,13 @@
 <?php
-// pengumuman.php
-// Pastikan server-side men-setup $data_pengumuman (array), $total_page, $page jika ada pagination
+// views/pengumuman.php
+// Persiapan variabel agar tidak error jika controller lupa mengirim
+$keyword = isset($_GET['q']) ? $_GET['q'] : '';
 ?>
 
 <link rel="stylesheet" href="css/pengumuman.css">
 
-<!-- HERO AREA -->
 <div class="hero-area section" style="height: 40vh; min-height: 370px;">
-    <div class="bg-image bg-parallax overlay"
-         style="background-image:url(./img/page-background2.jpg)"></div>
+    <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
 
     <div class="container" style="margin-top: 40px;">
         <div class="row">
@@ -31,22 +30,20 @@
     </div>
 </div>
 
-<!-- HALAMAN PENGUMUMAN -->
 <div class="pengumuman-page">
     <div class="container">
         <div class="pengumuman-wrap">
 
-            <!-- SIDEBAR KIRI -->
             <aside class="sidebar">
 
                 <div class="sidebar-box">
                     <h3>Pencarian</h3>
-                    <form method="GET" action="">
+                    <form method="GET" action="pengumuman.php">
                         <div class="search-box">
                             <input type="text"
                                    name="q"
                                    placeholder="Cari pengumuman..."
-                                   value="<?php echo isset($_GET['q']) ? htmlspecialchars($_GET['q'], ENT_QUOTES, 'UTF-8') : '' ?>">
+                                   value="<?php echo htmlspecialchars($keyword); ?>">
                             <button type="submit">Cari</button>
                         </div>
                     </form>
@@ -54,8 +51,14 @@
 
             </aside>
 
-            <!-- CARD PENGUMUMAN -->
             <div class="pengumuman-content">
+
+                <?php if (!empty($keyword)): ?>
+                    <div class="alert alert-info" style="margin-bottom: 20px;">
+                        Menampilkan hasil pencarian untuk: <strong>"<?php echo htmlspecialchars($keyword); ?>"</strong>
+                        <a href="pengumuman.php" class="pull-right" style="text-decoration:none;"><i class="fa fa-times"></i> Reset</a>
+                    </div>
+                <?php endif; ?>
 
                 <?php if (isset($data_pengumuman) && count($data_pengumuman) > 0): ?>
                     <?php foreach ($data_pengumuman as $p):
@@ -100,17 +103,23 @@
 
                 <?php else: ?>
 
-                    <div>
-                        <h3>Tidak ada pengumuman aktif saat ini.</h3>
+                    <div class="alert alert-warning text-center" style="padding:30px;">
+                        <?php if (!empty($keyword)): ?>
+                            <i class="fa fa-search" style="font-size:30px; margin-bottom:10px; display:block;"></i>
+                            <h4>Maaf, tidak ditemukan.</h4>
+                            <p>Tidak ada pengumuman yang cocok dengan kata kunci <strong>"<?php echo htmlspecialchars($keyword); ?>"</strong>.</p>
+                            <a href="pengumuman.php" class="btn btn-default btn-sm" style="margin-top:10px;">Tampilkan Semua</a>
+                        <?php else: ?>
+                            <h3>Tidak ada pengumuman aktif saat ini.</h3>
+                        <?php endif; ?>
                     </div>
 
                 <?php endif; ?>
 
-                <!-- optional pagination jika ada -->
                 <?php if (!empty($total_page) && $total_page > 1): ?>
                     <div class="pagination-wrap" style="margin-top:24px;">
                         <?php for ($i = 1; $i <= $total_page; $i++): ?>
-                            <a href="?page=<?php echo $i; ?>" class="<?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
+                            <a href="?page=<?php echo $i; ?>&q=<?php echo htmlspecialchars($keyword); ?>" class="<?php echo ($i == $page) ? 'active' : ''; ?>"><?php echo $i; ?></a>
                         <?php endfor; ?>
                     </div>
                 <?php endif; ?>
@@ -121,7 +130,6 @@
     </div>
 </div>
 
-<!-- ======= Script: buat card bisa diklik (tanpa mengganggu link di dalamnya) ======= -->
 <script>
 (function () {
     var cards = document.querySelectorAll('.single-announcement');
