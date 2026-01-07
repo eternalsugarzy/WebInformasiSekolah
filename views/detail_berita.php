@@ -1,117 +1,133 @@
 <style>
-/* ====================== */
-/* DETAIL BERITA SEAMLESS */
-/* ====================== */
+    /* ====================== */
+    /* DETAIL BERITA SEAMLESS */
+    /* ====================== */
 
-/* Hilangkan semua efek card */
-.single-blog {
-    background: transparent;     /* TANPA background */
-    padding: 0;                   /* TANPA padding besar */
-    border-radius: 0;             /* TANPA radius */
-    box-shadow: none;             /* TANPA shadow */
-}
+    /* Hilangkan semua efek card */
+    .single-blog {
+        background: transparent;
+        /* TANPA background */
+        padding: 0;
+        /* TANPA padding besar */
+        border-radius: 0;
+        /* TANPA radius */
+        box-shadow: none;
+        /* TANPA shadow */
+    }
 
-/* ====================== */
-/* GAMBAR UTAMA */
-/* ====================== */
-.blog-img {
-    margin-bottom: 25px;
-    border-radius: 0;             /* TANPA radius */
-    overflow: hidden;
-}
+    /* ====================== */
+    /* GAMBAR UTAMA */
+    /* ====================== */
+    /* ====================== */
+    /* GAMBAR UTAMA (DIPERKECIL & PROPORSIONAL) */
+    /* ====================== */
+    .blog-img {
+        margin: 0 auto 25px auto;
+        /* Gambar rata tengah dengan margin bawah */
+        border-radius: 8px;
+        /* Opsional: sedikit lengkungan agar manis */
+        overflow: hidden;
+        max-width: 500px;
+        /* 🎯 ATUR UKURAN DI SINI: Silakan ganti angkanya (misal 500px atau 600px) */
+        display: block;
+    }
 
-.blog-img img {
-    width: 100%;
-    height: 420px;
-    object-fit: cover;
-}
+    .blog-img img {
+        width: 100%;
+        /* Mengikuti lebar wadah (max 600px) */
+        height: auto;
+        /* 🎯 Tinggi otomatis mengikuti format asli foto (TIDAK TERPOTONG) */
+        display: block;
+        object-fit: contain;
+    }
 
-/* ====================== */
-/* META DATA */
-/* ====================== */
-.blog-meta {
-    padding: 15px 0;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
+    /* ====================== */
+    /* META DATA */
+    /* ====================== */
+    .blog-meta {
+        padding: 15px 0;
+        border-bottom: 1px solid #ddd;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
 
-.blog-meta span {
-    color: #555;
-    font-size: 14px;
-}
+    .blog-meta span {
+        color: #555;
+        font-size: 14px;
+    }
 
-.blog-meta i {
-    color: #FF6700;
-    margin-right: 6px;
-}
+    .blog-meta i {
+        color: #FF6700;
+        margin-right: 6px;
+    }
 
-.blog-meta-author {
-    font-weight: 700;
-    color: #001f3f;
-}
+    .blog-meta-author {
+        font-weight: 700;
+        color: #001f3f;
+    }
 
-/* ====================== */
-/* ISI BERITA */
-/* ====================== */
-.blog-content p {
-    font-size: 16px;
-    line-height: 1.9;
-    color: #333;
-    margin-bottom: 22px;
-    text-align: justify;
-}
+    /* ====================== */
+    /* ISI BERITA */
+    /* ====================== */
+    .blog-content p {
+        font-size: 16px;
+        line-height: 1.9;
+        color: #333;
+        margin-bottom: 22px;
+        text-align: justify;
+    }
 
-/* ====================== */
-/* TOMBOL KEMBALI */
-/* ====================== */
-.blog-share a.main-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    background: linear-gradient(135deg, #0808e8, #3b5bff);
-    color: #fff !important;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-weight: 700;
-    text-decoration: none;
-    font-size: 15px;
+    /* ====================== */
+    /* TOMBOL KEMBALI */
+    /* ====================== */
+    .blog-share a.main-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        background: linear-gradient(135deg, #0808e8, #3b5bff);
+        color: #fff !important;
+        padding: 12px 28px;
+        border-radius: 50px;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 15px;
 
-    white-space: nowrap;     /* MENCEGAH TEKS TURUN */
-    width: auto !important; 
-    height: auto !important;
-    line-height: normal;
-}
+        white-space: nowrap;
+        /* MENCEGAH TEKS TURUN */
+        width: auto !important;
+        height: auto !important;
+        line-height: normal;
+    }
 
-.blog-share a.main-button::before {
-    font-family: 'FontAwesome';
-    content: "\f060";
-    margin-right: 6px;
-}
+    .blog-share a.main-button::before {
+        font-family: 'FontAwesome';
+        content: "\f060";
+        margin-right: 6px;
+    }
 
-.blog-share a.main-button::after {
-    content: none !important;
-}
+    .blog-share a.main-button::after {
+        content: none !important;
+    }
 
 
-/* ====================== */
-/* HERO SEAMLESS */
-/* ====================== */
-.hero-area {
-    border-radius: 0;     /* Hilangkan lengkungan bawah */
-}
+    /* ====================== */
+    /* HERO SEAMLESS */
+    /* ====================== */
+    .hero-area {
+        border-radius: 0;
+        /* Hilangkan lengkungan bawah */
+    }
 
-.judul-berita {
-    font-size: 30px;
-    font-weight: 800;
-    color: #001f3f;
-    margin: 20px 0 15px;
-    line-height: 1.35;
-}
-
+    .judul-berita {
+        font-size: 30px;
+        font-weight: 800;
+        color: #001f3f;
+        margin: 20px 0 15px;
+        line-height: 1.35;
+    }
 </style>
 
 
@@ -141,20 +157,19 @@
                 <div class="single-blog">
 
                     <div class="blog-img">
-    <?php
-    $path_gambar = "admin/uploads/berita/" . $berita['gambar_utama'];
-    if (empty($berita['gambar_utama']) || !file_exists($path_gambar)) {
-        $path_gambar = "./img/course01.jpg";
-    }
-    ?>
-    <img src="<?php echo $path_gambar; ?>" 
-         alt="<?php echo htmlspecialchars($berita['judul']); ?>">
-</div>
+                        <?php
+                        $path_gambar = "admin/uploads/berita/" . $berita['gambar_utama'];
+                        if (empty($berita['gambar_utama']) || !file_exists($path_gambar)) {
+                            $path_gambar = "./img/course01.jpg";
+                        }
+                        ?>
+                        <img src="<?php echo $path_gambar; ?>" alt="<?php echo htmlspecialchars($berita['judul']); ?>">
+                    </div>
 
-<!-- JUDUL PINDAH KE SINI -->
-<h1 class="judul-berita">
-    <?php echo htmlspecialchars($berita['judul']); ?>
-</h1>
+                    <!-- JUDUL PINDAH KE SINI -->
+                    <h1 class="judul-berita">
+                        <?php echo htmlspecialchars($berita['judul']); ?>
+                    </h1>
 
 
                     <div class="blog-meta">
@@ -169,11 +184,23 @@
                     </div>
 
                     <div class="blog-content">
-                        <p><?php echo nl2br(htmlspecialchars($berita['konten_lengkap'])); ?></p>
+                        <?php
+                        $text = htmlspecialchars($berita['konten_lengkap']);
+
+                        // Pola untuk mencari URL
+                        $pattern = '/(https?:\/\/[^\s]+)/';
+
+                        // Mengubah teks URL menjadi link <a href="...">
+                        $text_with_links = preg_replace($pattern, '<a href="$1" target="_blank" style="color: #FF6700; text-decoration: underline;">$1</a>', $text);
+
+                        // Tampilkan dengan nl2br agar enter tetap berfungsi
+                        echo nl2br($text_with_links);
+                        ?>
                     </div>
 
                     <div class="blog-share">
-                        <a href="berita.php" class="main-button icon-button" style="background-color: #0808e8ff;">Kembali ke Arsip Berita</a>
+                        <a href="berita.php" class="main-button icon-button"
+                            style="background-color: #0808e8ff;">Kembali ke Arsip Berita</a>
                     </div>
 
                 </div>
