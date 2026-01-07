@@ -25,7 +25,7 @@
 </div>
 
 
-<div class="berita-page">
+<div class="berita-page" style="padding: 0; margin: 30px;">
     <div class="container">
         <div class="berita-wrap">
 
@@ -33,15 +33,15 @@
             <div class="sidebar">
 
                 <div class="sidebar-box search-box">
-                    <h3>Search</h3>
+                    <h3>Pencarian</h3>
                     <form method="GET">
                         <input type="text" name="q" placeholder="Cari berita...">
-                        <button type="submit">Search</button>
+                        <button type="submit">Cari</button>
                     </form>
                 </div>
 
                 <div class="sidebar-box">
-                    <h3>Category</h3>
+                    <h3>Kategori</h3>
                     <ul class="category-list">
                         <li><a href="berita.php?kategori=Akademik">Akademik</a></li>
                         <li><a href="berita.php?kategori=Pengumuman">Pengumuman</a></li>
