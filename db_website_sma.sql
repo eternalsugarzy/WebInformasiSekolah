@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 03, 2025 at 08:19 AM
+-- Generation Time: Jan 08, 2026 at 06:42 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -44,7 +44,8 @@ CREATE TABLE `berita_artikel` (
 INSERT INTO `berita_artikel` (`id_berita`, `judul`, `konten_lengkap`, `tanggal_publikasi`, `penulis`, `kategori`, `gambar_utama`) VALUES
 (1, 'Tim basket putra SMAS Frater Don Bosco Banjarmasin  juara 3 pada Kanaan Basketball Competition', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-10-15 08:30:00', 'Admin Olahraga', 'Prestasi', '1763378812_654.png'),
 (2, 'Tim Dance SMAS Frater Don Bosco Banjarmasin Raih Juara 1 Final Honda School Talent', 'Banjarmasin, Selasa (28/10/2025) - Tim Dance SMAS Frater Don Bosco Banjarmasin, Don Bosco Crew, berhasil meraih juara 1 Final Honda School Talent 2025 seKalsel-Teng yang diselenggarakan oleh Honda di halaman Setda Provinsi Kalimantan Selatan, pada hari Minggu, 26/10/2025.\r\n\r\nPada hari ini, bertepatan dengan peringatan Hari Sumpah Pemuda, piala diserahkan kepada pihak sekolah, diterima oleh Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM. Teruslah bergerak untuk berprestasi.', '2025-10-02 09:00:00', 'Humas Sekolah', 'Prestasi', '1763378866_718.png'),
-(4, 'Tim Basket Putra SMAS Frater Don Bosco Banjarmasin Raih Juara 2 Don Bosco Cup 2025', '\r\nBanjarmasin, Senin (20/10/2025) - Tim basket putra (A) SMAS Frater Don Bosco Banjarmasin berhasil meraih juara 2 pada turnamen Don Bosco Cup 2025 yang diselenggarakan oleh OSIS SMAS Frater Don Bosco Banjarmasin. Turnamen ini berlangsung pada tanggal 29 September - 10 Oktober 2025 di Don Bosco Arena Banjarmasin.\r\n\r\nHari ini, tim basket putra SMAS Frater Don Bosco Banjarmasin menyerahkan piala secara simbolis kepada pihak sekolah yang diterima oleh Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM. Prestasi ini menunjukkan kemampuan dan semangat tim basket putra (A) SMAS Frater Don Bosco Banjarmasin.', '2025-11-17 13:51:17', 'Administrator Utama', 'Prestasi', '1763383877_353.png');
+(4, 'Tim Basket Putra SMAS Frater Don Bosco Banjarmasin Raih Juara 2 Don Bosco Cup 2025', '\r\nBanjarmasin, Senin (20/10/2025) - Tim basket putra (A) SMAS Frater Don Bosco Banjarmasin berhasil meraih juara 2 pada turnamen Don Bosco Cup 2025 yang diselenggarakan oleh OSIS SMAS Frater Don Bosco Banjarmasin. Turnamen ini berlangsung pada tanggal 29 September - 10 Oktober 2025 di Don Bosco Arena Banjarmasin.\r\n\r\nHari ini, tim basket putra SMAS Frater Don Bosco Banjarmasin menyerahkan piala secara simbolis kepada pihak sekolah yang diterima oleh Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM. Prestasi ini menunjukkan kemampuan dan semangat tim basket putra (A) SMAS Frater Don Bosco Banjarmasin.', '2025-11-17 13:51:17', 'Administrator Utama', 'Prestasi', '1763383877_353.png'),
+(7, 'TESTING', 'TESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTIN\\r\\nGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGT\\r\\nESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGT\\r\\nESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTEST\\r\\nINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGT\\r\\nESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTINGTESTING\\\\r\\\\n\\\\r\\\\n\\r\\nhttps://youtu.be/NBi1Hu9FwPg?si=g3yj8B8H90S9ejjM', '2026-01-07 10:55:59', 'Admin Don Bosco\r\n', 'Kegiatan Sekolah', '1767783359_358.jpg');
 
 -- --------------------------------------------------------
 
@@ -154,7 +155,7 @@ CREATE TABLE `identitas_sekolah` (
 --
 
 INSERT INTO `identitas_sekolah` (`id_identitas`, `sejarah`, `visi`, `sambutan_kepsek`, `misi`, `fasilitas`, `file_poster`, `link_video`) VALUES
-(1, 'SMA Frater Don Bosco Banjarmasin didirikan pada tahun 1958, berdasarkan SK Pendirian U.P. 15/1958/P.N.B, dengan tujuan untuk memberikan pendidikan yang berkualitas, berbasis kasih persaudaraan, dan berlandaskan nilai-nilai keimanan. Sekolah ini dikelola oleh ordo Frater Don Bosco dan telah berperan penting dalam mencetak generasi muda yang berkarakter, berilmu, dan berbudi pekerti. Sebagai sekolah swasta, SMA Frater Don Bosco memiliki akreditasi A dan dikenal dengan komitmennya dalam mengembangkan potensi siswa baik secara akademis maupun non-akademis. Dalam perjalanan sejarahnya, sekolah ini terus berusaha untuk memberikan pendidikan yang menyentuh aspek spiritual, moral, dan intelektual, melalui berbagai program pendidikan yang efektif dan menyenangkan. Sekolah ini juga aktif dalam mempererat kerjasama dengan berbagai pihak terkait, termasuk orang tua, masyarakat, dan lembaga pendidikan lainnya.', 'BERIMAN, BERILMU, BERLANDASKAN KASIH PERSAUDARAAN MENUJU PRIBADI \r\nMANUSIA SEUTUHNYA', 'Dengan penuh rasa syukur, kami menyampaikan terima kasih kepada seluruh warga sekolah serta masyarakat yang telah mendukung terbangunnya lingkungan pendidikan yang semakin maju. Berkat kerja sama dan komitmen bersama, Website sekolah ini\r\n dapat kami perbarui dan kembangkan sehingga mampu menjadi sarana informasi yang lebih lengkap, transparan, dan mudah diakses oleh seluruh pemangku kepentingan.\r\n\r\nDi tengah perkembangan era globalisasi serta kemajuan teknologi informasi yang semakin cepat, keberadaan website sekolah menjadi kebutuhan penting dalam dunia pendidikan. Website ini menjadi ruang publik untuk menyampaikan informasi, perkembangan kegiatan sekolah, prestasi peserta didik, serta berbagai program yang kami jalankan. Dengan demikian, masyarakat dapat mengikuti secara langsung dinamika dan kemajuan yang dicapai oleh SMA Frater Don Bosco Banjarmasin.\r\n\r\nKami mengucapkan apresiasi kepada tim penyusun dan pengelola website yang telah bekerja keras menghadirkan platform ini dengan sebaik-baiknya. Kami menyadari bahwa masih ada banyak hal yang perlu ditingkatkan. Oleh karena itu, kami sangat terbuka terhadap kritik dan saran yang konstruktif dari seluruh civitas akademika maupun masyarakat demi penyempurnaan website sekolah ke depan.\r\n\r\nHarapan kami, website ini dapat menjadi ruang interaksi positif yang menghubungkan sekolah dengan masyarakat luas, mempererat komunikasi, serta menghadirkan manfaat bagi semua pihak yang membutuhkan informasi tentang sekolah. Semoga segala upaya yang kita lakukan bersama membawa kebaikan, kemajuan, dan masa depan yang lebih cerah bagi generasi muda.\r\n\r\nTerima kasih.\r\n\r\nHormat saya,\r\nKepala SMA Frater Don Bosco Banjarmasin', '1. Meningkatkan toleransi hidup beragama.\r\n2. Menyelenggarakan kegiatan keagamaan secara lebih efektif.\r\n3. Meningkatkan budaya disiplin dalam bekerja.\r\n4. Menjalin kerjasama yang erat dengan stakeholders.\r\n5. Melaksanakan kegiatan pembelajaran yang efektif dan menyenangkan.\r\n6. Melakukan supervisi untuk meningkatkan kualitas pembelajaran.\r\n7. Meningkatkan prestasi akademik dan non‑akademik peserta didik.\r\n8. Menghasilkan lulusan yang berkompetisi secara global.\r\n9. Mengembangkan nilai‑nilai kasih dan persaudaraan secara konkret.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg', 'https://youtu.be/AWyrBXIUE7M?si=3IQhJ2ET-Sdu50uv');
+(1, 'SMA Frater Don Bosco Banjarmasin didirikan pada tahun 1958, berdasarkan SK Pendirian U.P. 15/1958/P.N.B, dengan tujuan untuk memberikan pendidikan yang berkualitas, berbasis kasih persaudaraan, dan berlandaskan nilai-nilai keimanan. Sekolah ini dikelola oleh ordo Frater Don Bosco dan telah berperan penting dalam mencetak generasi muda yang berkarakter, berilmu, dan berbudi pekerti. Sebagai sekolah swasta, SMA Frater Don Bosco memiliki akreditasi A dan dikenal dengan komitmennya dalam mengembangkan potensi siswa baik secara akademis maupun non-akademis. Dalam perjalanan sejarahnya, sekolah ini terus berusaha untuk memberikan pendidikan yang menyentuh aspek spiritual, moral, dan intelektual, melalui berbagai program pendidikan yang efektif dan menyenangkan. Sekolah ini juga aktif dalam mempererat kerjasama dengan berbagai pihak terkait, termasuk orang tua, masyarakat, dan lembaga pendidikan lainnya.', 'BERIMAN, BERILMU, BERLANDASKAN KASIH PERSAUDARAAN MENUJU PRIBADI \r\nMANUSIA SEUTUHNYA', '                                                                                                            Dengan penuh rasa syukur, kami menyampaikan terima kasih kepada seluruh warga sekolah serta masyarakat yang telah mendukung terbangunnya lingkungan pendidikan yang semakin maju. Berkat kerja sama dan komitmen bersama, Website sekolah ini\r\n dapat kami perbarui dan kembangkan sehingga mampu menjadi sarana informasi yang lebih lengkap, transparan, dan mudah diakses oleh seluruh pemangku kepentingan.\r\n\r\nDi tengah perkembangan era globalisasi serta kemajuan teknologi informasi yang semakin cepat, keberadaan website sekolah menjadi kebutuhan penting dalam dunia pendidikan. Website ini menjadi ruang publik untuk menyampaikan informasi, perkembangan kegiatan sekolah, prestasi peserta didik, serta berbagai program yang kami jalankan. Dengan demikian, masyarakat dapat mengikuti secara langsung dinamika dan kemajuan yang dicapai oleh SMA Frater Don Bosco Banjarmasin.\r\n\r\nKami mengucapkan apresiasi kepada tim penyusun dan pengelola website yang telah bekerja keras menghadirkan platform ini dengan sebaik-baiknya. Kami menyadari bahwa masih ada banyak hal yang perlu ditingkatkan. Oleh karena itu, kami sangat terbuka terhadap kritik dan saran yang konstruktif dari seluruh civitas akademika maupun masyarakat demi penyempurnaan website sekolah ke depan.\r\n\r\nHarapan kami, website ini dapat menjadi ruang interaksi positif yang menghubungkan sekolah dengan masyarakat luas, mempererat komunikasi, serta menghadirkan manfaat bagi semua pihak yang membutuhkan informasi tentang sekolah. Semoga segala upaya yang kita lakukan bersama membawa kebaikan, kemajuan, dan masa depan yang lebih cerah bagi generasi muda.\r\n\r\nTerima kasih.\r\n\r\nHormat saya,\r\nKepala SMA Frater Don Bosco Banjarmasin                                                                                                ', '1. Meningkatkan toleransi hidup beragama.\r\n2. Menyelenggarakan kegiatan keagamaan secara lebih efektif.\r\n3. Meningkatkan budaya disiplin dalam bekerja.\r\n4. Menjalin kerjasama yang erat dengan stakeholders.\r\n5. Melaksanakan kegiatan pembelajaran yang efektif dan menyenangkan.\r\n6. Melakukan supervisi untuk meningkatkan kualitas pembelajaran.\r\n7. Meningkatkan prestasi akademik dan non‑akademik peserta didik.\r\n8. Menghasilkan lulusan yang berkompetisi secara global.\r\n9. Mengembangkan nilai‑nilai kasih dan persaudaraan secara konkret.', 'Kami memiliki Laboratorium Komputer, Perpustakaan Digital, dan Lapangan Olahraga yang luas.', 'poster_1764151376.jpg', 'https://youtu.be/SKJM9ZMaOrc?si=aLas8XOHN-TmD-l0');
 
 -- --------------------------------------------------------
 
@@ -241,7 +242,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id_user`, `username`, `password`, `nama_admin`, `level`) VALUES
-(1, 'admin', '$2y$10$QAlLo2MTOmzh0wqKS0W6Pu9I9CFRuSdegddfe9694gzlaFNj67vrO', 'Administrator Utama', 'Super Admin');
+(1, 'admin', '$2y$10$QAlLo2MTOmzh0wqKS0W6Pu9I9CFRuSdegddfe9694gzlaFNj67vrO', 'Admin Don Bosco\r\n', 'Super Admin');
 
 --
 -- Indexes for dumped tables
@@ -257,7 +258,8 @@ ALTER TABLE `berita_artikel`
 -- Indexes for table `galeri_fotos`
 --
 ALTER TABLE `galeri_fotos`
-  ADD PRIMARY KEY (`id_foto`);
+  ADD PRIMARY KEY (`id_foto`),
+  ADD KEY `fk_galeri_media` (`id_album`);
 
 --
 -- Indexes for table `galeri_media`
@@ -311,7 +313,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `berita_artikel`
 --
 ALTER TABLE `berita_artikel`
-  MODIFY `id_berita` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_berita` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `galeri_fotos`
@@ -354,6 +356,16 @@ ALTER TABLE `posters`
 --
 ALTER TABLE `users`
   MODIFY `id_user` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `galeri_fotos`
+--
+ALTER TABLE `galeri_fotos`
+  ADD CONSTRAINT `fk_galeri_media` FOREIGN KEY (`id_album`) REFERENCES `galeri_media` (`id_album`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,56 +1,46 @@
 <?php
+// Pastikan path ke Database.php benar
 require_once 'Database.php';
 
-class PPDBModel extends Database
-{
-    public function getAllPPDBInfo()
-    {
-        $sql = "SELECT id_info, jenis_informasi, isi_detail, tanggal_mulai, tanggal_akhir, tautan_formulir 
-                  FROM info_ppdb 
-                  ORDER BY id_info ASC";
+class PPDBModel extends Database {
 
-        $query = $this->query($sql);
+    // ==========================================================
+    // BAGIAN 1: FITUR INFO PPDB
+    // ==========================================================
 
-        $data_ppdb = []; // Inisialisasi array
-        if ($query) {
-            while ($row = mysqli_fetch_assoc($query)) {
-                $data_ppdb[] = $row;
+    public function getAllPPDBInfo() {
+        $sql = "SELECT * FROM info_ppdb ORDER BY id_info DESC";
+        $result = $this->query($sql);
+        
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
             }
         }
-        return $data_ppdb;
+        return $data;
     }
-    // Ambil Semua Data PPDB
-    public function getAllPPDB()
-    {
-        $sql = "SELECT * FROM info_ppdb ORDER BY id_info DESC";
-        $query = $this->query($sql);
-        $hasil = [];
-        while ($row = mysqli_fetch_assoc($query)) {
-            $hasil[] = $row;
-        }
-        return $hasil;
+    
+    public function getAllPPDB() {
+        return $this->getAllPPDBInfo();
     }
 
-    // Hapus Data
-    public function hapusPPDB($id)
-    {
-        $id = intval($id);
-        $sql = "DELETE FROM info_ppdb WHERE id_info = $id";
-        return $this->query($sql);
-    }
-
-    // [BARU] Ambil 1 Data PPDB by ID
-    public function getPPDBById($id)
-    {
+    public function getPPDBById($id) {
         $id = intval($id);
         $sql = "SELECT * FROM info_ppdb WHERE id_info = $id";
-        $query = $this->query($sql);
-        return mysqli_fetch_assoc($query);
+        $result = $this->query($sql);
+        
+        if ($result) {
+            return mysqli_fetch_assoc($result);
+        }
+        return null;
     }
 
-    // [BARU] Update Data PPDB
-    public function updatePPDB($id, $jenis, $isi, $tgl_mulai, $tgl_akhir, $link)
-    {
+    public function updatePPDB($id, $jenis, $isi, $tgl_mulai, $tgl_akhir, $link) {
+        $jenis = mysqli_real_escape_string($this->koneksi, $jenis);
+        $isi = mysqli_real_escape_string($this->koneksi, $isi);
+        $link = mysqli_real_escape_string($this->koneksi, $link);
+
         $sql = "UPDATE info_ppdb SET 
                 jenis_informasi = '$jenis', 
                 isi_detail = '$isi', 
@@ -58,7 +48,174 @@ class PPDBModel extends Database
                 tanggal_akhir = '$tgl_akhir', 
                 tautan_formulir = '$link' 
                 WHERE id_info = $id";
+        
         return $this->query($sql);
+    }
+
+    public function hapusPPDB($id) {
+        $id = intval($id);
+        $sql = "DELETE FROM info_ppdb WHERE id_info = $id";
+        return $this->query($sql);
+    }
+
+    // ==========================================================
+    // BAGIAN 2: FITUR DATA PENDAFTAR (PERBAIKAN ERROR ARRAY)
+    // ==========================================================
+
+    public function tambahPendaftar($data) {
+        $conn = $this->koneksi;
+
+        $nisn           = mysqli_real_escape_string($conn, $data['nisn']);
+        $nama           = mysqli_real_escape_string($conn, $data['nama_lengkap']);
+        $tempat_lahir   = mysqli_real_escape_string($conn, $data['tempat_lahir']);
+        $tgl_lahir      = mysqli_real_escape_string($conn, $data['tanggal_lahir']);
+        $jk             = mysqli_real_escape_string($conn, $data['jenis_kelamin']);
+        $agama          = mysqli_real_escape_string($conn, $data['agama']);
+        $alamat         = mysqli_real_escape_string($conn, $data['alamat_lengkap']);
+        $hp             = mysqli_real_escape_string($conn, $data['no_hp_siswa']);
+        $email          = mysqli_real_escape_string($conn, $data['email_siswa']);
+        
+        $kk             = mysqli_real_escape_string($conn, $data['no_kk']);
+        $nik            = mysqli_real_escape_string($conn, $data['nik']);
+        $akte           = mysqli_real_escape_string($conn, $data['no_akte_lahir']);
+        
+        $npsn           = mysqli_real_escape_string($conn, $data['npsn_smp']);
+        $sekolah_asal   = mysqli_real_escape_string($conn, $data['nama_sekolah_asal']);
+        $provinsi       = mysqli_real_escape_string($conn, $data['provinsi_smp']);
+        $kabupaten      = mysqli_real_escape_string($conn, $data['kabupaten_smp']);
+        $kecamatan      = mysqli_real_escape_string($conn, $data['kecamatan_smp']);
+        
+        $foto           = mysqli_real_escape_string($conn, $data['foto_siswa']);
+        
+        $no_reg = "REG-" . date('ymdHis');
+
+        $sql = "INSERT INTO pendaftar_ppdb 
+                (no_registrasi, nisn, nama_lengkap, tempat_lahir, tanggal_lahir, jenis_kelamin, agama, alamat_lengkap, no_hp_siswa, email_siswa, no_kk, nik, no_akte_lahir, npsn_smp, nama_sekolah_asal, provinsi_smp, kabupaten_smp, kecamatan_smp, foto_siswa, status_seleksi) 
+                VALUES 
+                ('$no_reg', '$nisn', '$nama', '$tempat_lahir', '$tgl_lahir', '$jk', '$agama', '$alamat', '$hp', '$email', '$kk', '$nik', '$akte', '$npsn', '$sekolah_asal', '$provinsi', '$kabupaten', '$kecamatan', '$foto', 'Menunggu')";
+
+        return $this->query($sql);
+    }
+
+    // --- PERBAIKAN UTAMA ADA DI SINI ---
+    public function getAllPendaftar($input = null) {
+        $keyword = "";
+
+        // VALIDASI MVC: Cek apakah input berupa Array (dari $_GET controller) atau String biasa
+        if (is_array($input)) {
+            // Jika array, ambil key 'q' jika ada
+            $keyword = isset($input['q']) ? $input['q'] : "";
+        } else {
+            // Jika string biasa, langsung pakai
+            $keyword = $input;
+        }
+
+        $sql = "SELECT * FROM pendaftar_ppdb";
+        
+        // Cek jika keyword tidak kosong
+        if (!empty($keyword)) {
+            // Sekarang aman di-escape karena sudah pasti string
+            $safe_keyword = mysqli_real_escape_string($this->koneksi, $keyword);
+            
+            $sql .= " WHERE nama_lengkap LIKE '%$safe_keyword%' 
+                      OR no_registrasi LIKE '%$safe_keyword%' 
+                      OR nisn LIKE '%$safe_keyword%'";
+        }
+
+        $sql .= " ORDER BY tanggal_daftar DESC";
+
+        $result = $this->query($sql);
+        
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    public function getPendaftarById($id) {
+        $id = intval($id);
+        $sql = "SELECT * FROM pendaftar_ppdb WHERE id_pendaftar = $id";
+        
+        $result = $this->query($sql);
+        
+        if ($result) {
+            return mysqli_fetch_assoc($result);
+        }
+        return null;
+    }
+
+    public function updateStatus($id, $status) {
+        $id = intval($id);
+        $status = mysqli_real_escape_string($this->koneksi, $status);
+        
+        $sql = "UPDATE pendaftar_ppdb SET status_seleksi = '$status' WHERE id_pendaftar = $id";
+        
+        return $this->query($sql);
+    }
+
+    public function hapusPendaftar($id) {
+        $id = intval($id);
+        
+        $data = $this->getPendaftarById($id);
+        if($data && !empty($data['foto_siswa'])) {
+            $path = __DIR__ . "/../admin/uploads/peserta/" . $data['foto_siswa'];
+            if(file_exists($path)) {
+                unlink($path); 
+            }
+        }
+
+        $sql = "DELETE FROM pendaftar_ppdb WHERE id_pendaftar = $id";
+        return $this->query($sql);
+    }
+
+    public function cekStatusSiswa($keyword) {
+        $conn = $this->koneksi;
+        
+        // Validasi input lagi untuk keamanan
+        if(is_array($keyword)) {
+             $keyword = isset($keyword['keyword']) ? $keyword['keyword'] : '';
+        }
+
+        $keyword = mysqli_real_escape_string($conn, $keyword);
+
+        $sql = "SELECT * FROM pendaftar_ppdb 
+                WHERE no_registrasi = '$keyword' 
+                OR nisn = '$keyword' 
+                OR nik = '$keyword'
+                OR nama_lengkap LIKE '%$keyword%'";
+        
+        $result = $this->query($sql);
+        
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    public function getListProvinsi() {
+        $sql = "SELECT DISTINCT provinsi_smp FROM pendaftar_ppdb WHERE provinsi_smp != '' ORDER BY provinsi_smp ASC";
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) $data[] = $row['provinsi_smp'];
+        }
+        return $data;
+    }
+
+    public function getListKabupaten() {
+        $sql = "SELECT DISTINCT kabupaten_smp FROM pendaftar_ppdb WHERE kabupaten_smp != '' ORDER BY kabupaten_smp ASC";
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) $data[] = $row['kabupaten_smp'];
+        }
+        return $data;
     }
 }
 ?>

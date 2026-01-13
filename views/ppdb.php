@@ -1,103 +1,110 @@
 <style>
-    /* ======================================= */
-/* Styling Umum Kartu PPDB */
-/* ======================================= */
+    /* Styling Tambahan */
+    .status-box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        text-align: center;
+        margin-bottom: 30px;
+        border-top: 5px solid #045bb8;
+    }
+    .search-input {
+        height: 50px;
+        font-size: 18px;
+        border-radius: 25px;
+        padding: 0 25px;
+        border: 2px solid #eee;
+    }
+    .btn-search {
+        height: 50px;
+        border-radius: 25px;
+        padding: 0 30px;
+        background-color: #045bb8;
+        color: white;
+        font-weight: bold;
+        border: none;
+        transition: 0.3s;
+    }
+    .btn-search:hover {
+        background-color: #034a96;
+    }
+    .result-card {
+        border: 1px solid #eee;
+        border-left: 5px solid #ccc;
+        padding: 20px;
+        margin-bottom: 15px;
+        background: #fff;
+        text-align: left;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        border-radius: 5px;
+    }
+    
+    /* Warna Status */
+    .status-menunggu { border-left-color: #f0ad4e; }
+    .status-diterima { border-left-color: #5cb85c; }
+    .status-ditolak { border-left-color: #d9534f; }
+    .status-cadangan { border-left-color: #5bc0de; }
+    
+    .badge-status {
+        padding: 8px 15px;
+        border-radius: 30px;
+        color: white;
+        font-weight: bold;
+        font-size: 12px;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+    .bg-menunggu { background-color: #f0ad4e; }
+    .bg-diterima { background-color: #5cb85c; }
+    .bg-ditolak { background-color: #d9534f; }
+    .bg-cadangan { background-color: #5bc0de; }
 
-.ppdb-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    margin-bottom: 35px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    border: 1px solid #e9ecef;
-}
-
-.ppdb-header {
-    background-color: #f8f9fa; /* Latar belakang abu-abu muda untuk header */
-    padding: 15px 25px;
-    border-bottom: 1px solid #dee2e6;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.ppdb-header h3 {
-    font-size: 1.4em;
-    color: #333;
-    font-weight: 700;
-    margin: 0;
-    flex-grow: 1;
-}
-
-.ppdb-body {
-    padding: 25px;
-}
-
-/* ======================================= */
-/* Styling Status/Badge */
-/* ======================================= */
-
-/* Base Badge Style */
-.badge {
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 0.85em;
-    white-space: nowrap; /* Mencegah status melompat baris */
-}
-
-/* Warna Status */
-.badge-success { /* SEDANG BERLANGSUNG */
-    background-color: #28a745; 
-    color: white;
-}
-
-.badge-warning { /* AKAN DATANG */
-    background-color: #ffc107;
-    color: #343a40;
-}
-
-.badge-secondary { /* SUDAH BERAKHIR */
-    background-color: #6c757d;
-    color: white;
-}
-
-.badge-danger { /* TIDAK TERSEDIA */
-    background-color: #dc3545;
-    color: white;
-}
-
-/* ======================================= */
-/* Styling Konten & Tombol Daftar */
-/* ======================================= */
-
-.ppdb-body p.text-info {
-    font-weight: 600;
-    color: #007bff; /* Warna Biru untuk periode */
-    border-bottom: 1px dashed #eee;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-}
-
-.ppdb-body .detail-isi {
-    line-height: 1.6;
-    color: #555;
-    margin-bottom: 20px;
-}
+    /* Form Styles */
+    .form-box {
+        background: #fff;
+        padding: 40px;
+        border-radius: 8px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        border-top: 5px solid #045bb8;
+    }
+    .form-section-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #eee;
+    }
+    .btn-submit-ppdb {
+        background-color: #045bb8;
+        color: #fff;
+        font-size: 18px;
+        font-weight: bold;
+        padding: 15px 40px;
+        border-radius: 30px;
+        border: none;
+        transition: 0.3s;
+        width: 100%;
+        margin-top: 20px;
+    }
+    .btn-submit-ppdb:hover {
+        background-color: #034a96;
+        cursor: pointer;
+    }
+    label { font-weight: 600; color: #555; }
+    .form-group { margin-bottom: 20px; }
+    .form-control { height: 45px; border-radius: 5px; }
 </style>
 
-
-<div class="hero-area section" style="height: 40vh; min-height: 370px;">
+<div class="hero-area section" style="height: 40vh; min-height: 350px;">
     <div class="bg-image bg-parallax overlay" style="background-image:url(./img/page-background2.jpg)"></div>
-    <div class="container" style="margin-top: 40px;">
+    <div class="container" style="margin-top: 50px;">
         <div class="row">
             <div class="col-md-10 col-md-offset-1 text-center">
-                <img src="./img/logo2.png" 
-                     alt="Logo SMA Frater Don Bosco Bjm" 
-                     class="logo-header-berita"
-                     style="max-height: 130px;"> 
-                <h1 class="white-text">Penerimaan Peserta Didik Baru (PPDB)</h1>
+                <h1 class="white-text">
+                    <?php echo ($mode == 'form_daftar') ? "Formulir Pendaftaran Siswa" : "Info Kelulusan & Pendaftaran"; ?>
+                </h1>
                 <ul class="hero-area-tree">
                     <li><a href="index.php">Beranda</a></li>
                     <li>PPDB</li>
@@ -107,71 +114,224 @@
     </div>
 </div>
 
-<div id="ppdb-info" class="section">
+<div id="ppdb-content" class="section">
     <div class="container">
-        <div class="row">
-            <div id="main" class="col-md-12">
-                <div class="section-header text-center">
-                    <h2>SMA Frater Don Bosco Bjm Tahun Ajaran Terbaru</h2>
-                </div>
 
-                <?php 
-                if (isset($data_ppdb) && count($data_ppdb) > 0) { 
-                    foreach ($data_ppdb as $info) {
-                        // Cek apakah ada tanggal dan buat status periode
-                        $tgl_mulai = strtotime($info['tanggal_mulai'] ?? '1970-01-01');
-                        $tgl_akhir = strtotime($info['tanggal_akhir'] ?? '1970-01-01');
-                        $today = time();
-                        
-                        $status_periode = "Tidak Tersedia";
-                        $badge_class = "danger";
-                        
-                        if ($tgl_mulai > 0 && $tgl_akhir > 0) {
-                            if ($today >= $tgl_mulai && $today <= $tgl_akhir) {
-                                $status_periode = "SEDANG BERLANGSUNG";
-                                $badge_class = "success";
-                            } elseif ($today < $tgl_mulai) {
-                                $status_periode = "AKAN DATANG";
-                                $badge_class = "warning";
-                            } else {
-                                $status_periode = "SUDAH BERAKHIR";
-                                $badge_class = "secondary";
-                            }
-                        }
-                ?>
-                
-                <div class="ppdb-card mb-4">
-                    <div class="ppdb-header">
-                        <h3><?php echo htmlspecialchars($info['jenis_informasi']); ?></h3>
-                        <span class="badge badge-<?php echo $badge_class; ?>"><?php echo $status_periode; ?></span>
+        <?php if ($mode == 'form_daftar'): ?>
+            
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="alert alert-info" style="border-left: 5px solid #31708f;">
+                        <h4><i class="fa fa-info-circle"></i> Petunjuk Pengisian</h4>
+                        <p>Silakan isi data diri Anda dengan benar sesuai <b>Kartu Keluarga (KK)</b> dan <b>Ijazah/SKL SMP</b>. Data yang tidak valid dapat menggugurkan pendaftaran.</p>
                     </div>
                     
-                    <div class="ppdb-body">
-                        <?php if ($tgl_mulai > 0 && $tgl_akhir > 0): ?>
-                        <p class="text-info">
-                            <i class="fa fa-calendar"></i> Periode: **<?php echo date('d F Y', $tgl_mulai); ?>** hingga **<?php echo date('d F Y', $tgl_akhir); ?>**
-                        </p>
-                        <?php endif; ?>
+                    <form action="" method="POST" enctype="multipart/form-data" class="form-box">
+                        <h3 class="form-section-title">Formulir Pendaftaran Online</h3>
                         
-                        <div class="detail-isi">
-                            <?php echo nl2br(htmlspecialchars($info['isi_detail'])); ?>
+                        <div class="form-group">
+                            <label>Nomor Induk Siswa Nasional (NISN) *</label>
+                            <input type="number" name="nisn" class="form-control" placeholder="10 digit angka" required>
                         </div>
-                        
-                        <?php if (!empty($info['tautan_formulir']) && $badge_class == 'success'): ?>
-                            <a href="<?php echo htmlspecialchars($info['tautan_formulir']); ?>" target="_blank" class="main-button icon-button" style="background-color: #0808e8ff; color: white;">
-                                Daftar Sekarang <i class="fa fa-arrow-right"></i>
-                            </a>
-                        <?php endif; ?>
-                    </div>
+                        <div class="form-group">
+                            <label>Nama Lengkap (Sesuai KK) *</label>
+                            <input type="text" name="nama_lengkap" class="form-control" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tempat Lahir *</label>
+                                    <input type="text" name="tempat_lahir" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Tanggal Lahir *</label>
+                                    <input type="date" name="tanggal_lahir" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Jenis Kelamin *</label>
+                                    <select name="jenis_kelamin" class="form-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Agama *</label>
+                                    <select name="agama" class="form-control" required>
+                                        <option value="">-- Pilih --</option>
+                                        <option value="Katolik">Katolik</option>
+                                        <option value="Kristen Protestan">Kristen Protestan</option>
+                                        <option value="Islam">Islam</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Buddha">Buddha</option>
+                                        <option value="Konghucu">Konghucu</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Alamat Lengkap (Jalan, RT/RW, Kelurahan) *</label>
+                            <textarea name="alamat_lengkap" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>No. HP Siswa (WhatsApp) *</label>
+                                    <input type="number" name="no_hp_siswa" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Email Siswa Aktif *</label>
+                                    <input type="email" name="email_siswa" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nomor Kartu Keluarga (KK) *</label>
+                            <input type="number" name="no_kk" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>NIK Siswa *</label>
+                            <input type="number" name="nik" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>No. Akte Lahir *</label>
+                            <input type="text" name="no_akte_lahir" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label>NPSN Sekolah Asal *</label>
+                            <input type="number" name="npsn_smp" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Sekolah Asal (SMP/MTs) *</label>
+                            <input type="text" name="nama_sekolah_asal" class="form-control" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Provinsi *</label>
+                                    <input type="text" name="provinsi_smp" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Kabupaten/Kota *</label>
+                                    <input type="text" name="kabupaten_smp" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Kecamatan *</label>
+                                    <input type="text" name="kecamatan_smp" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Upload Pas Foto 3x4 (JPG/PNG, Max 2MB) *</label>
+                            <input type="file" name="foto_siswa" class="form-control" accept="image/*" required>
+                            <small class="text-danger">* Gunakan foto formal berseragam.</small>
+                        </div>
+
+                        <br>
+                        <button type="submit" class="btn-submit-ppdb">
+                            <i class="fa fa-paper-plane"></i> KIRIM DATA PENDAFTARAN
+                        </button>
+                        <br><br>
+                        <div class="text-center">
+                            <a href="ppdb.php" class="text-muted"><i class="fa fa-arrow-left"></i> Batal & Kembali ke Cek Status</a>
+                        </div>
+                    </form>
                 </div>
-                
-                <?php 
-                    } 
-                } else {
-                    echo "<div class='col-md-12 text-center'><h3>Informasi PPDB belum diumumkan. Silakan cek berkala.</h3></div>";
-                }
-                ?>
             </div>
-        </div>
+
+        <?php else: ?>
+            
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    
+                    <div class="status-box">
+                        <h2 style="margin-bottom: 20px; font-weight: bold;">Cek Status Penerimaan</h2>
+                        <p class="text-muted">Masukkan <b>NISN</b>, <b>Nomor Pendaftaran</b>, atau <b>Nama Lengkap</b> Anda untuk melihat hasil seleksi.</p>
+                        
+                        <form action="ppdb.php" method="GET" style="margin-top: 30px;">
+                            <div class="input-group">
+                                <input type="text" name="q" class="form-control search-input" placeholder="Contoh: 0012345678" value="<?php echo htmlspecialchars($keyword); ?>" required>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-search" type="submit"><i class="fa fa-search"></i> CEK STATUS</button>
+                                </span>
+                            </div>
+                        </form>
+                    </div>
+
+                    <?php if (isset($_GET['q'])): ?>
+                        <div class="search-results">
+                            
+                            <?php if (count($hasil_cari) > 0): ?>
+                                <h3 class="text-center mb-4">Hasil Pencarian: "<?php echo htmlspecialchars($keyword); ?>"</h3>
+                                <?php foreach ($hasil_cari as $d): 
+                                    $class = "status-" . strtolower($d['status_seleksi']);
+                                    $bg = "bg-" . strtolower($d['status_seleksi']);
+                                ?>
+                                    <div class="result-card <?php echo $class; ?>">
+                                        <div class="row">
+                                            <div class="col-md-8 col-sm-8">
+                                                <h4 style="margin-top:0; font-weight: bold;"><?php echo htmlspecialchars($d['nama_lengkap']); ?></h4>
+                                                <p style="margin-bottom: 5px; color: #555;">
+                                                    <i class="fa fa-id-card"></i> No. Reg: <b><?php echo $d['no_registrasi']; ?></b> <br>
+                                                    <i class="fa fa-user"></i> NISN: <?php echo $d['nisn']; ?>
+                                                </p>
+                                                <p class="text-muted"><i class="fa fa-building"></i> Asal: <?php echo $d['nama_sekolah_asal']; ?></p>
+                                            </div>
+                                            <div class="col-md-4 col-sm-4 text-right">
+                                                <span class="badge-status <?php echo $bg; ?>">
+                                                    <?php echo strtoupper($d['status_seleksi']); ?>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            <?php else: ?>
+                                <div class="alert alert-danger text-center" style="padding: 30px;">
+                                    <i class="fa fa-times-circle fa-3x" style="margin-bottom: 15px;"></i>
+                                    <h4>Data Tidak Ditemukan</h4>
+                                    <p>Pastikan NISN atau Nama yang Anda masukkan sudah benar.</p>
+                                </div>
+                            <?php endif; ?>
+
+                            <div class="text-center" style="margin-top: 25px;">
+                                <a href="ppdb.php" class="btn btn-danger btn-lg" style="border-radius: 50px; font-size: 16px; padding: 10px 30px;">
+                                    <i class="fa fa-refresh"></i> Reset Pencarian
+                                </a>
+                            </div>
+                        </div>
+                        <br><hr><br>
+                    <?php endif; ?>
+
+                    <div class="text-center" style="margin-top: 30px; margin-bottom: 50px;">
+                        <h3>Belum mendaftar?</h3>
+                        <p class="text-muted" style="margin-bottom: 20px;">Bagi calon siswa baru yang belum melakukan pendaftaran online, silakan klik tombol di bawah ini.</p>
+                        <a href="ppdb.php?halaman=daftar" class="main-button icon-button" style="padding: 15px 40px; font-size: 16px;">
+                            <i class="fa fa-pencil-square-o"></i> ISI FORMULIR PENDAFTARAN
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        <?php endif; ?>
+
     </div>
 </div>

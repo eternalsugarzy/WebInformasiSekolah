@@ -133,12 +133,10 @@
 <body>
 
 
-    <!-- TOMBOL TOGGLE -->
     <button id="toggleSidebar" class="toggle-sidebar-btn sidebar-closed">
         <i class="fa fa-bars"></i>
     </button>
 
-    <!-- SIDEBAR -->
     <div class="admin-sidebar closed">
         <div class="admin-brand" style="height: auto; padding: 20px 0; flex-direction: column; text-align: center;">
             <img src="../img/logo.png" alt="Logo Sekolah" style="width: 60px; height: auto; margin-bottom: 10px;">
@@ -171,16 +169,22 @@
             <li class="<?php echo ($page == 'guru.php') ? 'active' : ''; ?>">
                 <a href="guru.php"><i class="fa fa-users"></i> Data Guru</a>
             </li>
+            
             <li class="<?php echo ($page == 'ppdb.php') ? 'active' : ''; ?>">
                 <a href="ppdb.php"><i class="fa fa-graduation-cap"></i> Info PPDB</a>
             </li>
+
+            <li class="<?php echo ($page == 'pendaftar_ppdb.php') ? 'active' : ''; ?>">
+                <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Data Pendaftar</a>
+            </li>
+
             <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
                 <a href="galeri.php"><i class="fa fa-image"></i> Galeri Foto</a>
             </li>
             <li class="<?php echo (strpos($page, 'laporan') !== false) ? 'active' : ''; ?>">
                 <a href="laporan.php"><i class="fa fa-print"></i> <span>Laporan</span></a>
             </li>
-           
+            
 
             <li style="margin-top: 30px; border-top: 1px solid #3a3c55;">
                 <a href="../index.php" target="_blank"><i class="fa fa-external-link"></i> Lihat Website</a>
@@ -296,3 +300,4 @@
         updateToggleIcon();
     });
 </script>
+</html>
