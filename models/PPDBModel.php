@@ -5,7 +5,7 @@ require_once 'Database.php';
 class PPDBModel extends Database {
 
     // ==========================================================
-    // BAGIAN 1: FITUR INFO PPDB
+    // BAGIAN 1: FITUR INFO PPDB (TETAP SESUAI KODE ANDA)
     // ==========================================================
 
     public function getAllPPDBInfo() {
@@ -59,7 +59,7 @@ class PPDBModel extends Database {
     }
 
     // ==========================================================
-    // BAGIAN 2: FITUR DATA PENDAFTAR (PERBAIKAN ERROR ARRAY)
+    // BAGIAN 2: FITUR DATA PENDAFTAR
     // ==========================================================
 
     public function tambahPendaftar($data) {
@@ -97,7 +97,6 @@ class PPDBModel extends Database {
         return $this->query($sql);
     }
 
-    // --- [BARU] FUNGSI UPDATE DATA PENDAFTAR (EDIT) ---
     public function updatePendaftar($data, $id) {
         $conn = $this->koneksi;
         $id = intval($id);
@@ -144,29 +143,43 @@ class PPDBModel extends Database {
         return $this->query($sql);
     }
 
-    // --- PERBAIKAN UTAMA ADA DI SINI ---
+    // --- [PERBAIKAN UTAMA DI SINI] ---
+    // Logika Filter untuk Keyword + Provinsi + Kabupaten
     public function getAllPendaftar($input = null) {
         $keyword = "";
+        $provinsi = "";
+        $kabupaten = "";
 
-        // VALIDASI MVC: Cek apakah input berupa Array (dari $_GET controller) atau String biasa
+        // 1. Ambil Parameter Filter dari Array $_GET
         if (is_array($input)) {
-            // Jika array, ambil key 'q' jika ada
             $keyword = isset($input['q']) ? $input['q'] : "";
+            $provinsi = isset($input['provinsi']) ? $input['provinsi'] : "";
+            $kabupaten = isset($input['kabupaten']) ? $input['kabupaten'] : "";
         } else {
-            // Jika string biasa, langsung pakai
             $keyword = $input;
         }
 
-        $sql = "SELECT * FROM pendaftar_ppdb";
+        // 2. Bangun Query Dinamis (Gunakan WHERE 1=1 agar mudah menyambung AND)
+        $sql = "SELECT * FROM pendaftar_ppdb WHERE 1=1";
         
-        // Cek jika keyword tidak kosong
+        // Filter Keyword (Nama / No Reg / NISN)
         if (!empty($keyword)) {
-            // Sekarang aman di-escape karena sudah pasti string
             $safe_keyword = mysqli_real_escape_string($this->koneksi, $keyword);
-            
-            $sql .= " WHERE nama_lengkap LIKE '%$safe_keyword%' 
+            $sql .= " AND (nama_lengkap LIKE '%$safe_keyword%' 
                       OR no_registrasi LIKE '%$safe_keyword%' 
-                      OR nisn LIKE '%$safe_keyword%'";
+                      OR nisn LIKE '%$safe_keyword%')";
+        }
+
+        // Filter Provinsi (Jika dipilih)
+        if (!empty($provinsi)) {
+            $safe_prov = mysqli_real_escape_string($this->koneksi, $provinsi);
+            $sql .= " AND provinsi_smp = '$safe_prov'";
+        }
+
+        // Filter Kabupaten (Jika dipilih)
+        if (!empty($kabupaten)) {
+            $safe_kab = mysqli_real_escape_string($this->koneksi, $kabupaten);
+            $sql .= " AND kabupaten_smp = '$safe_kab'";
         }
 
         $sql .= " ORDER BY tanggal_daftar DESC";
@@ -221,7 +234,6 @@ class PPDBModel extends Database {
     public function cekStatusSiswa($keyword) {
         $conn = $this->koneksi;
         
-        // Validasi input lagi untuk keamanan
         if(is_array($keyword)) {
              $keyword = isset($keyword['keyword']) ? $keyword['keyword'] : '';
         }
@@ -250,7 +262,9 @@ class PPDBModel extends Database {
         $result = $this->query($sql);
         $data = [];
         if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) $data[] = $row['provinsi_smp'];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row['provinsi_smp'];
+            }
         }
         return $data;
     }
@@ -260,7 +274,9 @@ class PPDBModel extends Database {
         $result = $this->query($sql);
         $data = [];
         if ($result) {
-            while ($row = mysqli_fetch_assoc($result)) $data[] = $row['kabupaten_smp'];
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row['kabupaten_smp'];
+            }
         }
         return $data;
     }
