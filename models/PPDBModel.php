@@ -97,6 +97,53 @@ class PPDBModel extends Database {
         return $this->query($sql);
     }
 
+    // --- [BARU] FUNGSI UPDATE DATA PENDAFTAR (EDIT) ---
+    public function updatePendaftar($data, $id) {
+        $conn = $this->koneksi;
+        $id = intval($id);
+
+        // Escape input agar aman
+        foreach ($data as $key => $value) {
+            $data[$key] = mysqli_real_escape_string($conn, $value);
+        }
+
+        // Query Update data teks
+        $sql = "UPDATE pendaftar_ppdb SET 
+                nisn = '{$data['nisn']}',
+                nama_lengkap = '{$data['nama_lengkap']}',
+                tempat_lahir = '{$data['tempat_lahir']}',
+                tanggal_lahir = '{$data['tanggal_lahir']}',
+                jenis_kelamin = '{$data['jenis_kelamin']}',
+                agama = '{$data['agama']}',
+                alamat_lengkap = '{$data['alamat_lengkap']}',
+                no_hp_siswa = '{$data['no_hp_siswa']}',
+                email_siswa = '{$data['email_siswa']}',
+                no_kk = '{$data['no_kk']}',
+                nik = '{$data['nik']}',
+                no_akte_lahir = '{$data['no_akte_lahir']}',
+                npsn_smp = '{$data['npsn_smp']}',
+                nama_sekolah_asal = '{$data['nama_sekolah_asal']}',
+                provinsi_smp = '{$data['provinsi_smp']}',
+                kabupaten_smp = '{$data['kabupaten_smp']}',
+                kecamatan_smp = '{$data['kecamatan_smp']}'";
+
+        // Logika Ganti Foto: Jika ada foto baru, hapus yang lama & update database
+        if (!empty($data['foto_siswa'])) {
+            // Ambil nama foto lama
+            $oldData = $this->getPendaftarById($id);
+            if ($oldData && !empty($oldData['foto_siswa'])) {
+                $path = __DIR__ . "/../admin/uploads/peserta/" . $oldData['foto_siswa'];
+                if (file_exists($path)) { unlink($path); }
+            }
+            // Tambahkan update kolom foto
+            $sql .= ", foto_siswa = '{$data['foto_siswa']}'";
+        }
+
+        $sql .= " WHERE id_pendaftar = $id";
+
+        return $this->query($sql);
+    }
+
     // --- PERBAIKAN UTAMA ADA DI SINI ---
     public function getAllPendaftar($input = null) {
         $keyword = "";
