@@ -1,16 +1,14 @@
 <?php
 // --- PERBAIKAN PATH (FIX) ---
-// Mendapatkan folder root: D:\laragon\www\WebInformasiSekolah
 $rootPath = dirname(__DIR__, 2);
-
-// Load Model (Gunakan path absolut agar tidak error)
 require_once $rootPath . '/models/PPDBModel.php';
 
-// Inisialisasi Model
 $ppdbModel = new PPDBModel();
 $aksi = isset($_GET['aksi']) ? $_GET['aksi'] : 'index';
 
-// --- 1. LOGIKA ACTION (HAPUS & UPDATE) ---
+// --- 1. LOGIKA ACTION (HAPUS, UPDATE STATUS, EDIT) ---
+
+// A. HAPUS
 if ($aksi == 'hapus' && isset($_GET['id'])) {
     if ($ppdbModel->hapusPendaftar($_GET['id'])) {
         echo "<script>alert('Data berhasil dihapus'); window.location='pendaftar_ppdb.php';</script>";
@@ -18,6 +16,7 @@ if ($aksi == 'hapus' && isset($_GET['id'])) {
     }
 }
 
+// B. UPDATE STATUS
 if ($aksi == 'update_status' && isset($_POST['id_pendaftar'])) {
     $status = $_POST['status_seleksi'];
     $id = $_POST['id_pendaftar'];
@@ -27,17 +26,42 @@ if ($aksi == 'update_status' && isset($_POST['id_pendaftar'])) {
     }
 }
 
+// C. PROSES EDIT DATA (BARU)
+if ($aksi == 'proses_edit' && isset($_POST['id_pendaftar'])) {
+    $id = $_POST['id_pendaftar'];
+    $data = $_POST; // Ambil data teks
+    $data['foto_siswa'] = ''; // Default
+
+    // Handle Upload Foto Baru
+    if (isset($_FILES['foto_baru']) && $_FILES['foto_baru']['error'] === 0) {
+        $target_dir = "uploads/peserta/";
+        if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
+        
+        $file_ext = strtolower(pathinfo($_FILES["foto_baru"]["name"], PATHINFO_EXTENSION));
+        $new_name = time() . '_' . rand(100, 999) . '.' . $file_ext;
+        $target_file = $target_dir . $new_name;
+
+        if (move_uploaded_file($_FILES["foto_baru"]["tmp_name"], $target_file)) {
+            $data['foto_siswa'] = $new_name;
+        }
+    }
+
+    if ($ppdbModel->updatePendaftar($data, $id)) {
+        echo "<script>alert('Data berhasil diperbarui!'); window.location='pendaftar_ppdb.php?aksi=detail&id=$id';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Gagal update data.'); history.back();</script>";
+        exit;
+    }
+}
+
 // --- 2. PERSIAPAN DATA ---
 $q = isset($_GET['q']) ? $_GET['q'] : '';
 $prov_selected = isset($_GET['provinsi']) ? $_GET['provinsi'] : '';
 $kab_selected = isset($_GET['kabupaten']) ? $_GET['kabupaten'] : '';
 
-// Ambil data dropdown (Pastikan method ini ada di PPDBModel)
 $list_provinsi = $ppdbModel->getListProvinsi(); 
 $list_kabupaten = $ppdbModel->getListKabupaten();
-
-// Ambil Data Utama dengan Filter
-// Kita kirim seluruh $_GET agar Model bisa memilah 'q' (keyword) atau filter lainnya
 $data_pendaftar = $ppdbModel->getAllPendaftar($_GET); 
 
 $title = "Data Pendaftar PPDB";
@@ -52,9 +76,121 @@ require_once 'template/sidebar.php';
         
         <?php 
         // ==========================================================
-        // TAMPILAN 1: DETAIL SISWA
+        // TAMPILAN 1: FORM EDIT DATA (BARU)
         // ==========================================================
-        if ($aksi == 'detail' && isset($_GET['id'])): 
+        if ($aksi == 'edit' && isset($_GET['id'])):
+            $d = $ppdbModel->getPendaftarById($_GET['id']);
+            if (!$d) { echo "<script>alert('Data tidak ditemukan'); window.location='pendaftar_ppdb.php';</script>"; exit; }
+        ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-box" style="background: #fff; padding: 25px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div class="row">
+                            <div class="col-md-6"><h4><i class="fa fa-pencil"></i> Edit Data Siswa</h4></div>
+                            <div class="col-md-6 text-right"><a href="pendaftar_ppdb.php" class="btn btn-default">Batal</a></div>
+                        </div>
+                        <hr>
+
+                        <form action="pendaftar_ppdb.php?aksi=proses_edit" method="POST" enctype="multipart/form-data">
+                            <input type="hidden" name="id_pendaftar" value="<?php echo $d['id_pendaftar']; ?>">
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>NISN</label>
+                                        <input type="number" name="nisn" class="form-control" value="<?php echo htmlspecialchars($d['nisn']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama Lengkap</label>
+                                        <input type="text" name="nama_lengkap" class="form-control" value="<?php echo htmlspecialchars($d['nama_lengkap']); ?>" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tempat Lahir</label>
+                                                <input type="text" name="tempat_lahir" class="form-control" value="<?php echo htmlspecialchars($d['tempat_lahir']); ?>" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tanggal Lahir</label>
+                                                <input type="date" name="tanggal_lahir" class="form-control" value="<?php echo htmlspecialchars($d['tanggal_lahir']); ?>" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis Kelamin</label>
+                                        <select name="jenis_kelamin" class="form-control">
+                                            <option value="Laki-laki" <?php echo ($d['jenis_kelamin'] == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
+                                            <option value="Perempuan" <?php echo ($d['jenis_kelamin'] == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Agama</label>
+                                        <select name="agama" class="form-control">
+                                            <?php 
+                                            $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'];
+                                            foreach($agamas as $agm) {
+                                                $sel = ($d['agama'] == $agm) ? 'selected' : '';
+                                                echo "<option value='$agm' $sel>$agm</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>No HP</label>
+                                        <input type="text" name="no_hp_siswa" class="form-control" value="<?php echo htmlspecialchars($d['no_hp_siswa']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email</label>
+                                        <input type="email" name="email_siswa" class="form-control" value="<?php echo htmlspecialchars($d['email_siswa']); ?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Asal Sekolah (SMP/MTs)</label>
+                                        <input type="text" name="nama_sekolah_asal" class="form-control" value="<?php echo htmlspecialchars($d['nama_sekolah_asal']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NPSN Sekolah Asal</label>
+                                        <input type="text" name="npsn_smp" class="form-control" value="<?php echo htmlspecialchars($d['npsn_smp']); ?>">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label>Alamat Lengkap</label>
+                                        <textarea name="alamat_lengkap" class="form-control" rows="2"><?php echo htmlspecialchars($d['alamat_lengkap']); ?></textarea>
+                                    </div>
+
+                                    <input type="hidden" name="no_kk" value="<?php echo htmlspecialchars($d['no_kk']); ?>">
+                                    <input type="hidden" name="nik" value="<?php echo htmlspecialchars($d['nik']); ?>">
+                                    <input type="hidden" name="no_akte_lahir" value="<?php echo htmlspecialchars($d['no_akte_lahir']); ?>">
+                                    <input type="hidden" name="provinsi_smp" value="<?php echo htmlspecialchars($d['provinsi_smp']); ?>">
+                                    <input type="hidden" name="kabupaten_smp" value="<?php echo htmlspecialchars($d['kabupaten_smp']); ?>">
+                                    <input type="hidden" name="kecamatan_smp" value="<?php echo htmlspecialchars($d['kecamatan_smp']); ?>">
+
+                                    <div class="form-group">
+                                        <label>Ganti Foto (Biarkan kosong jika tidak diganti)</label>
+                                        <input type="file" name="foto_baru" class="form-control">
+                                        <?php if(!empty($d['foto_siswa'])): ?>
+                                            <small class="text-muted">Foto saat ini: <?php echo $d['foto_siswa']; ?></small>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-save"></i> Simpan Perubahan</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        <?php 
+        // ==========================================================
+        // TAMPILAN 2: DETAIL SISWA
+        // ==========================================================
+        elseif ($aksi == 'detail' && isset($_GET['id'])): 
             $siswa = $ppdbModel->getPendaftarById($_GET['id']);
             $foto_url = (!empty($siswa) && !empty($siswa['foto_siswa'])) ? "uploads/peserta/" . $siswa['foto_siswa'] : "../img/default-user.png";
             
@@ -65,6 +201,7 @@ require_once 'template/sidebar.php';
             <div class="row">
                 <div class="col-md-12 mb-3" style="margin-bottom: 20px;">
                     <a href="pendaftar_ppdb.php" class="btn btn-default"><i class="fa fa-arrow-left"></i> Kembali</a>
+                    <a href="pendaftar_ppdb.php?aksi=edit&id=<?php echo $siswa['id_pendaftar']; ?>" class="btn btn-warning pull-right"><i class="fa fa-pencil"></i> Edit Data</a>
                 </div>
 
                 <div class="col-md-4">
@@ -125,15 +262,10 @@ require_once 'template/sidebar.php';
         <?php else: ?>
         
         <div class="card-box" style="background: #fff; padding: 20px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-                
                 <div class="row" style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
-                    <div class="col-md-6">
-                        <h4 style="margin:0;">Data Pendaftar Masuk</h4>
-                    </div>
-                    <div class="col-md-6 text-right" style="text-align: right;">
-                        <a href="pendaftar_ppdb.php?aksi=tambah" class="btn btn-primary">
-                            <i class="fa fa-plus"></i> Tambah Pendaftar Manual
-                        </a>
+                    <div class="col-md-6"><h4 style="margin:0;">Data Pendaftar Masuk</h4></div>
+                    <div class="col-md-6 text-right">
+                        <a href="pendaftar_ppdb.php?aksi=tambah" class="btn btn-primary"><i class="fa fa-plus"></i> Tambah Manual</a>
                     </div>
                 </div>
 
@@ -151,9 +283,7 @@ require_once 'template/sidebar.php';
                                         <option value="">- Semua -</option>
                                         <?php if(!empty($list_provinsi)): ?>
                                             <?php foreach($list_provinsi as $prov): ?>
-                                                <option value="<?php echo $prov; ?>" <?php echo ($prov_selected == $prov) ? 'selected' : ''; ?>>
-                                                    <?php echo $prov; ?>
-                                                </option>
+                                                <option value="<?php echo $prov; ?>" <?php echo ($prov_selected == $prov) ? 'selected' : ''; ?>><?php echo $prov; ?></option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
@@ -167,9 +297,7 @@ require_once 'template/sidebar.php';
                                         <option value="">- Semua -</option>
                                         <?php if(!empty($list_kabupaten)): ?>
                                             <?php foreach($list_kabupaten as $kab): ?>
-                                                <option value="<?php echo $kab; ?>" <?php echo ($kab_selected == $kab) ? 'selected' : ''; ?>>
-                                                    <?php echo $kab; ?>
-                                                </option>
+                                                <option value="<?php echo $kab; ?>" <?php echo ($kab_selected == $kab) ? 'selected' : ''; ?>><?php echo $kab; ?></option>
                                             <?php endforeach; ?>
                                         <?php endif; ?>
                                     </select>
@@ -241,8 +369,11 @@ require_once 'template/sidebar.php';
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="pendaftar_ppdb.php?aksi=detail&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-info" title="Lihat"><i class="fa fa-eye"></i></a>
-                                    <a href="pendaftar_ppdb.php?aksi=hapus&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')" title="Hapus"><i class="fa fa-trash"></i></a>
+                                    <div class="btn-group">
+                                        <a href="pendaftar_ppdb.php?aksi=detail&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-info" title="Lihat"><i class="fa fa-eye"></i></a>
+                                        <a href="pendaftar_ppdb.php?aksi=edit&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pencil"></i></a>
+                                        <a href="pendaftar_ppdb.php?aksi=hapus&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')" title="Hapus"><i class="fa fa-trash"></i></a>
+                                    </div>
                                 </td>
                             </tr>
                             <?php 
