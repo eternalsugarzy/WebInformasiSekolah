@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jan 08, 2026 at 06:42 AM
+-- Generation Time: Feb 03, 2026 at 06:46 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -182,6 +182,46 @@ INSERT INTO `info_ppdb` (`id_info`, `jenis_informasi`, `isi_detail`, `tanggal_mu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pendaftar_ppdb`
+--
+
+CREATE TABLE `pendaftar_ppdb` (
+  `id_pendaftar` int NOT NULL,
+  `no_registrasi` varchar(20) DEFAULT NULL,
+  `nisn` varchar(20) NOT NULL,
+  `nama_lengkap` varchar(100) NOT NULL,
+  `tempat_lahir` varchar(50) NOT NULL,
+  `tanggal_lahir` date NOT NULL,
+  `jenis_kelamin` enum('Laki-Laki','Perempuan') NOT NULL,
+  `agama` varchar(20) NOT NULL,
+  `alamat_lengkap` text NOT NULL,
+  `no_hp_siswa` varchar(20) NOT NULL,
+  `email_siswa` varchar(100) NOT NULL,
+  `no_kk` varchar(20) NOT NULL,
+  `nik` varchar(20) NOT NULL,
+  `no_akte_lahir` varchar(50) NOT NULL,
+  `npsn_smp` varchar(20) NOT NULL,
+  `nama_sekolah_asal` varchar(100) NOT NULL,
+  `provinsi_smp` varchar(50) NOT NULL,
+  `kabupaten_smp` varchar(50) NOT NULL,
+  `kecamatan_smp` varchar(50) NOT NULL,
+  `foto_siswa` varchar(255) DEFAULT NULL,
+  `tanggal_daftar` datetime DEFAULT CURRENT_TIMESTAMP,
+  `status_seleksi` enum('Menunggu','Diterima','Ditolak','Cadangan') DEFAULT 'Menunggu'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `pendaftar_ppdb`
+--
+
+INSERT INTO `pendaftar_ppdb` (`id_pendaftar`, `no_registrasi`, `nisn`, `nama_lengkap`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `agama`, `alamat_lengkap`, `no_hp_siswa`, `email_siswa`, `no_kk`, `nik`, `no_akte_lahir`, `npsn_smp`, `nama_sekolah_asal`, `provinsi_smp`, `kabupaten_smp`, `kecamatan_smp`, `foto_siswa`, `tanggal_daftar`, `status_seleksi`) VALUES
+(1, 'REG-260113094201', '38108302830283', 'Saiduns', 'Jawa', '2026-01-13', 'Laki-Laki', 'Katolik', 'Pekauman', '4646464646', 'saiduns@gmail.com', '76858745376', '796785676', '53216577', '0830183024820', 'SMP Sei Gardu', 'Kalimantan Tengah', 'Palangkaraya', 'Rajawali', 'Saiduns_38108302830283.png', '2026-01-13 17:42:01', 'Menunggu'),
+(2, 'REG-260113094509', '802402840248', 'Ahmad Said', 'Sei Gardu', '2026-01-13', 'Laki-Laki', 'Katolik', 'Sei Garduts', '97946464', 'saiduns@mail.co.id', '87844464611313', '8784641333554', '5484545', '23802802840248', 'SMP Sei Gardu 2', 'Kalimantan Tengah', 'Palangkaraya', 'Rajawali', 'AhmadSaidun_802402840248.png', '2026-01-13 17:45:09', 'Ditolak'),
+(3, 'REG-260116065532', '019309302392', 'Muhammad Rizki', 'Tanah Laut', '2026-01-08', 'Laki-Laki', 'Islam', 'Jl Karang Rejo RT 04 RW 02 Kelurahan Karang Rejo, Jorong, Tanah Laut', '0845422126', 'rizki@mail.com', '02809025807494', '9485263596969', '992748594039', '45163152352', 'SMP Negeri 1 Jorong', 'Kalimantan Selatan', 'Tanah Laut', 'Jorong', 'MuhammadRizki_019309302392.png', '2026-01-16 14:55:32', 'Diterima');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pengumuman`
 --
 
@@ -287,6 +327,12 @@ ALTER TABLE `info_ppdb`
   ADD PRIMARY KEY (`id_info`);
 
 --
+-- Indexes for table `pendaftar_ppdb`
+--
+ALTER TABLE `pendaftar_ppdb`
+  ADD PRIMARY KEY (`id_pendaftar`);
+
+--
 -- Indexes for table `pengumuman`
 --
 ALTER TABLE `pengumuman`
@@ -338,6 +384,12 @@ ALTER TABLE `guru_staf`
 --
 ALTER TABLE `info_ppdb`
   MODIFY `id_info` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `pendaftar_ppdb`
+--
+ALTER TABLE `pendaftar_ppdb`
+  MODIFY `id_pendaftar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `pengumuman`
