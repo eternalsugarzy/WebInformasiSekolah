@@ -6,7 +6,7 @@ require_once $rootPath . '/models/PPDBModel.php';
 $ppdbModel = new PPDBModel();
 $aksi = isset($_GET['aksi']) ? $_GET['aksi'] : 'index';
 
-// --- 1. LOGIKA ACTION (HAPUS, UPDATE STATUS, EDIT) ---
+// --- 1. LOGIKA ACTION (HAPUS, UPDATE STATUS, EDIT, TAMBAH) ---
 
 // A. HAPUS
 if ($aksi == 'hapus' && isset($_GET['id'])) {
@@ -55,6 +55,39 @@ if ($aksi == 'proses_edit' && isset($_POST['id_pendaftar'])) {
     }
 }
 
+// D. PROSES TAMBAH DATA (BARU)
+if ($aksi == 'proses_tambah' && isset($_POST['nisn'])) {
+    $data = $_POST;
+    $data['foto_siswa'] = '';
+    
+    // Generate No Registrasi Otomatis
+    $tahun = date('Y');
+    $bulan = date('m');
+    $data['no_registrasi'] = 'PPDB' . $tahun . $bulan . rand(1000, 9999);
+    
+    // Handle Upload Foto
+    if (isset($_FILES['foto_siswa']) && $_FILES['foto_siswa']['error'] === 0) {
+        $target_dir = "uploads/peserta/";
+        if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
+        
+        $file_ext = strtolower(pathinfo($_FILES["foto_siswa"]["name"], PATHINFO_EXTENSION));
+        $new_name = time() . '_' . rand(100, 999) . '.' . $file_ext;
+        $target_file = $target_dir . $new_name;
+
+        if (move_uploaded_file($_FILES["foto_siswa"]["tmp_name"], $target_file)) {
+            $data['foto_siswa'] = $new_name;
+        }
+    }
+    
+    if ($ppdbModel->tambahPendaftar($data)) {
+        echo "<script>alert('Data berhasil ditambahkan!'); window.location='pendaftar_ppdb.php';</script>";
+        exit;
+    } else {
+        echo "<script>alert('Gagal menambahkan data.'); history.back();</script>";
+        exit;
+    }
+}
+
 // --- 2. PERSIAPAN DATA ---
 $q = isset($_GET['q']) ? $_GET['q'] : '';
 $prov_selected = isset($_GET['provinsi']) ? $_GET['provinsi'] : '';
@@ -76,9 +109,142 @@ require_once 'template/sidebar.php';
         
         <?php 
         // ==========================================================
+        // TAMPILAN 0: FORM TAMBAH DATA (BARU)
+        // ==========================================================
+        if ($aksi == 'tambah'):
+        ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card-box" style="background: #fff; padding: 25px; border-radius: 5px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+                        <div class="row">
+                            <div class="col-md-6"><h4><i class="fa fa-plus-circle"></i> Tambah Data Siswa Baru</h4></div>
+                            <div class="col-md-6 text-right"><a href="pendaftar_ppdb.php" class="btn btn-default">Batal</a></div>
+                        </div>
+                        <hr>
+
+                        <form action="pendaftar_ppdb.php?aksi=proses_tambah" method="POST" enctype="multipart/form-data">
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h5 style="border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 15px;"><i class="fa fa-user"></i> Data Pribadi</h5>
+                                    
+                                    <div class="form-group">
+                                        <label>NISN <span class="text-danger">*</span></label>
+                                        <input type="number" name="nisn" class="form-control" placeholder="Masukkan NISN" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Nama Lengkap <span class="text-danger">*</span></label>
+                                        <input type="text" name="nama_lengkap" class="form-control" placeholder="Masukkan nama lengkap" required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tempat Lahir <span class="text-danger">*</span></label>
+                                                <input type="text" name="tempat_lahir" class="form-control" placeholder="Kota/Kabupaten" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Tanggal Lahir <span class="text-danger">*</span></label>
+                                                <input type="date" name="tanggal_lahir" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                        <select name="jenis_kelamin" class="form-control" required>
+                                            <option value="">- Pilih -</option>
+                                            <option value="Laki-laki">Laki-laki</option>
+                                            <option value="Perempuan">Perempuan</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Agama <span class="text-danger">*</span></label>
+                                        <select name="agama" class="form-control" required>
+                                            <option value="">- Pilih -</option>
+                                            <option value="Islam">Islam</option>
+                                            <option value="Kristen">Kristen</option>
+                                            <option value="Katolik">Katolik</option>
+                                            <option value="Hindu">Hindu</option>
+                                            <option value="Buddha">Buddha</option>
+                                            <option value="Konghucu">Konghucu</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Alamat Lengkap <span class="text-danger">*</span></label>
+                                        <textarea name="alamat_lengkap" class="form-control" rows="3" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan" required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <h5 style="border-bottom: 2px solid #28a745; padding-bottom: 5px; margin-bottom: 15px;"><i class="fa fa-phone"></i> Kontak & Berkas</h5>
+                                    
+                                    <div class="form-group">
+                                        <label>No HP Siswa</label>
+                                        <input type="text" name="no_hp_siswa" class="form-control" placeholder="08xxxxxxxxxx">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Email Siswa</label>
+                                        <input type="email" name="email_siswa" class="form-control" placeholder="email@example.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>No. Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+                                        <input type="text" name="no_kk" class="form-control" placeholder="16 digit" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NIK (Nomor Induk Kependudukan) <span class="text-danger">*</span></label>
+                                        <input type="text" name="nik" class="form-control" placeholder="16 digit" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>No. Akte Lahir <span class="text-danger">*</span></label>
+                                        <input type="text" name="no_akte_lahir" class="form-control" placeholder="Nomor akte kelahiran" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Foto Siswa</label>
+                                        <input type="file" name="foto_siswa" class="form-control" accept="image/*">
+                                        <small class="text-muted">Format: JPG, PNG, JPEG (Max 2MB)</small>
+                                    </div>
+
+                                    <h5 style="border-bottom: 2px solid #ffc107; padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px;"><i class="fa fa-graduation-cap"></i> Data Sekolah Asal</h5>
+                                    
+                                    <div class="form-group">
+                                        <label>Nama Sekolah Asal (SMP/MTs) <span class="text-danger">*</span></label>
+                                        <input type="text" name="nama_sekolah_asal" class="form-control" placeholder="Nama lengkap sekolah" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NPSN Sekolah Asal</label>
+                                        <input type="text" name="npsn_smp" class="form-control" placeholder="8 digit NPSN">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Provinsi Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="provinsi_smp" class="form-control" placeholder="Nama provinsi" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kabupaten/Kota Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="kabupaten_smp" class="form-control" placeholder="Nama kabupaten/kota" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kecamatan Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="kecamatan_smp" class="form-control" placeholder="Nama kecamatan" required>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <hr>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" style="min-width: 200px;"><i class="fa fa-save"></i> Simpan Data</button>
+                                <a href="pendaftar_ppdb.php" class="btn btn-default btn-lg" style="min-width: 150px;">Batal</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        <?php 
+        // ==========================================================
         // TAMPILAN 1: FORM EDIT DATA (BARU)
         // ==========================================================
-        if ($aksi == 'edit' && isset($_GET['id'])):
+        elseif ($aksi == 'edit' && isset($_GET['id'])):
             $d = $ppdbModel->getPendaftarById($_GET['id']);
             if (!$d) { echo "<script>alert('Data tidak ditemukan'); window.location='pendaftar_ppdb.php';</script>"; exit; }
         ?>
