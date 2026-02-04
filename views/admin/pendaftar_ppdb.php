@@ -241,8 +241,9 @@ require_once 'template/sidebar.php';
             </div>
 
         <?php 
+    
         // ==========================================================
-        // TAMPILAN 1: FORM EDIT DATA (BARU)
+        // TAMPILAN 1: FORM EDIT DATA (LENGKAP)
         // ==========================================================
         elseif ($aksi == 'edit' && isset($_GET['id'])):
             $d = $ppdbModel->getPendaftarById($_GET['id']);
@@ -262,38 +263,42 @@ require_once 'template/sidebar.php';
                             
                             <div class="row">
                                 <div class="col-md-6">
+                                    <h5 style="border-bottom: 2px solid #007bff; padding-bottom: 5px; margin-bottom: 15px;"><i class="fa fa-user"></i> Data Pribadi</h5>
+                                    
                                     <div class="form-group">
-                                        <label>NISN</label>
+                                        <label>NISN <span class="text-danger">*</span></label>
                                         <input type="number" name="nisn" class="form-control" value="<?php echo htmlspecialchars($d['nisn']); ?>" required>
                                     </div>
                                     <div class="form-group">
-                                        <label>Nama Lengkap</label>
+                                        <label>Nama Lengkap <span class="text-danger">*</span></label>
                                         <input type="text" name="nama_lengkap" class="form-control" value="<?php echo htmlspecialchars($d['nama_lengkap']); ?>" required>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Tempat Lahir</label>
+                                                <label>Tempat Lahir <span class="text-danger">*</span></label>
                                                 <input type="text" name="tempat_lahir" class="form-control" value="<?php echo htmlspecialchars($d['tempat_lahir']); ?>" required>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <label>Tanggal Lahir</label>
+                                                <label>Tanggal Lahir <span class="text-danger">*</span></label>
                                                 <input type="date" name="tanggal_lahir" class="form-control" value="<?php echo htmlspecialchars($d['tanggal_lahir']); ?>" required>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Jenis Kelamin</label>
-                                        <select name="jenis_kelamin" class="form-control">
+                                        <label>Jenis Kelamin <span class="text-danger">*</span></label>
+                                        <select name="jenis_kelamin" class="form-control" required>
+                                            <option value="">- Pilih -</option>
                                             <option value="Laki-laki" <?php echo ($d['jenis_kelamin'] == 'Laki-laki') ? 'selected' : ''; ?>>Laki-laki</option>
                                             <option value="Perempuan" <?php echo ($d['jenis_kelamin'] == 'Perempuan') ? 'selected' : ''; ?>>Perempuan</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
-                                        <label>Agama</label>
-                                        <select name="agama" class="form-control">
+                                        <label>Agama <span class="text-danger">*</span></label>
+                                        <select name="agama" class="form-control" required>
+                                            <option value="">- Pilih -</option>
                                             <?php 
                                             $agamas = ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu'];
                                             foreach($agamas as $agm) {
@@ -303,50 +308,74 @@ require_once 'template/sidebar.php';
                                             ?>
                                         </select>
                                     </div>
+                                    <div class="form-group">
+                                        <label>Alamat Lengkap <span class="text-danger">*</span></label>
+                                        <textarea name="alamat_lengkap" class="form-control" rows="3" required><?php echo htmlspecialchars($d['alamat_lengkap']); ?></textarea>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-6">
+                                    <h5 style="border-bottom: 2px solid #28a745; padding-bottom: 5px; margin-bottom: 15px;"><i class="fa fa-phone"></i> Kontak & Berkas</h5>
+                                    
                                     <div class="form-group">
-                                        <label>No HP</label>
+                                        <label>No HP Siswa</label>
                                         <input type="text" name="no_hp_siswa" class="form-control" value="<?php echo htmlspecialchars($d['no_hp_siswa']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label>Email</label>
+                                        <label>Email Siswa</label>
                                         <input type="email" name="email_siswa" class="form-control" value="<?php echo htmlspecialchars($d['email_siswa']); ?>">
                                     </div>
                                     <div class="form-group">
-                                        <label>Asal Sekolah (SMP/MTs)</label>
+                                        <label>No. Kartu Keluarga (KK) <span class="text-danger">*</span></label>
+                                        <input type="text" name="no_kk" class="form-control" value="<?php echo htmlspecialchars($d['no_kk']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>NIK (Nomor Induk Kependudukan) <span class="text-danger">*</span></label>
+                                        <input type="text" name="nik" class="form-control" value="<?php echo htmlspecialchars($d['nik']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>No. Akte Lahir <span class="text-danger">*</span></label>
+                                        <input type="text" name="no_akte_lahir" class="form-control" value="<?php echo htmlspecialchars($d['no_akte_lahir']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ganti Foto Siswa</label>
+                                        <input type="file" name="foto_baru" class="form-control" accept="image/*">
+                                        <?php if(!empty($d['foto_siswa'])): ?>
+                                            <small class="text-muted">Foto saat ini: <?php echo $d['foto_siswa']; ?></small>
+                                        <?php endif; ?>
+                                        <small class="text-muted d-block">Biarkan kosong jika tidak ingin mengganti foto. Format: JPG, PNG, JPEG (Max 2MB)</small>
+                                    </div>
+
+                                    <h5 style="border-bottom: 2px solid #ffc107; padding-bottom: 5px; margin-bottom: 15px; margin-top: 25px;"><i class="fa fa-graduation-cap"></i> Data Sekolah Asal</h5>
+                                    
+                                    <div class="form-group">
+                                        <label>Nama Sekolah Asal (SMP/MTs) <span class="text-danger">*</span></label>
                                         <input type="text" name="nama_sekolah_asal" class="form-control" value="<?php echo htmlspecialchars($d['nama_sekolah_asal']); ?>" required>
                                     </div>
                                     <div class="form-group">
                                         <label>NPSN Sekolah Asal</label>
                                         <input type="text" name="npsn_smp" class="form-control" value="<?php echo htmlspecialchars($d['npsn_smp']); ?>">
                                     </div>
-                                    
                                     <div class="form-group">
-                                        <label>Alamat Lengkap</label>
-                                        <textarea name="alamat_lengkap" class="form-control" rows="2"><?php echo htmlspecialchars($d['alamat_lengkap']); ?></textarea>
+                                        <label>Provinsi Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="provinsi_smp" class="form-control" value="<?php echo htmlspecialchars($d['provinsi_smp']); ?>" required>
                                     </div>
-
-                                    <input type="hidden" name="no_kk" value="<?php echo htmlspecialchars($d['no_kk']); ?>">
-                                    <input type="hidden" name="nik" value="<?php echo htmlspecialchars($d['nik']); ?>">
-                                    <input type="hidden" name="no_akte_lahir" value="<?php echo htmlspecialchars($d['no_akte_lahir']); ?>">
-                                    <input type="hidden" name="provinsi_smp" value="<?php echo htmlspecialchars($d['provinsi_smp']); ?>">
-                                    <input type="hidden" name="kabupaten_smp" value="<?php echo htmlspecialchars($d['kabupaten_smp']); ?>">
-                                    <input type="hidden" name="kecamatan_smp" value="<?php echo htmlspecialchars($d['kecamatan_smp']); ?>">
-
                                     <div class="form-group">
-                                        <label>Ganti Foto (Biarkan kosong jika tidak diganti)</label>
-                                        <input type="file" name="foto_baru" class="form-control">
-                                        <?php if(!empty($d['foto_siswa'])): ?>
-                                            <small class="text-muted">Foto saat ini: <?php echo $d['foto_siswa']; ?></small>
-                                        <?php endif; ?>
+                                        <label>Kabupaten/Kota Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="kabupaten_smp" class="form-control" value="<?php echo htmlspecialchars($d['kabupaten_smp']); ?>" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Kecamatan Sekolah Asal <span class="text-danger">*</span></label>
+                                        <input type="text" name="kecamatan_smp" class="form-control" value="<?php echo htmlspecialchars($d['kecamatan_smp']); ?>" required>
                                     </div>
                                 </div>
                             </div>
                             
                             <hr>
-                            <button type="submit" class="btn btn-primary btn-lg"><i class="fa fa-save"></i> Simpan Perubahan</button>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-lg" style="min-width: 200px;"><i class="fa fa-save"></i> Simpan Perubahan</button>
+                                <a href="pendaftar_ppdb.php" class="btn btn-default btn-lg" style="min-width: 150px;">Batal</a>
+                            </div>
                         </form>
                     </div>
                 </div>
