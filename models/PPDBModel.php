@@ -298,5 +298,39 @@ class PPDBModel extends Database {
         }
         return $data;
     }
+
+    // ... (kode fungsi lainnya tetap ada) ...
+
+    // [BARU] Fungsi Cek Duplikasi (NISN, NIK, Akte)
+    // $id_exclude = ID siswa yang sedang diedit (agar tidak mendeteksi diri sendiri sebagai duplikat)
+    // Jika sedang Tambah Data Baru, biarkan $id_exclude = null
+    public function cekDuplikasiData($nisn, $nik, $akte, $id_exclude = null) {
+        $conn = $this->koneksi;
+        
+        $nisn = mysqli_real_escape_string($conn, $nisn);
+        $nik = mysqli_real_escape_string($conn, $nik);
+        $akte = mysqli_real_escape_string($conn, $akte);
+
+        // Logic: Cari data YANG (NISN sama ATAU NIK sama ATAU Akte sama)
+        $sql = "SELECT nama_lengkap, nisn, nik, no_akte_lahir FROM pendaftar_ppdb 
+                WHERE (nisn = '$nisn' OR nik = '$nik' OR no_akte_lahir = '$akte')";
+
+        // Jika sedang Edit, kecualikan ID siswa itu sendiri
+        if ($id_exclude != null) {
+            $id_exclude = intval($id_exclude);
+            $sql .= " AND id_pendaftar != $id_exclude";
+        }
+
+        $result = $this->query($sql);
+        
+        if ($result && mysqli_num_rows($result) > 0) {
+            // Kembalikan data siswa yang "kembar" untuk pesan error
+            return mysqli_fetch_assoc($result);
+        }
+        
+        return false; // Tidak ada duplikat (Aman)
+    }
+
+    // ... (lanjutkan dengan fungsi tambahPendaftar, updatePendaftar, dll) ...
 }
 ?>

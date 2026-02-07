@@ -180,7 +180,7 @@
             
 
             <li class="<?php echo ($page == 'pendaftar_ppdb.php') ? 'active' : ''; ?>">
-                <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Data PPDB</a>
+                <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Info PPDB</a>
             </li>
 
             <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
