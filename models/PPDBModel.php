@@ -331,6 +331,29 @@ class PPDBModel extends Database {
         return false; // Tidak ada duplikat (Aman)
     }
 
+    // ... kode fungsi lainnya ...
+
+    // [BARU] Cek Eksistensi Data per Kolom (Untuk AJAX Frontend)
+    public function isDataExist($column, $value) {
+        $conn = $this->koneksi;
+        
+        // Whitelist kolom agar aman dari SQL Injection
+        $allowed_columns = ['nisn', 'nik', 'no_akte_lahir'];
+        if (!in_array($column, $allowed_columns)) {
+            return false;
+        }
+
+        $value = mysqli_real_escape_string($conn, $value);
+        $sql = "SELECT count(*) as total FROM pendaftar_ppdb WHERE $column = '$value'";
+        
+        $result = $this->query($sql);
+        $row = mysqli_fetch_assoc($result);
+        
+        return ($row['total'] > 0); // Return TRUE jika ada, FALSE jika kosong
+    }
+
+} // End of Class
+
     // ... (lanjutkan dengan fungsi tambahPendaftar, updatePendaftar, dll) ...
-}
+
 ?>
