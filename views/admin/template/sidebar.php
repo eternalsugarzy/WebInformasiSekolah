@@ -170,12 +170,17 @@
                 <a href="guru.php"><i class="fa fa-users"></i> Data Guru</a>
             </li>
             
+            
+            <!--
             <li class="<?php echo ($page == 'ppdb.php') ? 'active' : ''; ?>">
                 <a href="ppdb.php"><i class="fa fa-graduation-cap"></i> Info PPDB</a>
             </li>
+            -->
+
+            
 
             <li class="<?php echo ($page == 'pendaftar_ppdb.php') ? 'active' : ''; ?>">
-                <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Data Pendaftar</a>
+                <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Data PPDB</a>
             </li>
 
             <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
