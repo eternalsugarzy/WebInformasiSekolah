@@ -1,5 +1,5 @@
 <?php
-// --- PERBAIKAN PATH (FIX) ---
+// Fix Path
 $rootPath = dirname(__DIR__, 2);
 require_once $rootPath . '/models/PPDBModel.php';
 
@@ -26,26 +26,42 @@ if ($aksi == 'update_status' && isset($_POST['id_pendaftar'])) {
     }
 }
 
-// C. PROSES EDIT DATA (BARU)
+// C. PROSES EDIT DATA (DENGAN VALIDASI DUPLIKASI)
 if ($aksi == 'proses_edit' && isset($_POST['id_pendaftar'])) {
     $id = $_POST['id_pendaftar'];
-    $data = $_POST; // Ambil data teks
-    $data['foto_siswa'] = ''; // Default
+    $data = $_POST;
+    
+    // [VALIDASI] Cek Duplikasi Dulu!
+    // Kita kirim ID ($id) agar sistem tahu ini sedang EDIT (exclude diri sendiri)
+    $duplikat = $ppdbModel->cekDuplikasiData($data['nisn'], $data['nik'], $data['no_akte_lahir'], $id);
+    
+    if ($duplikat) {
+        // Jika ditemukan data kembar
+        $pesan = "GAGAL UPDATE! Data duplikat ditemukan.\\n";
+        $pesan .= "Data bentrok dengan siswa bernama: " . $duplikat['nama_lengkap'] . "\\n";
+        
+        if ($duplikat['nisn'] == $data['nisn']) $pesan .= "- NISN sudah terpakai\\n";
+        if ($duplikat['nik'] == $data['nik']) $pesan .= "- NIK sudah terpakai\\n";
+        if ($duplikat['no_akte_lahir'] == $data['no_akte_lahir']) $pesan .= "- No Akte Lahir sudah terpakai\\n";
+        
+        echo "<script>alert('$pesan'); history.back();</script>";
+        exit; // Stop proses, jangan simpan!
+    }
 
-    // Handle Upload Foto Baru
+    // Jika aman, lanjut proses upload foto
+    $data['foto_siswa'] = ''; 
     if (isset($_FILES['foto_baru']) && $_FILES['foto_baru']['error'] === 0) {
         $target_dir = "uploads/peserta/";
         if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
-        
         $file_ext = strtolower(pathinfo($_FILES["foto_baru"]["name"], PATHINFO_EXTENSION));
         $new_name = time() . '_' . rand(100, 999) . '.' . $file_ext;
         $target_file = $target_dir . $new_name;
-
         if (move_uploaded_file($_FILES["foto_baru"]["tmp_name"], $target_file)) {
             $data['foto_siswa'] = $new_name;
         }
     }
 
+    // Simpan ke Database
     if ($ppdbModel->updatePendaftar($data, $id)) {
         echo "<script>alert('Data berhasil diperbarui!'); window.location='pendaftar_ppdb.php?aksi=detail&id=$id';</script>";
         exit;
@@ -55,35 +71,60 @@ if ($aksi == 'proses_edit' && isset($_POST['id_pendaftar'])) {
     }
 }
 
-// D. PROSES TAMBAH DATA (BARU)
+// D. PROSES TAMBAH DATA MANUAL (ADMIN)
 if ($aksi == 'proses_tambah' && isset($_POST['nisn'])) {
     $data = $_POST;
+    
+    // [VALIDASI] Cek Duplikasi (Tanpa ID karena data baru)
+    $duplikat = $ppdbModel->cekDuplikasiData($data['nisn'], $data['nik'], $data['no_akte_lahir'], null);
+    
+    if ($duplikat) {
+        $pesan = "GAGAL SIMPAN! Data duplikat ditemukan.\\n";
+        $pesan .= "Data bentrok dengan siswa bernama: " . $duplikat['nama_lengkap'] . "\\n";
+        
+        if ($duplikat['nisn'] == $data['nisn']) $pesan .= "- NISN sudah terpakai\\n";
+        if ($duplikat['nik'] == $data['nik']) $pesan .= "- NIK sudah terpakai\\n";
+        if ($duplikat['no_akte_lahir'] == $data['no_akte_lahir']) $pesan .= "- No Akte Lahir sudah terpakai\\n";
+        
+        echo "<script>alert('$pesan'); history.back();</script>";
+        exit;
+    }
+
+    // Proses upload foto jika ada
     $data['foto_siswa'] = '';
-    
-    // Generate No Registrasi Otomatis
-    $tahun = date('Y');
-    $bulan = date('m');
-    $data['no_registrasi'] = 'PPDB' . $tahun . $bulan . rand(1000, 9999);
-    
-    // Handle Upload Foto
     if (isset($_FILES['foto_siswa']) && $_FILES['foto_siswa']['error'] === 0) {
         $target_dir = "uploads/peserta/";
         if (!file_exists($target_dir)) mkdir($target_dir, 0777, true);
         
+        // Validasi ukuran file (max 2MB)
+        if ($_FILES['foto_siswa']['size'] > 2097152) {
+            echo "<script>alert('Ukuran foto terlalu besar! Maksimal 2MB'); history.back();</script>";
+            exit;
+        }
+        
+        // Validasi tipe file
+        $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
         $file_ext = strtolower(pathinfo($_FILES["foto_siswa"]["name"], PATHINFO_EXTENSION));
+        
+        if (!in_array($file_ext, $allowed_types)) {
+            echo "<script>alert('Format foto tidak valid! Gunakan JPG, PNG, atau GIF'); history.back();</script>";
+            exit;
+        }
+        
         $new_name = time() . '_' . rand(100, 999) . '.' . $file_ext;
         $target_file = $target_dir . $new_name;
-
+        
         if (move_uploaded_file($_FILES["foto_siswa"]["tmp_name"], $target_file)) {
             $data['foto_siswa'] = $new_name;
         }
     }
-    
+
+    // Simpan ke database menggunakan method tambahPendaftar
     if ($ppdbModel->tambahPendaftar($data)) {
-        echo "<script>alert('Data berhasil ditambahkan!'); window.location='pendaftar_ppdb.php';</script>";
+        echo "<script>alert('Data siswa berhasil ditambahkan!'); window.location='pendaftar_ppdb.php';</script>";
         exit;
     } else {
-        echo "<script>alert('Gagal menambahkan data.'); history.back();</script>";
+        echo "<script>alert('Gagal menyimpan data. Silakan coba lagi.'); history.back();</script>";
         exit;
     }
 }
