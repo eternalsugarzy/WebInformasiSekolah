@@ -280,5 +280,23 @@ class PPDBModel extends Database {
         }
         return $data;
     }
+
+    // Tambahkan ini di dalam class PPDBModel
+    public function getLaporanPendaftar($tahun) {
+        // Ambil data dari tabel pendaftar_ppdb dimana tahun daftar = tahun yang diminta
+        // Filter juga hanya yang statusnya bukan 'Ditolak' (Opsional, tergantung kebutuhan)
+        $sql = "SELECT * FROM pendaftar_ppdb 
+                WHERE YEAR(tanggal_daftar) = '$tahun' 
+                ORDER BY nama_lengkap ASC";
+        
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
 }
 ?>

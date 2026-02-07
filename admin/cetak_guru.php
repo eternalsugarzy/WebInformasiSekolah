@@ -10,7 +10,27 @@ if (!isset($_SESSION['user_admin'])) {
 // 2. Panggil Model Guru
 require_once '../models/GuruModel.php';
 $model = new GuruModel();
+
+// Ambil Data List Guru
 $data_guru = $model->getAllGuruList();
+
+// [BARU] Ambil Data Kepala Sekolah
+$kepsek = $model->getKepalaSekolah();
+
+// Setup Default jika data Kepsek belum diinput di database
+$nama_kepsek = !empty($kepsek['nama_lengkap']) ? $kepsek['nama_lengkap'] : '( Belum Ada Data Kepsek )';
+$nip_kepsek  = !empty($kepsek['nip']) ? $kepsek['nip'] : '-';
+
+// [BARU] Helper Tanggal Indonesia
+function tgl_indo($tanggal){
+    $bulan = array (
+        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
+    // $pecahkan[0] = tahun, [1] = bulan, [2] = tanggal
+    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
 ?>
 
 <!DOCTYPE html>
@@ -35,7 +55,6 @@ $data_guru = $model->getAllGuruList();
             position: absolute; 
             left: 10px; 
             top: 0; 
-            /* filter: grayscale(100%); Hapus komentar ini jika ingin logo hitam putih */
         }
         .kop-surat h2 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: bold; }
         .kop-surat h4 { margin: 5px 0; font-size: 16px; font-weight: normal; }
@@ -52,7 +71,7 @@ $data_guru = $model->getAllGuruList();
         
         /* Tanda Tangan */
         .ttd { width: 100%; margin-top: 50px; display: flex; justify-content: flex-end; }
-        .ttd-box { width: 250px; text-align: center; }
+        .ttd-box { width: 280px; text-align: center; } /* Lebar sedikit ditambah */
         
         /* Print Settings */
         @media print {
@@ -65,12 +84,11 @@ $data_guru = $model->getAllGuruList();
 <body onload="window.print()">
 
     <div class="kop-surat">
-        <img src="../img/logo.png">
+        <img src="../img/logo.png" onerror="this.style.display='none'"> 
         <h2>SMA FRATER DON BOSCO</h2>
         <h4>Laporan Arsip Pengumuman & Informasi Penting</h4>
         <p>Jl. Tugu Pahlawan No. 123, Banjarmasin | Telp: (0511) 1234567</p>
     </div>
-
 
     <h3 class="judul-laporan">DATA GURU & STAF PENGAJAR</h3>
 
@@ -108,11 +126,17 @@ $data_guru = $model->getAllGuruList();
 
     <div class="ttd">
         <div class="ttd-box">
-            <p>Banjarmasin, <?php echo date('d F Y'); ?></p>
+            <p>Banjarmasin, <?php echo tgl_indo(date('Y-m-d')); ?></p>
+            
             <p>Kepala Sekolah</p>
+            
             <br><br><br><br>
-            <p style="text-decoration: underline; font-weight: bold;">Fr. M. Paul, CMM, M.Pd</p>
-            <p>NIP. 19800101 200501 1 001</p>
+            
+            <p style="text-decoration: underline; font-weight: bold;">
+                <?php echo htmlspecialchars($nama_kepsek); ?>
+            </p>
+            
+            <p>NIP. <?php echo htmlspecialchars($nip_kepsek); ?></p>
         </div>
     </div>
 
