@@ -1,5 +1,6 @@
 <?php
 session_start();
+// 1. Cek Login
 if (!isset($_SESSION['user_admin'])) {
     header("Location: login.php");
     exit;
@@ -7,89 +8,127 @@ if (!isset($_SESSION['user_admin'])) {
 
 require_once '../models/PPDBModel.php';
 $model = new PPDBModel();
-$data_ppdb = $model->getAllPPDB();
+
+// 2. Tentukan Tahun Ajaran (Ambil tahun saat ini)
+$tahun_ini = date('Y');
+$data_siswa = $model->getLaporanPendaftar($tahun_ini);
+
+// Helper Tanggal Indo
+function tgl_indo($tanggal){
+    $bulan = array (
+        1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+    );
+    $pecahkan = explode('-', $tanggal);
+    return $pecahkan[2] . ' ' . $bulan[ (int)$pecahkan[1] ] . ' ' . $pecahkan[0];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Informasi PPDB</title>
+    <title>Laporan Pendaftar PPDB <?php echo $tahun_ini; ?></title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
+        /* CSS Cetak Standar */
+        body { font-family: "Times New Roman", Times, serif; margin: 40px; color: #000; font-size: 12pt; }
         
         /* Kop Surat */
-        .kop-surat { border-bottom: 3px solid #000; padding-bottom: 15px; margin-bottom: 30px; text-align: center; position: relative; }
-        .kop-surat img { height: 90px; position: absolute; left: 10px; top: 0; }
-        .kop-surat h2 { margin: 0; font-size: 24px; text-transform: uppercase; font-weight: bold; }
-        .kop-surat h4 { margin: 5px 0; font-size: 18px; font-weight: normal; }
+        .kop-surat { border-bottom: 3px solid #000; padding-bottom: 10px; margin-bottom: 20px; text-align: center; position: relative; }
+        .kop-surat img { height: 90px; position: absolute; left: 0; top: 0; }
+        .kop-surat h2 { margin: 0; font-size: 22px; text-transform: uppercase; font-weight: bold; }
+        .kop-surat h4 { margin: 5px 0; font-size: 16px; font-weight: normal; }
         .kop-surat p { margin: 0; font-size: 13px; font-style: italic; }
 
-        /* Judul */
-        .judul-dokumen { text-align: center; border: 2px solid #333; padding: 10px; margin-bottom: 30px; background: #f9f9f9; }
-        .judul-dokumen h3 { margin: 0; text-transform: uppercase; }
+        /* Judul Laporan */
+        .judul { text-align: center; margin-bottom: 20px; font-weight: bold; text-decoration: underline; text-transform: uppercase; }
 
-        /* Item Informasi */
-        .info-item { margin-bottom: 30px; border-bottom: 1px dashed #ccc; padding-bottom: 20px; }
-        .info-title { font-size: 18px; font-weight: bold; color: #000; margin-bottom: 10px; display: block; text-decoration: underline; }
-        .info-date { font-size: 12px; color: #555; margin-bottom: 10px; display: block; font-style: italic; }
-        .info-content { text-align: justify; white-space: pre-line; /* Agar enter terbaca */ }
+        /* Tabel Data */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        table, th, td { border: 1px solid #000; }
+        th { background-color: #f2f2f2; padding: 10px; text-align: center; font-weight: bold; }
+        td { padding: 8px; vertical-align: top; }
+        
+        /* Kolom Spesifik */
+        .col-no { width: 5%; text-align: center; }
+        .col-reg { width: 15%; text-align: center; }
+        .col-nama { width: 30%; }
+        .col-asal { width: 25%; }
+        .col-status { width: 10%; text-align: center; }
 
-        /* Link */
-        .link-box { margin-top: 10px; background: #eee; padding: 10px; font-weight: bold; font-size: 12px; border-radius: 4px; display: inline-block; }
+        /* Tanda Tangan */
+        .ttd-wrapper { margin-top: 50px; width: 100%; display: flex; justify-content: flex-end; }
+        .ttd { text-align: center; width: 250px; }
 
         @media print {
-            @page { size: A4; margin: 2cm; }
+            @page { size: A4 landscape; margin: 2cm; } /* Landscape agar muat banyak kolom */
             body { margin: 0; }
-            .link-box { background: #fff; border: 1px solid #ccc; }
         }
     </style>
 </head>
 <body onload="window.print()">
 
     <div class="kop-surat">
-        <img src="../img/logo.png" style="filter: "> 
+        <img src="../img/logo.png" onerror="this.style.display='none'">
         <h2>SMA FRATER DON BOSCO</h2>
-        <h4>Penerimaan Peserta Didik Baru (PPDB)</h4>
-        <p>Jl. Tugu Pahlawan No. 123, Banjarmasin | Telp: (0511) 1234567 | Web: www.smafraterdb.sch.id</p>
+        <h4>PANITIA PENERIMAAN PESERTA DIDIK BARU (PPDB)</h4>
+        <p>Jl. Tugu Pahlawan No. 123, Banjarmasin | Telp: (0511) 1234567</p>
     </div>
 
-    <div class="judul-dokumen">
-        <h3>PANDUAN INFORMASI PENDAFTARAN</h3>
-        <small>Tahun Ajaran <?php echo date('Y') . "/" . (date('Y')+1); ?></small>
+    <div class="judul">
+        LAPORAN DATA PENDAFTAR TAHUN AJARAN <?php echo $tahun_ini . "/" . ($tahun_ini+1); ?>
     </div>
 
-    <?php 
-    if (count($data_ppdb) > 0) {
-        foreach ($data_ppdb as $item) {
-    ?>
-        <div class="info-item">
-            <span class="info-title"><?php echo htmlspecialchars($item['jenis_informasi']); ?></span>
-            
-            <span class="info-date">
-                Periode: <?php echo date('d M Y', strtotime($item['tanggal_mulai'])); ?> 
-                s/d <?php echo date('d M Y', strtotime($item['tanggal_akhir'])); ?>
-            </span>
+    <table>
+        <thead>
+            <tr>
+                <th class="col-no">No</th>
+                <th class="col-reg">No. Registrasi</th>
+                <th class="col-nama">Nama Lengkap</th>
+                <th>Jenis Kelamin</th>
+                <th class="col-asal">Asal Sekolah</th>
+                <th>Tanggal Daftar</th>
+                <th class="col-status">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php 
+            $no = 1;
+            if (count($data_siswa) > 0) {
+                foreach ($data_siswa as $d) {
+                    $tgl_daftar = date('Y-m-d', strtotime($d['tanggal_daftar']));
+            ?>
+            <tr>
+                <td style="text-align: center;"><?php echo $no++; ?></td>
+                <td style="text-align: center;"><?php echo htmlspecialchars($d['no_registrasi']); ?></td>
+                <td style="font-weight: bold;"><?php echo htmlspecialchars($d['nama_lengkap']); ?></td>
+                <td style="text-align: center;"><?php echo htmlspecialchars($d['jenis_kelamin']); ?></td>
+                <td><?php echo htmlspecialchars($d['nama_sekolah_asal']); ?></td>
+                <td style="text-align: center;"><?php echo tgl_indo($tgl_daftar); ?></td>
+                <td style="text-align: center;">
+                    <?php echo strtoupper($d['status_seleksi']); ?>
+                </td>
+            </tr>
+            <?php 
+                }
+            } else {
+                echo "<tr><td colspan='7' style='text-align:center; padding:20px;'>Belum ada data pendaftar untuk tahun ini.</td></tr>";
+            }
+            ?>
+        </tbody>
+    </table>
 
-            <div class="info-content">
-                <?php echo htmlspecialchars($item['isi_detail']); ?>
-            </div>
+    <div style="font-size: 11px; margin-top: 10px;">
+        <i>* Total Pendaftar: <?php echo count($data_siswa); ?> Siswa</i>
+    </div>
 
-            <?php if(!empty($item['tautan_formulir'])): ?>
-            <div class="link-box">
-                Link Pendaftaran: <?php echo htmlspecialchars($item['tautan_formulir']); ?>
-            </div>
-            <?php endif; ?>
+    <div class="ttd-wrapper">
+        <div class="ttd">
+            <p>Banjarmasin, <?php echo tgl_indo(date('Y-m-d')); ?></p>
+            <p>Ketua Panitia PPDB,</p>
+            <br><br><br>
+            <p style="font-weight: bold; text-decoration: underline;">( .................................... )</p>
         </div>
-    <?php 
-        }
-    } else {
-        echo "<p style='text-align:center'>Belum ada informasi PPDB yang dipublikasikan.</p>";
-    }
-    ?>
-
-    <div style="text-align: center; margin-top: 50px; font-size: 12px; color: #777;">
-        <i>Dokumen ini dicetak otomatis dari sistem informasi sekolah pada tanggal <?php echo date('d F Y'); ?>.</i>
     </div>
 
 </body>
