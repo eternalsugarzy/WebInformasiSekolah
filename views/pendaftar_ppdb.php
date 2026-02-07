@@ -370,3 +370,57 @@ require_once 'template/sidebar.php';
 </div> 
 
 <?php require_once 'template/footer.php'; ?>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function() {
+
+    // Fungsi Reusable untuk Cek Data
+    function cekData(selectorInput, selectorMsg, tipeKolom) {
+        $(selectorInput).on('change keyup', function() {
+            var nilai = $(this).val();
+            
+            // Jika kosong, sembunyikan pesan
+            if(nilai == '') {
+                $(selectorMsg).html('');
+                $(selectorInput).css('border-color', '#ccc');
+                return;
+            }
+
+            // Panggil API dengan AJAX
+            $.ajax({
+                url: 'process/api_cek_data.php', // Pastikan path ini benar!
+                type: 'POST',
+                data: {
+                    type: tipeKolom,
+                    value: nilai
+                },
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status == 'error') {
+                        // Data Duplikat Ditemukan
+                        $(selectorMsg).html('<i class="fa fa-times-circle"></i> ' + response.message).css('color', 'red');
+                        $(selectorInput).css('border-color', 'red');
+                        $('#btnSubmit').prop('disabled', true); // Matikan tombol daftar
+                    } else {
+                        // Data Aman
+                        $(selectorMsg).html('<i class="fa fa-check-circle"></i> Tersedia').css('color', 'green');
+                        $(selectorInput).css('border-color', 'green');
+                        $('#btnSubmit').prop('disabled', false); // Hidupkan tombol daftar
+                    }
+                },
+                error: function() {
+                    console.log('Error memanggil API cek data');
+                }
+            });
+        });
+    }
+
+    // Jalankan fungsi untuk masing-masing kolom
+    cekData('#nisn', '#msg_nisn', 'nisn');
+    cekData('#nik', '#msg_nik', 'nik');
+    cekData('#no_akte_lahir', '#msg_akte', 'no_akte_lahir');
+
+});
+</script>
