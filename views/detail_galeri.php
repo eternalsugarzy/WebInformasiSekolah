@@ -62,8 +62,19 @@
 .gallery-grid-item:hover img { transform: scale(1.06); }
 
 /* Tombol Kembali */
-.blog-share a.main-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; background: linear-gradient(135deg, #0808e8, #3b5bff); color: #fff !important; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 15px; white-space: nowrap; }
-.blog-share a.main-button::before { font-family: 'FontAwesome'; content: "\f060"; margin-right: 6px; }
+.blog-share a.main-button { 
+    display: inline-block;
+    background: linear-gradient(135deg, #0808e8, #3b5bff); 
+    color: #fff !important; 
+    padding: 12px 35px; 
+    border-radius: 50px; 
+    font-weight: 700; 
+    text-decoration: none; 
+    font-size: 15px; 
+    white-space: nowrap;
+    width: auto;
+}
+
 
 /* ====================== */
 /* LIGHTBOX / MODAL */
@@ -167,8 +178,10 @@
                         ?>
                     </div>
 
-                    <div class="blog-share text-center" style="margin-top: 40px;">
-                        <a href="galeri.php" class="main-button">Kembali ke Arsip Galeri</a>
+                    <div style="margin-top: 40px; text-align: center; width: 100%;">
+                        <a href="galeri.php" style="display: inline-block; background: linear-gradient(135deg, #0808e8, #3b5bff); color: #fff; padding: 12px 35px; border-radius: 50px; font-weight: 700; text-decoration: none; font-size: 15px; white-space: nowrap;">
+                         &#8592; Kembali ke Arsip Galeri
+                        </a>
                     </div>
 
                 </div>
