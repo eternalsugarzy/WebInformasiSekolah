@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Feb 03, 2026 at 06:46 PM
+-- Generation Time: Jun 07, 2026 at 09:02 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -77,7 +77,8 @@ INSERT INTO `galeri_fotos` (`id_foto`, `id_album`, `file_foto`) VALUES
 (16, 3, 'album_3_1764250675_0.png'),
 (17, 3, 'album_3_1764250688_0.png'),
 (18, 3, 'album_3_1764250688_1.png'),
-(19, 3, 'album_3_1764250688_2.png');
+(19, 3, 'album_3_1764250688_2.png'),
+(20, 4, 'album_4_1771435365_0.png');
 
 -- --------------------------------------------------------
 
@@ -101,7 +102,8 @@ CREATE TABLE `galeri_media` (
 INSERT INTO `galeri_media` (`id_album`, `judul_album`, `deskripsi`, `tanggal_event`, `file_path`, `tipe_media`) VALUES
 (1, 'Paduan suara SMAS Frater Don Bosco Banjarmasin (Don Bosco Choir) Bertugas dalam Misa.', 'Banjarmasin, Selasa (26/10/2025) - Tim basket putra SMAS Frater Don Bosco Banjarmasin kembali menunjukkan prestasi gemilang dengan meraih juara 3 pada Kanaan Basketball Competition, perebutan juara 3 diselenggarakan pada hari Minggu, 26 Oktober 2025. Pada hari ini, piala diserahkan secara simbolis kepada pihak sekolah, yang diserahakan kepada Fr. Danny Arifin D. L., S. Ag., M. Pd., CMM, selaku kepala sekolah. SMAS Frater Don Bosco Banjarmasin bangga dengan prestasi yang telah diraih.', '2025-11-25', '1763379679_715.png', 'Foto'),
 (2, 'Dalam rangka peringatan Hari Guru Nasional', ' Fr. Martinus Max Mangundap, S.Pd., CMM., bersama para pegawai yayasan Don Bosco Manado perwakilan Banjarmasin turut bersuka-cita dalam perayaan HGN 2025. Pengurus OSIS juga menyampaikan bingkisan sederhana sebagai ungkapan syukur atas segala dukungan yayasan untuk para guru, sekaligus ungkapan terima kasih atas perhatian yayasan kepada sekolah dan para murid dalam menunjang keberlangsungan aktivitas pendidikan.', '2025-11-26', '', 'Foto'),
-(3, 'Tim Dance SMAS Frater Don Bosco Banjarmasin Raih Juara 2 Youth Fest Banjarmasin 2025', 'Banjarmasin, Senin (10/11/2025) - Tim Dance SMAS Frater Don Bosco Banjarmasin, Donbosco Crew, kembali menunjukkan prestasi gemilang dengan meraih juara 2 dalam perlombaan dance Youth Fest Banjarmasin 2025, yang diadakan pada hari Jumat, 7/11/2025 oleh Pemerintah Kota Banjarmasin. Donbosco Crew kembali membuktikan kemampuan mereka, dan ini merupakan buah dari kerja keras dan dedikasi mereka. Terus berkarya Don Bosco Crew!!', '2025-11-10', NULL, 'Foto');
+(3, 'Tim Dance SMAS Frater Don Bosco Banjarmasin Raih Juara 2 Youth Fest Banjarmasin 2025', 'Banjarmasin, Senin (10/11/2025) - Tim Dance SMAS Frater Don Bosco Banjarmasin, Donbosco Crew, kembali menunjukkan prestasi gemilang dengan meraih juara 2 dalam perlombaan dance Youth Fest Banjarmasin 2025, yang diadakan pada hari Jumat, 7/11/2025 oleh Pemerintah Kota Banjarmasin. Donbosco Crew kembali membuktikan kemampuan mereka, dan ini merupakan buah dari kerja keras dan dedikasi mereka. Terus berkarya Don Bosco Crew!!', '2025-11-10', NULL, 'Foto'),
+(4, 'TESTING', 'TESTING', '2026-02-18', NULL, 'Foto');
 
 -- --------------------------------------------------------
 
@@ -182,6 +184,63 @@ INSERT INTO `info_ppdb` (`id_info`, `jenis_informasi`, `isi_detail`, `tanggal_mu
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kriteria_saw`
+--
+
+CREATE TABLE `kriteria_saw` (
+  `id_kriteria` int NOT NULL,
+  `kode_kriteria` varchar(5) NOT NULL,
+  `nama_kriteria` varchar(100) NOT NULL,
+  `tipe` enum('Benefit','Cost') NOT NULL,
+  `bobot` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `kriteria_saw`
+--
+
+INSERT INTO `kriteria_saw` (`id_kriteria`, `kode_kriteria`, `nama_kriteria`, `tipe`, `bobot`) VALUES
+(1, 'C1', 'Rata-rata Raport (Sem 1-5)', 'Benefit', 40),
+(2, 'C2', 'Nilai Tes Tertulis', 'Benefit', 30),
+(3, 'C3', 'Prestasi / Sertifikat', 'Benefit', 20),
+(4, 'C4', 'Jarak Rumah ke Sekolah', 'Cost', 10);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nilai_tesmasuk`
+--
+
+CREATE TABLE `nilai_tesmasuk` (
+  `id_nilai_tes` int NOT NULL,
+  `id_pendaftar` int NOT NULL,
+  `nilai_raport` float DEFAULT '0',
+  `nilai_tes` float DEFAULT '0',
+  `nilai_prestasi` float DEFAULT '0',
+  `jarak_rumah` float DEFAULT '0',
+  `nilai_akhir_saw` float DEFAULT NULL,
+  `peringkat` int DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `nilai_tesmasuk`
+--
+
+INSERT INTO `nilai_tesmasuk` (`id_nilai_tes`, `id_pendaftar`, `nilai_raport`, `nilai_tes`, `nilai_prestasi`, `jarak_rumah`, `nilai_akhir_saw`, `peringkat`, `created_at`) VALUES
+(1, 9, 80, 75, 70, 15, 0.715681, 4, '2026-06-07 08:19:12'),
+(2, 10, 90, 55, 0, 5, 0.592004, 7, '2026-06-07 08:26:29'),
+(3, 11, 78, 81, 0, 21, 0.577396, 9, '2026-06-07 08:26:43'),
+(4, 8, 98, 98, 98, 100, 0.89896, 2, '2026-06-07 08:37:26'),
+(5, 7, 74, 60, 30, 5, 0.603888, 6, '2026-06-07 08:37:38'),
+(6, 6, 99, 96, 88, 5.2, 0.931162, 1, '2026-06-07 08:38:00'),
+(7, 5, 85, 80, 45, 25, 0.692169, 5, '2026-06-07 08:38:13'),
+(8, 4, 89, 74, 50, 3, 0.788167, 3, '2026-06-07 08:38:27'),
+(9, 3, 87, 65, 0, 9, 0.583828, 8, '2026-06-07 08:38:42');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `pendaftar_ppdb`
 --
 
@@ -215,9 +274,15 @@ CREATE TABLE `pendaftar_ppdb` (
 --
 
 INSERT INTO `pendaftar_ppdb` (`id_pendaftar`, `no_registrasi`, `nisn`, `nama_lengkap`, `tempat_lahir`, `tanggal_lahir`, `jenis_kelamin`, `agama`, `alamat_lengkap`, `no_hp_siswa`, `email_siswa`, `no_kk`, `nik`, `no_akte_lahir`, `npsn_smp`, `nama_sekolah_asal`, `provinsi_smp`, `kabupaten_smp`, `kecamatan_smp`, `foto_siswa`, `tanggal_daftar`, `status_seleksi`) VALUES
-(1, 'REG-260113094201', '38108302830283', 'Saiduns', 'Jawa', '2026-01-13', 'Laki-Laki', 'Katolik', 'Pekauman', '4646464646', 'saiduns@gmail.com', '76858745376', '796785676', '53216577', '0830183024820', 'SMP Sei Gardu', 'Kalimantan Tengah', 'Palangkaraya', 'Rajawali', 'Saiduns_38108302830283.png', '2026-01-13 17:42:01', 'Menunggu'),
-(2, 'REG-260113094509', '802402840248', 'Ahmad Said', 'Sei Gardu', '2026-01-13', 'Laki-Laki', 'Katolik', 'Sei Garduts', '97946464', 'saiduns@mail.co.id', '87844464611313', '8784641333554', '5484545', '23802802840248', 'SMP Sei Gardu 2', 'Kalimantan Tengah', 'Palangkaraya', 'Rajawali', 'AhmadSaidun_802402840248.png', '2026-01-13 17:45:09', 'Ditolak'),
-(3, 'REG-260116065532', '019309302392', 'Muhammad Rizki', 'Tanah Laut', '2026-01-08', 'Laki-Laki', 'Islam', 'Jl Karang Rejo RT 04 RW 02 Kelurahan Karang Rejo, Jorong, Tanah Laut', '0845422126', 'rizki@mail.com', '02809025807494', '9485263596969', '992748594039', '45163152352', 'SMP Negeri 1 Jorong', 'Kalimantan Selatan', 'Tanah Laut', 'Jorong', 'MuhammadRizki_019309302392.png', '2026-01-16 14:55:32', 'Diterima');
+(3, 'REG-260116065532', '019309302392', 'Muhammad Rizki', 'Tanah Laut', '2026-01-08', 'Laki-Laki', 'Islam', 'Jl Karang Rejo RT 04 RW 02 Kelurahan Karang Rejo, Jorong, Tanah Laut', '0845422126', 'rizki@mail.com', '02809025807494', '9485263596969', '992748594039', '45163152352', 'SMP Negeri 1 Jorong', 'Kalimantan Selatan', 'Tanah Laut', 'Jorong', 'MuhammadRizki_019309302392.png', '2026-01-16 14:55:32', 'Ditolak'),
+(4, 'REG-260204023928', '461435153165787988', 'Almas Syauqannanda', 'Palangkaraya', '2003-06-23', 'Laki-Laki', 'Islam', 'Jl Rajawali Palangkaraya', '085462332959', 'alamas@mail.co.id', '784165156487845', '456465123123148979', '121315464657989', '011233654', 'SMP JayaPalangkaraya', 'Kalimantan Tengah', 'Palangkaraya', 'Rajawali', '1770172768_968.webp', '2026-02-04 10:39:28', 'Diterima'),
+(5, 'REG-260204024304', '1546987320', 'Putra Juna', 'Sei Danau', '1995-02-22', 'Laki-Laki', 'Islam', 'Jl Sei Danau', '0863124403229', 'juna@mail.co.id', '123658977452', '0321454578210365', '0389664720016589', '0123684455', 'SMP Sei Gardu', 'Kalimantan Selatan', 'Tanah Laut', 'Jorong', 'PutraJuna_1546987320.jpg', '2026-02-04 10:43:04', 'Diterima'),
+(6, 'REG-260204025647', '0413513346548', 'Sugarzy Jago', 'Tala ', '2026-02-01', 'Laki-Laki', 'Islam', 'Jl nin aja dulu', '06455521213', 'sugart@mail.co.id', '4614345699632001', '0214552300178990', '0623298965232326', '467892532', 'SMP 1 Jorong Jaya', 'Kalimantan Selatan', 'Tanah Laut', 'Jorong', '1770173807_603.jpg', '2026-02-04 10:56:47', 'Diterima'),
+(7, 'REG-260207132957', '00153156468446', 'Almas Almas', 'PKY', '2026-02-07', 'Laki-Laki', 'Islam', 'Jlawndlandaw', '06546465498', 'alams@mail.com', '54657864135354578', '7863485313546578', '135486797865131', '0830183024820', 'SMP JayaPalangka', 'Kalimantan Selatan', 'Palangkaraya', 'Jorong', '1770470997_370.png', '2026-02-07 21:29:57', 'Cadangan'),
+(8, 'REG-260207133328', '12345', 'Muhammad Irwan Firmanto 1', 'Jawa', '2026-02-07', 'Laki-Laki', 'Islam', 'wdhaohdaidbalwfba', '0845422126', 'saiduns@mail.co.id', '4614345699632001', '0214552300178990', '121315464657989', '0830183024820', 'SMP Sei Gardu 2', 'Kalimantan Selatan', 'Palangkaraya', 'Jorong', '1770471208_968.png', '2026-02-07 21:33:28', 'Diterima'),
+(9, 'REG-260207133449', '12345', 'Almas Syauqannanda', 'Jawa', '2026-02-17', 'Laki-Laki', 'Islam', 'ajfoaflnawfanflaf', '06546465498', 'alamas@mail.co.id', '76858745376', '63301091293212129', '992748594039', '0830183024820', 'SMP Sei Gardu', 'Kalimantan Selatan', 'Palangkaraya', 'Rajawali', '1770471289_778.png', '2026-02-07 21:34:49', 'Diterima'),
+(10, 'REG-260207135052', '123456', 'Leonardo Di Caprio', 'Jawa', '2026-02-03', 'Laki-Laki', 'Kristen', 'NDkwndkandkawf', '0845422126', 'alamas@mail.co.id', '56164879863135', '1213665400054546', '0031794113134897', '23802802840248', 'SMP Sei Gardu 2', 'Kalimantan Tengah', 'Palangkaraya', 'Jorong', '', '2026-02-07 21:50:52', 'Ditolak'),
+(11, 'REG-260207135209', '135468463', 'Manja Bnge', 'Sei Gardu', '2026-02-07', 'Perempuan', 'Islam', 'Daiwdlajdoaldw', '97946464', 'saiduns@mail.co.id', '4614345699632001', '12136654000545464', '2323164651212', '0830183024820', 'SMP Sei Gardu', 'Kalimantan Selatan', 'Palangkaraya', 'Jorong', '1770472329_469.png', '2026-02-07 21:52:09', 'Ditolak');
 
 -- --------------------------------------------------------
 
@@ -262,6 +327,26 @@ INSERT INTO `posters` (`id_poster`, `file_poster`, `created_at`) VALUES
 (6, 'slider_1764251539333.png', '2025-11-27 13:52:19'),
 (7, 'slider_1764251550643.png', '2025-11-27 13:52:30'),
 (8, 'slider_1764251559547.png', '2025-11-27 13:52:39');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `setting_ppdb`
+--
+
+CREATE TABLE `setting_ppdb` (
+  `id` int NOT NULL,
+  `nama_setting` varchar(50) NOT NULL,
+  `nilai` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `setting_ppdb`
+--
+
+INSERT INTO `setting_ppdb` (`id`, `nama_setting`, `nilai`) VALUES
+(1, 'kuota_diterima', 5),
+(2, 'kuota_cadangan', 1);
 
 -- --------------------------------------------------------
 
@@ -327,6 +412,19 @@ ALTER TABLE `info_ppdb`
   ADD PRIMARY KEY (`id_info`);
 
 --
+-- Indexes for table `kriteria_saw`
+--
+ALTER TABLE `kriteria_saw`
+  ADD PRIMARY KEY (`id_kriteria`);
+
+--
+-- Indexes for table `nilai_tesmasuk`
+--
+ALTER TABLE `nilai_tesmasuk`
+  ADD PRIMARY KEY (`id_nilai_tes`),
+  ADD KEY `fk_nilai_pendaftar` (`id_pendaftar`);
+
+--
 -- Indexes for table `pendaftar_ppdb`
 --
 ALTER TABLE `pendaftar_ppdb`
@@ -343,6 +441,12 @@ ALTER TABLE `pengumuman`
 --
 ALTER TABLE `posters`
   ADD PRIMARY KEY (`id_poster`);
+
+--
+-- Indexes for table `setting_ppdb`
+--
+ALTER TABLE `setting_ppdb`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -365,13 +469,13 @@ ALTER TABLE `berita_artikel`
 -- AUTO_INCREMENT for table `galeri_fotos`
 --
 ALTER TABLE `galeri_fotos`
-  MODIFY `id_foto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id_foto` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `galeri_media`
 --
 ALTER TABLE `galeri_media`
-  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_album` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `guru_staf`
@@ -386,10 +490,22 @@ ALTER TABLE `info_ppdb`
   MODIFY `id_info` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `kriteria_saw`
+--
+ALTER TABLE `kriteria_saw`
+  MODIFY `id_kriteria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `nilai_tesmasuk`
+--
+ALTER TABLE `nilai_tesmasuk`
+  MODIFY `id_nilai_tes` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `pendaftar_ppdb`
 --
 ALTER TABLE `pendaftar_ppdb`
-  MODIFY `id_pendaftar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pendaftar` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `pengumuman`
@@ -402,6 +518,12 @@ ALTER TABLE `pengumuman`
 --
 ALTER TABLE `posters`
   MODIFY `id_poster` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `setting_ppdb`
+--
+ALTER TABLE `setting_ppdb`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -418,6 +540,12 @@ ALTER TABLE `users`
 --
 ALTER TABLE `galeri_fotos`
   ADD CONSTRAINT `fk_galeri_media` FOREIGN KEY (`id_album`) REFERENCES `galeri_media` (`id_album`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `nilai_tesmasuk`
+--
+ALTER TABLE `nilai_tesmasuk`
+  ADD CONSTRAINT `fk_nilai_pendaftar` FOREIGN KEY (`id_pendaftar`) REFERENCES `pendaftar_ppdb` (`id_pendaftar`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
