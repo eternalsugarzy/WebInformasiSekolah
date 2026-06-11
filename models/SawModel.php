@@ -37,9 +37,19 @@ class SawModel extends Database {
     // Mengambil data pendaftar digabung (JOIN) dengan nilai tes-nya jika ada
     public function getPendaftarDanNilai() {
         // Hapus p.asal_sekolah dari daftar kolom di bawah ini
-        $sql = "SELECT p.*, n.* FROM pendaftar_ppdb p
-                LEFT JOIN nilai_tesmasuk n ON p.id_pendaftar = n.id_pendaftar
-                ORDER BY n.peringkat ASC"; // UBAH INI MENJADI ORDER BY peringkat ASC
+       $sql = "SELECT
+            p.*,
+            n.id_nilai_tes,
+            n.nilai_raport,
+            n.nilai_tes,
+            n.nilai_prestasi,
+            n.jarak_rumah,
+            n.nilai_akhir_saw,
+            n.peringkat
+        FROM pendaftar_ppdb p
+        LEFT JOIN nilai_tesmasuk n
+        ON p.id_pendaftar = n.id_pendaftar
+        ORDER BY n.peringkat ASC";
         
         $result = $this->query($sql);
         $data = [];
