@@ -86,13 +86,14 @@ class PPDBModel extends Database {
         $kecamatan      = mysqli_real_escape_string($conn, $data['kecamatan_smp']);
         
         $foto           = mysqli_real_escape_string($conn, $data['foto_siswa']);
+        $jalur          = mysqli_real_escape_string($conn, $data['jalur_seleksi'] ?? 'Zonasi');
         
         $no_reg = "REG-" . date('ymdHis');
 
         $sql = "INSERT INTO pendaftar_ppdb 
-                (no_registrasi, nisn, nama_lengkap, tempat_lahir, tanggal_lahir, jenis_kelamin, agama, alamat_lengkap, no_hp_siswa, email_siswa, no_kk, nik, no_akte_lahir, npsn_smp, nama_sekolah_asal, provinsi_smp, kabupaten_smp, kecamatan_smp, foto_siswa, status_seleksi) 
+                (no_registrasi, nisn, nama_lengkap, tempat_lahir, tanggal_lahir, jenis_kelamin, agama, alamat_lengkap, no_hp_siswa, email_siswa, no_kk, nik, no_akte_lahir, npsn_smp, nama_sekolah_asal, provinsi_smp, kabupaten_smp, kecamatan_smp, foto_siswa, jalur_seleksi, status_seleksi) 
                 VALUES 
-                ('$no_reg', '$nisn', '$nama', '$tempat_lahir', '$tgl_lahir', '$jk', '$agama', '$alamat', '$hp', '$email', '$kk', '$nik', '$akte', '$npsn', '$sekolah_asal', '$provinsi', '$kabupaten', '$kecamatan', '$foto', 'Menunggu')";
+                ('$no_reg', '$nisn', '$nama', '$tempat_lahir', '$tgl_lahir', '$jk', '$agama', '$alamat', '$hp', '$email', '$kk', '$nik', '$akte', '$npsn', '$sekolah_asal', '$provinsi', '$kabupaten', '$kecamatan', '$foto', '$jalur', 'Menunggu')";
 
         return $this->query($sql);
     }
@@ -124,7 +125,8 @@ class PPDBModel extends Database {
                 nama_sekolah_asal = '{$data['nama_sekolah_asal']}',
                 provinsi_smp = '{$data['provinsi_smp']}',
                 kabupaten_smp = '{$data['kabupaten_smp']}',
-                kecamatan_smp = '{$data['kecamatan_smp']}'";
+                kecamatan_smp = '{$data['kecamatan_smp']}',
+                jalur_seleksi = '{$data['jalur_seleksi']}'";
 
         // Logika Ganti Foto: Jika ada foto baru, hapus yang lama & update database
         if (!empty($data['foto_siswa'])) {
@@ -349,7 +351,96 @@ class PPDBModel extends Database {
         $result = $this->query($sql);
         $row = mysqli_fetch_assoc($result);
         
-        return ($row['total'] > 0); // Return TRUE jika ada, FALSE jika kosong
+       return ($row['total'] > 0); // Return TRUE jika ada, FALSE jika kosong
+    }
+
+    // ==========================================
+    // UNTUK DASHBOARD: Tren Pendaftar & Statistik Kelulusan
+    // ==========================================
+
+    // Jumlah pendaftar per tahun ajaran (untuk grafik tren di Dashboard)
+    public function getTrenPendaftarPerTahun() {
+        $sql = "SELECT YEAR(tanggal_daftar) as tahun, COUNT(*) as jumlah
+                FROM pendaftar_ppdb
+                GROUP BY YEAR(tanggal_daftar)
+                ORDER BY tahun ASC";
+        $result = $this->query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    // Rekap jumlah pendaftar per status seleksi (untuk grafik pie di Dashboard)
+    public function getStatistikKelulusan($tahun = null) {
+        $where = "";
+        if ($tahun) {
+            $tahun = intval($tahun);
+            $where = "WHERE YEAR(tanggal_daftar) = $tahun";
+        }
+        $sql = "SELECT status_seleksi, COUNT(*) as jumlah
+                FROM pendaftar_ppdb
+                $where
+                GROUP BY status_seleksi";
+        $result = $this->query($sql);
+
+        // Default 0 supaya urutan & keberadaan status selalu konsisten di grafik
+        $rekap = ['Menunggu' => 0, 'Diterima' => 0, 'Cadangan' => 0, 'Ditolak' => 0];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $rekap[$row['status_seleksi']] = (int) $row['jumlah'];
+        }
+        return $rekap;
+    }
+
+// Rekap jumlah pendaftar per Jalur Seleksi, dipecah per status (Laporan Rekap Jalur Seleksi)
+    public function getRekapJalurSeleksi($tahun = null) {
+        $where = "";
+        if ($tahun) {
+            $tahun = intval($tahun);
+            $where = "WHERE YEAR(tanggal_daftar) = $tahun";
+        }
+        $sql = "SELECT jalur_seleksi, status_seleksi, COUNT(*) as jumlah
+                FROM pendaftar_ppdb
+                $where
+                GROUP BY jalur_seleksi, status_seleksi";
+        $result = $this->query($sql);
+
+        $jalur_list = ['Prestasi', 'Zonasi', 'Afirmasi'];
+        $status_list = ['Menunggu', 'Diterima', 'Cadangan', 'Ditolak'];
+
+        // Inisialisasi rekap dengan 0 supaya semua kombinasi selalu ada (walau datanya kosong)
+        $rekap = [];
+        foreach ($jalur_list as $j) {
+            $rekap[$j] = array_fill_keys($status_list, 0);
+            $rekap[$j]['Total'] = 0;
+        }
+
+        while ($row = mysqli_fetch_assoc($result)) {
+            $j = $row['jalur_seleksi'];
+            $s = $row['status_seleksi'];
+            if (isset($rekap[$j][$s])) {
+                $rekap[$j][$s] = (int) $row['jumlah'];
+            }
+        }
+
+        // Hitung total per jalur & grand total
+        $grand_total = array_fill_keys($status_list, 0);
+        $grand_total['Total'] = 0;
+        foreach ($jalur_list as $j) {
+            $total_jalur = 0;
+            foreach ($status_list as $s) {
+                $total_jalur += $rekap[$j][$s];
+                $grand_total[$s] += $rekap[$j][$s];
+            }
+            $rekap[$j]['Total'] = $total_jalur;
+            $grand_total['Total'] += $total_jalur;
+        }
+
+        return [
+            'per_jalur'   => $rekap,
+            'grand_total' => $grand_total,
+        ];
     }
 
 } // End of Class

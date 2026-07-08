@@ -24,8 +24,8 @@ class AdminSawController {
         // 2. Pastikan Ranking diurutkan ulang (WAJIB dilakukan sebelum update status)
         $this->model->updateRanking();
         
-        // 3. Update status kelulusan berdasarkan ranking yang sudah benar
-        $this->model->updateStatusKelulusan(15, 5); // Sesuaikan kuota kamu di sini
+        // 3. Update status kelulusan berdasarkan kuota yang diatur admin (tabel setting_ppdb)
+        $this->model->updateStatusKelulusan();
         
         header("Location: proses_saw.php?pesan=sukses");
         exit;

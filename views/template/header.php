@@ -6,6 +6,17 @@ if (!isset($title)) {
 
 // Dapatkan nama halaman saat ini untuk menu aktif
 $current_page = basename($_SERVER['PHP_SELF']);
+
+// [Statistik Pengunjung] Catat 1 kunjungan per sesi per hari (agar refresh tidak dobel hitung)
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+if (!isset($_SESSION['terhitung_tanggal']) || $_SESSION['terhitung_tanggal'] != date('Y-m-d')) {
+    require_once __DIR__ . '/../../models/PengunjungModel.php';
+    $pengunjungModel = new PengunjungModel();
+    $pengunjungModel->catatKunjungan();
+    $_SESSION['terhitung_tanggal'] = date('Y-m-d');
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">

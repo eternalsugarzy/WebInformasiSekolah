@@ -181,9 +181,144 @@ class SawModel extends Database {
                     WHEN n.peringkat > $k AND n.peringkat <= $total_terima THEN 'Cadangan'
                     ELSE 'Ditolak'
                 END";
-        return $this->query($sql);
+      return $this->query($sql);
     }
 
-  
+    // ==========================================
+    // 4. LAPORAN RINCIAN PERHITUNGAN SAW (Transparansi)
+    // ==========================================
+    // Mengembalikan matriks keputusan, hasil normalisasi, nilai terbobot,
+    // hingga nilai akhir (Vi) per pendaftar -- untuk keperluan laporan cetak.
+    public function getRincianPerhitungan() {
+        $mm = $this->getMinMax();
+        $kriteria = $this->getKriteria(); // Bobot dinamis dari DB
+
+        $w1 = $kriteria[0]['bobot'] / 100;
+        $w2 = $kriteria[1]['bobot'] / 100;
+        $w3 = $kriteria[2]['bobot'] / 100;
+        $w4 = $kriteria[3]['bobot'] / 100;
+
+        $data = $this->getPendaftarDanNilai();
+        $rincian = [];
+
+        foreach ($data as $row) {
+            if (!$row['id_nilai_tes']) continue; // Lewati pendaftar yang belum diinput nilainya
+
+            // Normalisasi (rij)
+            $r1 = ($mm['max_c1'] > 0) ? $row['nilai_raport'] / $mm['max_c1'] : 0;
+            $r2 = ($mm['max_c2'] > 0) ? $row['nilai_tes'] / $mm['max_c2'] : 0;
+            $r3 = ($mm['max_c3'] > 0) ? $row['nilai_prestasi'] / $mm['max_c3'] : 0;
+            $r4 = ($row['jarak_rumah'] > 0) ? $mm['min_c4'] / $row['jarak_rumah'] : 0;
+
+            // Nilai Terbobot (wi x rij)
+            $wt1 = $w1 * $r1;
+            $wt2 = $w2 * $r2;
+            $wt3 = $w3 * $r3;
+            $wt4 = $w4 * $r4;
+
+            $rincian[] = [
+                'nama_lengkap'    => $row['nama_lengkap'],
+                'no_registrasi'   => $row['no_registrasi'],
+                'raw_c1'          => $row['nilai_raport'],
+                'raw_c2'          => $row['nilai_tes'],
+                'raw_c3'          => $row['nilai_prestasi'],
+                'raw_c4'          => $row['jarak_rumah'],
+                'r1' => $r1, 'r2' => $r2, 'r3' => $r3, 'r4' => $r4,
+                'wt1' => $wt1, 'wt2' => $wt2, 'wt3' => $wt3, 'wt4' => $wt4,
+                'nilai_akhir_saw' => $row['nilai_akhir_saw'],
+                'peringkat'       => $row['peringkat'],
+                'status_seleksi'  => $row['status_seleksi'] ?? 'Menunggu',
+            ];
+        }
+
+        return [
+            'kriteria' => $kriteria,
+            'minmax'   => $mm,
+            'data'     => $rincian,
+        ];
+    }
+
+   // Ambil nilai akhir SAW & peringkat untuk 1 pendaftar (dipakai di Surat Keterangan Lulus)
+    public function getNilaiByPendaftarId($id_pendaftar) {
+        $id = intval($id_pendaftar);
+        $sql = "SELECT nilai_akhir_saw, peringkat FROM nilai_tesmasuk WHERE id_pendaftar = $id";
+        $res = $this->query($sql);
+        return $res ? mysqli_fetch_assoc($res) : null;
+    }
+
+    // ==========================================
+    // 5. LAPORAN STATISTIK NILAI RATA-RATA PENDAFTAR
+    // ==========================================
+    // $tahun = null artinya gabungan semua tahun (belum difilter)
+    public function getStatistikNilai($tahun = null) {
+        $where = "WHERE 1=1";
+        if ($tahun) {
+            $tahun = intval($tahun);
+            $where .= " AND YEAR(p.tanggal_daftar) = $tahun";
+        }
+
+        // Rata-rata nilai per kriteria untuk periode terpilih
+        $sql_rata = "SELECT 
+                        AVG(n.nilai_raport) as avg_raport,
+                        AVG(n.nilai_tes) as avg_tes,
+                        AVG(n.nilai_prestasi) as avg_prestasi,
+                        AVG(n.jarak_rumah) as avg_jarak,
+                        AVG(n.nilai_akhir_saw) as avg_akhir,
+                        COUNT(n.id_nilai_tes) as total_ternilai
+                    FROM nilai_tesmasuk n
+                    JOIN pendaftar_ppdb p ON p.id_pendaftar = n.id_pendaftar
+                    $where";
+        $rata = mysqli_fetch_assoc($this->query($sql_rata));
+
+        // Tren rata-rata nilai akhir SAW per tahun ajaran (semua tahun yang tersedia)
+        $sql_tren = "SELECT 
+                        YEAR(p.tanggal_daftar) as tahun,
+                        AVG(n.nilai_akhir_saw) as rata_akhir,
+                        COUNT(n.id_nilai_tes) as jumlah
+                    FROM nilai_tesmasuk n
+                    JOIN pendaftar_ppdb p ON p.id_pendaftar = n.id_pendaftar
+                    GROUP BY YEAR(p.tanggal_daftar)
+                    ORDER BY tahun ASC";
+        $res_tren = $this->query($sql_tren);
+        $tren = [];
+        while ($row = mysqli_fetch_assoc($res_tren)) {
+            $tren[] = $row;
+        }
+
+        // Sebaran (distribusi) nilai akhir SAW dalam 5 rentang: 0.0-0.2 s/d 0.8-1.0
+        $sql_sebaran = "SELECT n.nilai_akhir_saw 
+                        FROM nilai_tesmasuk n
+                        JOIN pendaftar_ppdb p ON p.id_pendaftar = n.id_pendaftar
+                        $where AND n.nilai_akhir_saw IS NOT NULL";
+        $res_sebaran = $this->query($sql_sebaran);
+        $bins = ['0.0 - 0.2' => 0, '0.2 - 0.4' => 0, '0.4 - 0.6' => 0, '0.6 - 0.8' => 0, '0.8 - 1.0' => 0];
+        while ($row = mysqli_fetch_assoc($res_sebaran)) {
+            $v = (float) $row['nilai_akhir_saw'];
+            if ($v < 0.2) $bins['0.0 - 0.2']++;
+            elseif ($v < 0.4) $bins['0.2 - 0.4']++;
+            elseif ($v < 0.6) $bins['0.4 - 0.6']++;
+            elseif ($v < 0.8) $bins['0.6 - 0.8']++;
+            else $bins['0.8 - 1.0']++;
+        }
+
+        // Daftar tahun yang tersedia (untuk dropdown filter)
+        $sql_tahun = "SELECT DISTINCT YEAR(p.tanggal_daftar) as tahun 
+                    FROM pendaftar_ppdb p
+                    JOIN nilai_tesmasuk n ON p.id_pendaftar = n.id_pendaftar
+                    ORDER BY tahun DESC";
+        $res_tahun = $this->query($sql_tahun);
+        $daftar_tahun = [];
+        while ($row = mysqli_fetch_assoc($res_tahun)) {
+            $daftar_tahun[] = $row['tahun'];
+        }
+
+        return [
+            'rata_rata'    => $rata,
+            'tren_tahunan' => $tren,
+            'sebaran'      => $bins,
+            'daftar_tahun' => $daftar_tahun,
+        ];
+    }
+
 }
 ?>
