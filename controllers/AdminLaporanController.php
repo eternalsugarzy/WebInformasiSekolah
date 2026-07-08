@@ -52,5 +52,26 @@ class AdminLaporanController {
         $nama_admin = $_SESSION['admin_nama'];
         require_once '../views/admin/laporan/laporan_galeri.php';
     }
+
+    // Halaman Laporan Rincian Perhitungan SAW
+    public function pageSaw() {
+        $title = "Laporan Rincian Perhitungan SAW";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_saw.php';
+    }
+
+    // Halaman Laporan Statistik Nilai Rata-Rata Pendaftar
+    public function pageStatistikNilai() {
+        $title = "Laporan Statistik Nilai Rata-Rata Pendaftar";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_statistik_nilai.php';
+    }
+
+    // Halaman Laporan Rekapitulasi Pendaftar per Jalur Seleksi
+    public function pageJalur() {
+        $title = "Laporan Rekap Jalur Seleksi";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_jalur.php';
+    }
 }
 ?>

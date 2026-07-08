@@ -38,6 +38,18 @@ switch ($action) {
     case 'pageGaleri':
         $controller->pageGaleri();
         break;
+
+    case 'pageSaw':
+        $controller->pageSaw();
+        break;
+
+    case 'pageStatistikNilai':
+        $controller->pageStatistikNilai();
+        break;
+
+    case 'pageJalur':
+        $controller->pageJalur();
+        break;
         
     default:
         // Handle 404 atau kembali ke index

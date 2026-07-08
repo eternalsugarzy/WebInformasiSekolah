@@ -212,6 +212,15 @@ require_once 'template/sidebar.php';
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label>Jalur Seleksi <span class="text-danger">*</span></label>
+                                        <select name="jalur_seleksi" class="form-control" required>
+                                            <option value="">- Pilih -</option>
+                                            <option value="Zonasi">Zonasi</option>
+                                            <option value="Afirmasi">Afirmasi</option>
+                                            <option value="Prestasi">Prestasi</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Alamat Lengkap <span class="text-danger">*</span></label>
                                         <textarea name="alamat_lengkap" class="form-control" rows="3" placeholder="Jalan, RT/RW, Kelurahan, Kecamatan" required></textarea>
                                     </div>
@@ -350,6 +359,18 @@ require_once 'template/sidebar.php';
                                         </select>
                                     </div>
                                     <div class="form-group">
+                                        <label>Jalur Seleksi <span class="text-danger">*</span></label>
+                                        <select name="jalur_seleksi" class="form-control" required>
+                                            <?php 
+                                            $jalurs = ['Zonasi', 'Afirmasi', 'Prestasi'];
+                                            foreach($jalurs as $jl) {
+                                                $sel = ($d['jalur_seleksi'] == $jl) ? 'selected' : '';
+                                                echo "<option value='$jl' $sel>$jl</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Alamat Lengkap <span class="text-danger">*</span></label>
                                         <textarea name="alamat_lengkap" class="form-control" rows="3" required><?php echo htmlspecialchars($d['alamat_lengkap']); ?></textarea>
                                     </div>
@@ -438,6 +459,9 @@ require_once 'template/sidebar.php';
                 <div class="col-md-12 mb-3" style="margin-bottom: 20px;">
                     <a href="pendaftar_ppdb.php" class="btn btn-default"><i class="fa fa-arrow-left"></i> Kembali</a>
                     <a href="pendaftar_ppdb.php?aksi=edit&id=<?php echo $siswa['id_pendaftar']; ?>" class="btn btn-warning pull-right"><i class="fa fa-pencil"></i> Edit Data</a>
+                    <?php if ($siswa['status_seleksi'] == 'Diterima'): ?>
+                    <a href="cetak_surat_lulus.php?id=<?php echo $siswa['id_pendaftar']; ?>" target="_blank" class="btn btn-success pull-right" style="margin-right: 10px;"><i class="fa fa-file-pdf-o"></i> Cetak Surat Kelulusan</a>
+                    <?php endif; ?>
                 </div>
 
                 <div class="col-md-4">
@@ -470,6 +494,7 @@ require_once 'template/sidebar.php';
                             <tr><th>Nama Lengkap</th><td><?php echo $siswa['nama_lengkap']; ?></td></tr>
                             <tr><th>TTL</th><td><?php echo $siswa['tempat_lahir'] . ', ' . date('d-m-Y', strtotime($siswa['tanggal_lahir'])); ?></td></tr>
                             <tr><th>Jenis Kelamin</th><td><?php echo $siswa['jenis_kelamin']; ?></td></tr>
+                            <tr><th>Jalur Seleksi</th><td><span class="label label-info" style="padding:4px 10px;"><?php echo htmlspecialchars($siswa['jalur_seleksi']); ?></span></td></tr>
                             <tr><th>Agama</th><td><?php echo $siswa['agama']; ?></td></tr>
                             <tr><th>Alamat</th><td><?php echo $siswa['alamat_lengkap']; ?></td></tr>
                             <tr><th>No. HP</th><td><?php echo $siswa['no_hp_siswa']; ?></td></tr>
@@ -608,6 +633,9 @@ require_once 'template/sidebar.php';
                                     <div class="btn-group">
                                         <a href="pendaftar_ppdb.php?aksi=detail&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-info" title="Lihat"><i class="fa fa-eye"></i></a>
                                         <a href="pendaftar_ppdb.php?aksi=edit&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-warning" title="Edit"><i class="fa fa-pencil"></i></a>
+                                        <?php if ($d['status_seleksi'] == 'Diterima'): ?>
+                                        <a href="cetak_surat_lulus.php?id=<?php echo $d['id_pendaftar']; ?>" target="_blank" class="btn btn-sm btn-success" title="Cetak Surat Keterangan Lulus"><i class="fa fa-file-pdf-o"></i></a>
+                                        <?php endif; ?>
                                         <a href="pendaftar_ppdb.php?aksi=hapus&id=<?php echo $d['id_pendaftar']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')" title="Hapus"><i class="fa fa-trash"></i></a>
                                     </div>
                                 </td>

@@ -36,6 +36,21 @@ require_once '../views/admin/template/sidebar.php';
                         Laporan Galeri
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="saw-tab" data-toggle="pill" href="#tabSaw" role="tab">
+                        Laporan SAW
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="statnilai-tab" data-toggle="pill" href="#tabStatNilai" role="tab">
+                        Statistik Nilai
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="jalur-tab" data-toggle="pill" href="#tabJalur" role="tab">
+                        Rekap Jalur Seleksi
+                    </a>
+                </li>
             </ul>
 
             <div class="tab-content" id="laporanTabsContent">
@@ -68,6 +83,31 @@ require_once '../views/admin/template/sidebar.php';
                     <?php 
                     // Karena galeri mungkin tidak perlu filter tanggal, Anda bisa meletakkan tombol cetak langsung di sini.
                     require_once 'laporan_galeri.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabSaw" role="tabpanel">
+                    <?php 
+                    require_once 'laporan_saw.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabStatNilai" role="tabpanel">
+                    <?php 
+                    require_once 'laporan_statistik_nilai.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabJalur" role="tabpanel">
+                    <?php 
+                    require_once 'laporan_jalur.php';
+                    ?>
+                </div>
+            </div>
+
+                <div class="tab-pane fade" id="tabStatNilai" role="tabpanel">
+                    <?php 
+                    require_once 'laporan_statistik_nilai.php';
                     ?>
                 </div>
             </div>

@@ -203,6 +203,16 @@
                         </div>
                         
                         <div class="form-group">
+                            <label>Jalur Seleksi *</label>
+                            <select name="jalur_seleksi" class="form-control" required>
+                                <option value="">-- Pilih Jalur Seleksi --</option>
+                                <option value="Zonasi">Zonasi (berdasarkan jarak domisili ke sekolah)</option>
+                                <option value="Afirmasi">Afirmasi (keluarga kurang mampu / berkebutuhan khusus)</option>
+                                <option value="Prestasi">Prestasi (nilai akademik / sertifikat prestasi)</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
                             <label>Alamat Lengkap (Jalan, RT/RW, Kelurahan) *</label>
                             <textarea name="alamat_lengkap" class="form-control" rows="3" required></textarea>
                         </div>
