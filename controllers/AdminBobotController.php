@@ -29,7 +29,10 @@ class AdminBobotController {
                 }
             }
             $status = $berhasil ? "sukses" : "gagal";
-            header("Location: bobot_saw.php?pesan=$status");
+            
+            // ✅ Menggunakan JavaScript untuk redirect agar terhindar dari error "headers already sent"
+            echo "<script>window.location.href='bobot_saw.php?pesan=$status';</script>";
+            exit;
         }
     }
 }
