@@ -8,6 +8,10 @@
         </div>
     </div>
 
+    <div class="alert alert-info" style="margin-bottom: 15px;">
+        <strong>Cara Kerja SAW:</strong> Setiap kriteria penilaian diberi bobot lalu nilainya dinormalisasi (dibandingkan dengan nilai tertinggi/terendah antar pendaftar). Nilai yang sudah dinormalisasi dikalikan bobotnya masing-masing, kemudian dijumlahkan menjadi <strong>Nilai Akhir (Vi)</strong>. Pendaftar dengan Vi tertinggi mendapat <strong>Rank</strong> terbaik, dan status kelulusan ditentukan dari rank tersebut sesuai kuota yang diatur.
+    </div>
+
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>

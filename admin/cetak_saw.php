@@ -13,6 +13,13 @@ $kriteria = $hasil['kriteria'];
 $mm = $hasil['minmax'];
 $data = $hasil['data'];
 
+// Load Model Guru untuk ambil TTD Kepsek
+require_once '../models/GuruModel.php';
+$guruModel = new GuruModel();
+$kepsek = $guruModel->getKepalaSekolah();
+$nama_kepsek = !empty($kepsek['nama_lengkap']) ? $kepsek['nama_lengkap'] : '( ...Belum diinput... )';
+$nip_kepsek  = !empty($kepsek['nip']) ? $kepsek['nip'] : '-';
+
 // Helper Tanggal Indo
 function tgl_indo($tanggal){
     $bulan = array (
@@ -181,9 +188,10 @@ function tgl_indo($tanggal){
     <div class="ttd-wrapper">
         <div class="ttd">
             <p>Banjarmasin, <?php echo tgl_indo(date('Y-m-d')); ?></p>
-            <p>Ketua Panitia PPDB,</p>
+            <p>Kepala Sekolah</p>
             <br><br><br>
-            <p style="font-weight: bold; text-decoration: underline;">( .................................... )</p>
+            <p style="font-weight: bold; text-decoration: underline;"><?php echo htmlspecialchars($nama_kepsek); ?></p>
+            <p>NIP. <?php echo htmlspecialchars($nip_kepsek); ?></p>
         </div>
     </div>
 
