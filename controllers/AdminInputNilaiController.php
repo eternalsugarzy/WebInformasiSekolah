@@ -21,8 +21,11 @@ class AdminInputNilaiController {
             $prestasi = $_POST['nilai_prestasi'];
             $jarak = $_POST['jarak_rumah'];
 
-            $this->model->simpanNilaiPendaftar($id_pendaftar, $raport, $tes, $prestasi, $jarak);
-            header("Location: input_nilai.php?pesan=sukses");
+            $berhasil = $this->model->simpanNilaiPendaftar($id_pendaftar, $raport, $tes, $prestasi, $jarak);
+            // simpanNilaiPendaftar menolak (return false) jika jarak di bawah batas minimum
+            $pesan = $berhasil ? "sukses" : "jarak_invalid";
+
+            header("Location: input_nilai.php?pesan=$pesan");
             exit;
         }
     }

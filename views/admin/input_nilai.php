@@ -3,6 +3,10 @@
 
     <?php if(isset($_GET['pesan']) && $_GET['pesan'] == "sukses"): ?>
         <div class="alert alert-success">Nilai berhasil disimpan!</div>
+    <?php elseif(isset($_GET['pesan']) && $_GET['pesan'] == "jarak_invalid"): ?>
+        <div class="alert alert-danger">
+            <i class="fa fa-times-circle"></i> Gagal menyimpan: Jarak Rumah minimal <?= SawModel::MIN_JARAK_KM; ?> km (10 meter). Data tidak disimpan.
+        </div>
     <?php endif; ?>
 
     <div class="table-responsive">
@@ -30,7 +34,7 @@
                         </td>
                         <td><input type="number" name="nilai_tes" value="<?= $p['nilai_tes'] ?? 0; ?>" class="form-control" style="width: 80px;" required></td>
                         <td><input type="number" name="nilai_prestasi" value="<?= $p['nilai_prestasi'] ?? 0; ?>" class="form-control" style="width: 80px;" required></td>
-                        <td><input type="number" name="jarak_rumah" value="<?= $p['jarak_rumah'] ?? 0; ?>" class="form-control" style="width: 80px;" step="0.1" required></td>
+                        <td><input type="number" name="jarak_rumah" value="<?= $p['jarak_rumah'] ?? SawModel::MIN_JARAK_KM; ?>" class="form-control" style="width: 80px;" step="0.01" min="<?= SawModel::MIN_JARAK_KM; ?>" title="Minimal <?= SawModel::MIN_JARAK_KM; ?> km (10 meter)" required></td>
                         <td>
                             <button type="submit" name="simpan_nilai" class="btn btn-sm btn-orange"><i class="fa fa-save"></i></button>
                         </td>
