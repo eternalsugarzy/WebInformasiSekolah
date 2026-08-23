@@ -4,6 +4,12 @@ require_once 'Database.php';
 
 class SawModel extends Database {
 
+    // Batas bawah jarak rumah ke sekolah (km) yang boleh dipakai dalam kalkulasi SAW.
+    // Jarak 0 (atau mendekati 0) berbahaya untuk kriteria Cost C4: selain rawan
+    // dibagi nyaris-nol, nilai itu juga bisa menjadi MIN(jarak) global sehingga
+    // kriteria Jarak jadi tidak berpengaruh bagi SEMUA pendaftar. 0.01 km = 10 meter.
+    const MIN_JARAK_KM = 0.01;
+
     // ==========================================
     // 1. BAGIAN PENGATURAN KRITERIA & BOBOT
     // ==========================================
@@ -27,6 +33,66 @@ class SawModel extends Database {
         $bobot = mysqli_real_escape_string($conn, $bobot_baru);
 
         $sql = "UPDATE kriteria_saw SET bobot = '$bobot' WHERE id_kriteria = '$id'";
+        return $this->query($sql);
+    }
+
+    // ==========================================
+    // 1b. BAGIAN BOBOT KRITERIA PER JALUR SELEKSI
+    // ==========================================
+    // Setiap jalur (Zonasi, Prestasi, Afirmasi) bisa punya prioritas kriteria
+    // yang berbeda, mis. Zonasi menitikberatkan Jarak Rumah, Prestasi
+    // menitikberatkan nilai Prestasi. Ini yang membuat pemilihan jalur benar-benar
+    // memengaruhi hasil SAW, bukan sekadar label.
+
+    // Daftar jalur seleksi yang didukung sistem (harus sinkron dengan enum jalur_seleksi)
+    public function getJalurList() {
+        return ['Zonasi', 'Prestasi', 'Afirmasi'];
+    }
+
+    // Mengambil kriteria beserta bobot khusus untuk 1 jalur tertentu.
+    // Jika suatu kriteria belum dikonfigurasi untuk jalur tsb, fallback ke kriteria_saw.bobot.
+    public function getKriteriaByJalur($jalur) {
+        $conn = $this->koneksi;
+        $j = mysqli_real_escape_string($conn, $jalur);
+
+        $sql = "SELECT
+                    k.id_kriteria, k.kode_kriteria, k.nama_kriteria, k.tipe,
+                    COALESCE(bj.bobot, k.bobot) as bobot
+                FROM kriteria_saw k
+                LEFT JOIN bobot_jalur bj ON bj.id_kriteria = k.id_kriteria AND bj.jalur_seleksi = '$j'
+                ORDER BY k.id_kriteria ASC";
+        $result = $this->query($sql);
+
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
+    }
+
+    // Mengambil bobot semua jalur sekaligus, dikelompokkan per jalur.
+    // Bentuk: ['Zonasi' => [id_kriteria => bobot, ...], 'Prestasi' => [...], ...]
+    public function getBobotSemuaJalur() {
+        $map = [];
+        foreach ($this->getJalurList() as $jalur) {
+            $map[$jalur] = [];
+            foreach ($this->getKriteriaByJalur($jalur) as $k) {
+                $map[$jalur][$k['id_kriteria']] = $k['bobot'] / 100;
+            }
+        }
+        return $map;
+    }
+
+    // Upsert bobot 1 kriteria untuk 1 jalur tertentu
+    public function updateBobotJalur($jalur, $id_kriteria, $bobot_baru) {
+        $conn = $this->koneksi;
+        $j = mysqli_real_escape_string($conn, $jalur);
+        $id = mysqli_real_escape_string($conn, $id_kriteria);
+        $bobot = mysqli_real_escape_string($conn, $bobot_baru);
+
+        $sql = "INSERT INTO bobot_jalur (jalur_seleksi, id_kriteria, bobot)
+                VALUES ('$j', '$id', '$bobot')
+                ON DUPLICATE KEY UPDATE bobot = '$bobot'";
         return $this->query($sql);
     }
 
@@ -63,8 +129,14 @@ class SawModel extends Database {
 
     // Menyimpan atau Mengupdate nilai inputan dari Admin
     public function simpanNilaiPendaftar($id_pendaftar, $raport, $tes, $prestasi, $jarak) {
+        // Validasi batas bawah jarak SEBELUM data masuk ke DB, supaya tidak pernah
+        // ada nilai jarak 0/negatif/tidak valid yang bisa merusak kalkulasi SAW nantinya.
+        if (!is_numeric($jarak) || (float) $jarak < self::MIN_JARAK_KM) {
+            return false;
+        }
+
         $conn = $this->koneksi;
-        
+
         // Sanitasi data untuk keamanan SQL Injection
         $id = mysqli_real_escape_string($conn, $id_pendaftar);
         $r = mysqli_real_escape_string($conn, $raport);
@@ -94,36 +166,54 @@ class SawModel extends Database {
 
     // 1. Mengambil Nilai Max (Benefit) dan Min (Cost) untuk Normalisasi
     public function getMinMax() {
-        $sql = "SELECT 
-                    MAX(nilai_raport) as max_c1, 
-                    MAX(nilai_tes) as max_c2, 
-                    MAX(nilai_prestasi) as max_c3, 
-                    MIN(jarak_rumah) as min_c4 
+        // GREATEST(jarak_rumah, MIN_JARAK_KM) menjaga agar data lama yang masih
+        // bernilai 0/di bawah batas tidak menjadikan MIN(jarak) global = 0
+        // (yang akan membuat kriteria Jarak hilang dari perhitungan semua pendaftar).
+        $min_jarak = self::MIN_JARAK_KM;
+        $sql = "SELECT
+                    MAX(nilai_raport) as max_c1,
+                    MAX(nilai_tes) as max_c2,
+                    MAX(nilai_prestasi) as max_c3,
+                    MIN(GREATEST(jarak_rumah, $min_jarak)) as min_c4
                 FROM nilai_tesmasuk";
         return mysqli_fetch_assoc($this->query($sql));
+    }
+
+    // Jaga-jaga terhadap data lama/tidak valid (jarak 0, negatif, atau kosong) yang mungkin
+    // masih lolos ke tabel nilai_tesmasuk sebelum validasi input ini ada. Dipanggil tepat
+    // sebelum jarak dipakai dalam kalkulasi SAW, supaya kalkulasi tidak pernah membagi
+    // dengan angka nyaris nol.
+    private function clampJarak($jarak) {
+        $jarak = (float) $jarak;
+        return ($jarak < self::MIN_JARAK_KM) ? self::MIN_JARAK_KM : $jarak;
     }
 
     // 2. Fungsi Utama Perhitungan SAW
     public function hitungDanUpdateSAW() {
         $mm = $this->getMinMax();
-        $bobot = $this->getKriteria(); // Mengambil bobot dari DB (Dinamis)
-        
-        // Mapping bobot (Pastikan pembagian 100 karena input admin 40, 30, dsb)
-        $w1 = $bobot[0]['bobot'] / 100;
-        $w2 = $bobot[1]['bobot'] / 100;
-        $w3 = $bobot[2]['bobot'] / 100;
-        $w4 = $bobot[3]['bobot'] / 100;
+        // Bobot per jalur (Dinamis oleh Admin, beda tiap jalur seleksi)
+        $bobotPerJalur = $this->getBobotSemuaJalur();
 
         // Ambil semua data nilai
         $data = $this->getPendaftarDanNilai();
 
         foreach ($data as $row) {
             if ($row['id_nilai_tes']) {
-                // Normalisasi (Hindari pembagian nol)
+                // Pakai bobot sesuai jalur seleksi pendaftar ybs (fallback ke Zonasi jika jalur tak dikenal)
+                $jalur = $row['jalur_seleksi'] ?? 'Zonasi';
+                $w = $bobotPerJalur[$jalur] ?? reset($bobotPerJalur);
+                $w1 = $w[1] ?? 0;
+                $w2 = $w[2] ?? 0;
+                $w3 = $w[3] ?? 0;
+                $w4 = $w[4] ?? 0;
+
+                // Normalisasi (Hindari pembagian nol). Jarak divalidasi ke batas bawah
+                // MIN_JARAK_KM sebelum dipakai, sehingga data 0/tidak wajar tidak merusak Vi.
                 $r1 = ($mm['max_c1'] > 0) ? $row['nilai_raport'] / $mm['max_c1'] : 0;
                 $r2 = ($mm['max_c2'] > 0) ? $row['nilai_tes'] / $mm['max_c2'] : 0;
                 $r3 = ($mm['max_c3'] > 0) ? $row['nilai_prestasi'] / $mm['max_c3'] : 0;
-                $r4 = ($row['jarak_rumah'] > 0) ? $mm['min_c4'] / $row['jarak_rumah'] : 0;
+                $jarak = $this->clampJarak($row['jarak_rumah']);
+                $r4 = $mm['min_c4'] / $jarak;
 
                 // Hitung Nilai Akhir Vi = (w1*r1) + (w2*r2) + (w3*r3) + (w4*r4)
                 $vi = ($w1 * $r1) + ($w2 * $r2) + ($w3 * $r3) + ($w4 * $r4);
@@ -134,7 +224,7 @@ class SawModel extends Database {
                 $this->query($sql);
             }
         }
-        
+
         // Update Ranking
         $this->updateRanking();
     }
@@ -191,12 +281,8 @@ class SawModel extends Database {
     // hingga nilai akhir (Vi) per pendaftar -- untuk keperluan laporan cetak.
     public function getRincianPerhitungan() {
         $mm = $this->getMinMax();
-        $kriteria = $this->getKriteria(); // Bobot dinamis dari DB
-
-        $w1 = $kriteria[0]['bobot'] / 100;
-        $w2 = $kriteria[1]['bobot'] / 100;
-        $w3 = $kriteria[2]['bobot'] / 100;
-        $w4 = $kriteria[3]['bobot'] / 100;
+        $kriteria = $this->getKriteria(); // Definisi kriteria (kode/nama/tipe) + bobot default
+        $bobotPerJalur = $this->getBobotSemuaJalur(); // Bobot dinamis per jalur seleksi
 
         $data = $this->getPendaftarDanNilai();
         $rincian = [];
@@ -204,11 +290,20 @@ class SawModel extends Database {
         foreach ($data as $row) {
             if (!$row['id_nilai_tes']) continue; // Lewati pendaftar yang belum diinput nilainya
 
-            // Normalisasi (rij)
+            // Bobot mengikuti jalur seleksi pendaftar ybs
+            $jalur = $row['jalur_seleksi'] ?? 'Zonasi';
+            $w = $bobotPerJalur[$jalur] ?? reset($bobotPerJalur);
+            $w1 = $w[1] ?? 0;
+            $w2 = $w[2] ?? 0;
+            $w3 = $w[3] ?? 0;
+            $w4 = $w[4] ?? 0;
+
+            // Normalisasi (rij). Jarak divalidasi ke batas bawah MIN_JARAK_KM sebelum dipakai.
             $r1 = ($mm['max_c1'] > 0) ? $row['nilai_raport'] / $mm['max_c1'] : 0;
             $r2 = ($mm['max_c2'] > 0) ? $row['nilai_tes'] / $mm['max_c2'] : 0;
             $r3 = ($mm['max_c3'] > 0) ? $row['nilai_prestasi'] / $mm['max_c3'] : 0;
-            $r4 = ($row['jarak_rumah'] > 0) ? $mm['min_c4'] / $row['jarak_rumah'] : 0;
+            $jarak = $this->clampJarak($row['jarak_rumah']);
+            $r4 = $mm['min_c4'] / $jarak;
 
             // Nilai Terbobot (wi x rij)
             $wt1 = $w1 * $r1;
@@ -219,10 +314,12 @@ class SawModel extends Database {
             $rincian[] = [
                 'nama_lengkap'    => $row['nama_lengkap'],
                 'no_registrasi'   => $row['no_registrasi'],
+                'jalur_seleksi'   => $jalur,
                 'raw_c1'          => $row['nilai_raport'],
                 'raw_c2'          => $row['nilai_tes'],
                 'raw_c3'          => $row['nilai_prestasi'],
                 'raw_c4'          => $row['jarak_rumah'],
+                'bobot_w1' => $w1 * 100, 'bobot_w2' => $w2 * 100, 'bobot_w3' => $w3 * 100, 'bobot_w4' => $w4 * 100,
                 'r1' => $r1, 'r2' => $r2, 'r3' => $r3, 'r4' => $r4,
                 'wt1' => $wt1, 'wt2' => $wt2, 'wt3' => $wt3, 'wt4' => $wt4,
                 'nilai_akhir_saw' => $row['nilai_akhir_saw'],
@@ -232,9 +329,10 @@ class SawModel extends Database {
         }
 
         return [
-            'kriteria' => $kriteria,
-            'minmax'   => $mm,
-            'data'     => $rincian,
+            'kriteria'       => $kriteria,
+            'bobot_per_jalur'=> $bobotPerJalur,
+            'minmax'         => $mm,
+            'data'           => $rincian,
         ];
     }
 

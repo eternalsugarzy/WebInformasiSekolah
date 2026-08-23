@@ -10,6 +10,7 @@ require_once '../models/SawModel.php';
 $model = new SawModel();
 $hasil = $model->getRincianPerhitungan();
 $kriteria = $hasil['kriteria'];
+$bobot_per_jalur = $hasil['bobot_per_jalur'];
 $mm = $hasil['minmax'];
 $data = $hasil['data'];
 
@@ -79,10 +80,21 @@ function tgl_indo($tanggal){
     <div class="judul">Laporan Rincian Perhitungan Seleksi Metode SAW</div>
     <div class="sub-judul">(Simple Additive Weighting) &mdash; Tahun Ajaran <?php echo date('Y') . '/' . (date('Y')+1); ?></div>
 
-    <h5 class="section-title">1. Kriteria &amp; Bobot Penilaian</h5>
+    <h5 class="section-title">1. Kriteria &amp; Bobot Penilaian per Jalur Seleksi</h5>
+    <p class="keterangan">Tiap jalur seleksi memakai bobot kriteria yang berbeda, sehingga peringkat akhir menyesuaikan prioritas masing-masing jalur.</p>
     <table>
         <thead>
-            <tr><th>Kode</th><th>Nama Kriteria</th><th>Tipe</th><th>Bobot (%)</th></tr>
+            <tr>
+                <th rowspan="2">Kode</th>
+                <th rowspan="2">Nama Kriteria</th>
+                <th rowspan="2">Tipe</th>
+                <th colspan="<?= count($bobot_per_jalur) ?>">Bobot per Jalur (%)</th>
+            </tr>
+            <tr>
+                <?php foreach (array_keys($bobot_per_jalur) as $jalur_nama): ?>
+                <th><?= htmlspecialchars($jalur_nama) ?></th>
+                <?php endforeach; ?>
+            </tr>
         </thead>
         <tbody>
             <?php foreach ($kriteria as $k): ?>
@@ -90,7 +102,9 @@ function tgl_indo($tanggal){
                 <td><?= htmlspecialchars($k['kode_kriteria']) ?></td>
                 <td class="nama"><?= htmlspecialchars($k['nama_kriteria']) ?></td>
                 <td><?= htmlspecialchars($k['tipe']) ?></td>
-                <td><?= htmlspecialchars($k['bobot']) ?>%</td>
+                <?php foreach ($bobot_per_jalur as $jalur_nama => $w): ?>
+                <td><?= number_format(($w[$k['id_kriteria']] ?? 0) * 100, 0) ?>%</td>
+                <?php endforeach; ?>
             </tr>
             <?php endforeach; ?>
         </tbody>
@@ -104,6 +118,7 @@ function tgl_indo($tanggal){
                 <th rowspan="2">No</th>
                 <th rowspan="2">Nama Pendaftar</th>
                 <th rowspan="2">No. Registrasi</th>
+                <th rowspan="2">Jalur</th>
                 <th colspan="4">Nilai per Kriteria</th>
             </tr>
             <tr>
@@ -116,12 +131,13 @@ function tgl_indo($tanggal){
                 <td><?= $no++ ?></td>
                 <td class="nama"><?= htmlspecialchars($d['nama_lengkap']) ?></td>
                 <td><?= htmlspecialchars($d['no_registrasi']) ?></td>
+                <td><?= htmlspecialchars($d['jalur_seleksi']) ?></td>
                 <td><?= number_format($d['raw_c1'], 1) ?></td>
                 <td><?= number_format($d['raw_c2'], 1) ?></td>
                 <td><?= number_format($d['raw_c3'], 1) ?></td>
                 <td><?= number_format($d['raw_c4'], 1) ?></td>
             </tr>
-            <?php endforeach; } else { echo "<tr><td colspan='7' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
+            <?php endforeach; } else { echo "<tr><td colspan='8' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
         </tbody>
     </table>
 
@@ -131,6 +147,7 @@ function tgl_indo($tanggal){
             <tr>
                 <th rowspan="2">No</th>
                 <th rowspan="2">Nama Pendaftar</th>
+                <th rowspan="2">Jalur</th>
                 <th colspan="4">Normalisasi (r<sub>ij</sub>)</th>
                 <th colspan="4">Terbobot (w<sub>i</sub> &times; r<sub>ij</sub>)</th>
             </tr>
@@ -144,6 +161,7 @@ function tgl_indo($tanggal){
             <tr>
                 <td><?= $no++ ?></td>
                 <td class="nama"><?= htmlspecialchars($d['nama_lengkap']) ?></td>
+                <td><?= htmlspecialchars($d['jalur_seleksi']) ?></td>
                 <td><?= number_format($d['r1'], 4) ?></td>
                 <td><?= number_format($d['r2'], 4) ?></td>
                 <td><?= number_format($d['r3'], 4) ?></td>
@@ -153,24 +171,25 @@ function tgl_indo($tanggal){
                 <td><?= number_format($d['wt3'], 4) ?></td>
                 <td><?= number_format($d['wt4'], 4) ?></td>
             </tr>
-            <?php endforeach; } else { echo "<tr><td colspan='10' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
+            <?php endforeach; } else { echo "<tr><td colspan='11' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
         </tbody>
     </table>
 
     <h5 class="section-title">4. Hasil Akhir &amp; Peringkat</h5>
     <table>
         <thead>
-            <tr><th>Peringkat</th><th>Nama Pendaftar</th><th>Nilai Akhir (V<sub>i</sub>)</th><th>Status Seleksi</th></tr>
+            <tr><th>Peringkat</th><th>Nama Pendaftar</th><th>Jalur</th><th>Nilai Akhir (V<sub>i</sub>)</th><th>Status Seleksi</th></tr>
         </thead>
         <tbody>
             <?php if (count($data) > 0) { foreach ($data as $d): ?>
             <tr>
                 <td><?= $d['peringkat'] ? '#'.$d['peringkat'] : '-' ?></td>
                 <td class="nama"><?= htmlspecialchars($d['nama_lengkap']) ?></td>
+                <td><?= htmlspecialchars($d['jalur_seleksi']) ?></td>
                 <td><?= ($d['nilai_akhir_saw'] !== null) ? number_format($d['nilai_akhir_saw'], 4) : '-' ?></td>
                 <td><?= strtoupper($d['status_seleksi']) ?></td>
             </tr>
-            <?php endforeach; } else { echo "<tr><td colspan='4' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
+            <?php endforeach; } else { echo "<tr><td colspan='5' style='padding:20px;'>Belum ada data nilai pendaftar.</td></tr>"; } ?>
         </tbody>
     </table>
 
