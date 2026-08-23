@@ -1,0 +1,3 @@
+# Kredensial SMTP asli - jangan ikut dicommit. Salin dari mail_config.example.php
+# lalu isi kredensial sungguhan di file ini.
+Koneksi Database/mail_config.php

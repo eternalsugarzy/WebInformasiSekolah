@@ -90,6 +90,9 @@
             <li class="<?php echo ($page == 'kelulusan.php') ? 'active' : ''; ?>">
                 <a href="kelulusan.php"><i class="fa fa-certificate"></i> Kuota Kelulusan</a>
             </li>
+            <li class="<?php echo ($page == 'notifikasi_email.php') ? 'active' : ''; ?>">
+                <a href="notifikasi_email.php"><i class="fa fa-envelope"></i> Notifikasi Email</a>
+            </li>
 
             <li class="<?php echo (strpos($page, 'laporan') !== false) ? 'active' : ''; ?>">
                 <a href="laporan.php"><i class="fa fa-print"></i> <span>Laporan</span></a>
