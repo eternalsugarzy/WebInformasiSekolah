@@ -18,6 +18,7 @@
                 <tr>
                     <th>Rank</th>
                     <th>Nama Pendaftar</th>
+                    <th>Jalur Seleksi</th>
                     <th>Nilai Akhir (Vi)</th>
                     <th>Status Kelulusan</th>
                 </tr>
@@ -27,6 +28,7 @@
                 <tr>
                     <td><?= $p['peringkat'] ? '#'.$p['peringkat'] : '-'; ?></td>
                     <td style="font-weight: 600;"><?= htmlspecialchars($p['nama_lengkap']); ?></td>
+                    <td><span class="label label-default"><?= htmlspecialchars($p['jalur_seleksi']); ?></span></td>
                     <td><?= ($p['nilai_akhir_saw'] != '') ? number_format($p['nilai_akhir_saw'], 4) : '-'; ?></td>
                     <td>
                         <?php 
