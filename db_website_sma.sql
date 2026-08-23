@@ -208,6 +208,56 @@ INSERT INTO `kriteria_saw` (`id_kriteria`, `kode_kriteria`, `nama_kriteria`, `ti
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `bobot_jalur`
+-- Bobot kriteria SAW per jalur seleksi (Zonasi/Prestasi/Afirmasi), dipakai
+-- agar tiap jalur bisa punya prioritas kriteria berbeda. `kriteria_saw`.`bobot`
+-- tetap dipakai sebagai bobot fallback bila suatu jalur belum dikonfigurasi.
+--
+
+CREATE TABLE `bobot_jalur` (
+  `id_bobot_jalur` int NOT NULL,
+  `jalur_seleksi` enum('Prestasi','Zonasi','Afirmasi') NOT NULL,
+  `id_kriteria` int NOT NULL,
+  `bobot` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `bobot_jalur`
+--
+
+INSERT INTO `bobot_jalur` (`id_bobot_jalur`, `jalur_seleksi`, `id_kriteria`, `bobot`) VALUES
+(1, 'Zonasi', 1, 10),
+(2, 'Zonasi', 2, 5),
+(3, 'Zonasi', 3, 5),
+(4, 'Zonasi', 4, 80),
+(5, 'Prestasi', 1, 10),
+(6, 'Prestasi', 2, 5),
+(7, 'Prestasi', 3, 80),
+(8, 'Prestasi', 4, 5),
+(9, 'Afirmasi', 1, 25),
+(10, 'Afirmasi', 2, 25),
+(11, 'Afirmasi', 3, 25),
+(12, 'Afirmasi', 4, 25);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `log_notifikasi_email`
+-- Riwayat pengiriman email notifikasi hasil kelulusan PPDB ke email_siswa.
+--
+
+CREATE TABLE `log_notifikasi_email` (
+  `id_log` int NOT NULL,
+  `id_pendaftar` int NOT NULL,
+  `email_tujuan` varchar(100) NOT NULL,
+  `status` enum('Terkirim','Gagal') NOT NULL,
+  `pesan` varchar(255) DEFAULT NULL,
+  `dikirim_pada` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `nilai_tesmasuk`
 --
 
@@ -268,6 +318,9 @@ CREATE TABLE `pendaftar_ppdb` (
   `foto_siswa` varchar(255) DEFAULT NULL,
   `tanggal_daftar` datetime DEFAULT CURRENT_TIMESTAMP,
   `status_seleksi` enum('Menunggu','Diterima','Ditolak','Cadangan') DEFAULT 'Menunggu',
+  `status_email_notifikasi` enum('Belum Terkirim','Terkirim','Gagal') NOT NULL DEFAULT 'Belum Terkirim',
+  `status_seleksi_saat_email` enum('Menunggu','Diterima','Ditolak','Cadangan') DEFAULT NULL,
+  `email_terkirim_at` datetime DEFAULT NULL,
   `jalur_seleksi` enum('Prestasi','Zonasi','Afirmasi') NOT NULL DEFAULT 'Zonasi'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
@@ -440,6 +493,21 @@ ALTER TABLE `kriteria_saw`
   ADD PRIMARY KEY (`id_kriteria`);
 
 --
+-- Indexes for table `bobot_jalur`
+--
+ALTER TABLE `bobot_jalur`
+  ADD PRIMARY KEY (`id_bobot_jalur`),
+  ADD UNIQUE KEY `uniq_jalur_kriteria` (`jalur_seleksi`,`id_kriteria`),
+  ADD KEY `fk_bobot_jalur_kriteria` (`id_kriteria`);
+
+--
+-- Indexes for table `log_notifikasi_email`
+--
+ALTER TABLE `log_notifikasi_email`
+  ADD PRIMARY KEY (`id_log`),
+  ADD KEY `fk_log_notifikasi_pendaftar` (`id_pendaftar`);
+
+--
 -- Indexes for table `nilai_tesmasuk`
 --
 ALTER TABLE `nilai_tesmasuk`
@@ -525,6 +593,18 @@ ALTER TABLE `kriteria_saw`
   MODIFY `id_kriteria` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT for table `bobot_jalur`
+--
+ALTER TABLE `bobot_jalur`
+  MODIFY `id_bobot_jalur` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `log_notifikasi_email`
+--
+ALTER TABLE `log_notifikasi_email`
+  MODIFY `id_log` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+
+--
 -- AUTO_INCREMENT for table `nilai_tesmasuk`
 --
 ALTER TABLE `nilai_tesmasuk`
@@ -571,10 +651,22 @@ ALTER TABLE `users`
 --
 
 --
+-- Constraints for table `bobot_jalur`
+--
+ALTER TABLE `bobot_jalur`
+  ADD CONSTRAINT `fk_bobot_jalur_kriteria` FOREIGN KEY (`id_kriteria`) REFERENCES `kriteria_saw` (`id_kriteria`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `galeri_fotos`
 --
 ALTER TABLE `galeri_fotos`
   ADD CONSTRAINT `fk_galeri_media` FOREIGN KEY (`id_album`) REFERENCES `galeri_media` (`id_album`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `log_notifikasi_email`
+--
+ALTER TABLE `log_notifikasi_email`
+  ADD CONSTRAINT `fk_log_notifikasi_pendaftar` FOREIGN KEY (`id_pendaftar`) REFERENCES `pendaftar_ppdb` (`id_pendaftar`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `nilai_tesmasuk`
