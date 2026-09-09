@@ -127,6 +127,20 @@ class SawModel extends Database {
         return $data;
     }
 
+    // Ambil nama + nilai mentah 1 pendaftar (dipakai untuk snapshot "nilai lama"
+    // sebelum diubah, oleh Histori Perubahan Seleksi SAW)
+    public function getNilaiLengkapByPendaftar($id_pendaftar) {
+        $id = intval($id_pendaftar);
+        $sql = "SELECT
+                    p.nama_lengkap,
+                    n.nilai_raport, n.nilai_tes, n.nilai_prestasi, n.jarak_rumah
+                FROM pendaftar_ppdb p
+                LEFT JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
+                WHERE p.id_pendaftar = $id";
+        $res = $this->query($sql);
+        return $res ? mysqli_fetch_assoc($res) : null;
+    }
+
     // Menyimpan atau Mengupdate nilai inputan dari Admin
     public function simpanNilaiPendaftar($id_pendaftar, $raport, $tes, $prestasi, $jarak) {
         // Validasi batas bawah jarak SEBELUM data masuk ke DB, supaya tidak pernah

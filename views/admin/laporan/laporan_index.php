@@ -51,6 +51,21 @@ require_once '../views/admin/template/sidebar.php';
                         Rekap Jalur Seleksi
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="rekap-ppdb-tab" data-toggle="pill" href="#tabRekapPPDB" role="tab">
+                        Rekap Pendaftaran PPDB
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="tren-tahun-tab" data-toggle="pill" href="#tabTrenTahun" role="tab">
+                        Tren Antar Tahun
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="histori-saw-tab" data-toggle="pill" href="#tabHistoriSaw" role="tab">
+                        Histori Perubahan SAW
+                    </a>
+                </li>
             </ul>
 
             <div class="tab-content" id="laporanTabsContent">
@@ -99,8 +114,26 @@ require_once '../views/admin/template/sidebar.php';
                 </div>
 
                 <div class="tab-pane fade" id="tabJalur" role="tabpanel">
-                    <?php 
+                    <?php
                     require_once 'laporan_jalur.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabRekapPPDB" role="tabpanel">
+                    <?php
+                    require_once 'laporan_rekap_ppdb.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabTrenTahun" role="tabpanel">
+                    <?php
+                    require_once 'laporan_tren_tahun.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabHistoriSaw" role="tabpanel">
+                    <?php
+                    require_once 'laporan_histori_saw.php';
                     ?>
                 </div>
             </div>

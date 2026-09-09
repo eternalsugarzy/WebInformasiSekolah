@@ -1,4 +1,6 @@
 <?php
+require_once __DIR__ . '/../models/PPDBModel.php';
+
 class AdminLaporanController {
 
     public function __construct() {
@@ -72,6 +74,31 @@ class AdminLaporanController {
         $title = "Laporan Rekap Jalur Seleksi";
         $nama_admin = $_SESSION['admin_nama'];
         require_once '../views/admin/laporan/laporan_jalur.php';
+    }
+
+    // Halaman Laporan Rekap Pendaftaran PPDB (satu baris per pendaftar)
+    public function pageRekapPendaftar() {
+        $title = "Laporan Rekap Pendaftaran PPDB";
+        $nama_admin = $_SESSION['admin_nama'];
+
+        $model = new PPDBModel();
+        $daftar_tahun = $model->getTahunPendaftaran();
+
+        require_once '../views/admin/laporan/laporan_rekap_ppdb.php';
+    }
+
+    // Halaman Laporan Tren PPDB Antar Tahun
+    public function pageTrenTahun() {
+        $title = "Laporan Tren PPDB Antar Tahun";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_tren_tahun.php';
+    }
+
+    // Halaman Laporan Histori Perubahan Seleksi SAW
+    public function pageHistoriSaw() {
+        $title = "Histori Perubahan Seleksi SAW";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_histori_saw.php';
     }
 }
 ?>
