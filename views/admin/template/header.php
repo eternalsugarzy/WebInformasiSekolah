@@ -76,6 +76,15 @@
         .card-blue .stat-icon { background: rgba(55, 64, 80, 0.1); color: #374050; }
         .card-green { border-bottom-color: #2ecc71; }
         .card-green .stat-icon { background: rgba(46, 204, 113, 0.1); color: #2ecc71; }
+        .card-yellow { border-bottom-color: #f0ad4e; }
+        .card-yellow .stat-icon { background: rgba(240, 173, 78, 0.1); color: #f0ad4e; }
+        .card-red { border-bottom-color: #d9534f; }
+        .card-red .stat-icon { background: rgba(217, 83, 79, 0.1); color: #d9534f; }
+
+        .section-heading { margin: 30px 0 15px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #374050; }
+        .section-heading.secondary { color: #999; margin-top: 40px; }
+        .section-heading i { color: #FF6700; margin-right: 6px; }
+        .section-heading.secondary i { color: #999; }
 
         .btn-logout { background: #ffebe6; color: #d63031; padding: 8px 15px; border-radius: 20px; font-size: 12px; font-weight: 700; text-decoration: none; transition: 0.3s; }
         .btn-logout:hover { background: #d63031; color: #fff; text-decoration: none; }

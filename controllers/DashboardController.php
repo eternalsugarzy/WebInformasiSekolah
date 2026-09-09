@@ -39,7 +39,7 @@ class DashboardController {
         $statistik_kelulusan = $ppdbModel->getStatistikKelulusan();
 
         // 4. Siapkan Data untuk View
-        $title = "Dashboard Admin - SMA Frater Don Bosco";
+        $title = "Dashboard Admin PPDB - SMA Frater Don Bosco";
         $nama_admin = $_SESSION['admin_nama'];
 
         // 5. Panggil View Dashboard

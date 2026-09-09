@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Login Admin - SMA Frater Don Bosco</title>
+        <title>Login Admin PPDB - SMA Frater Don Bosco</title>
 
         <link href="https://fonts.googleapis.com/css?family=Lato:700%7CMontserrat:400,600" rel="stylesheet">
 
@@ -63,7 +63,7 @@
                             <div class="login-content">
                                 <div class="login-header">
                                     <img src="../img/logo.png" alt="logo">
-                                    <h3 style="margin:0; font-size: 22px; text-transform: uppercase;">Admin Login</h3>
+                                    <h3 style="margin:0; font-size: 22px; text-transform: uppercase;">Admin Login PPDB</h3>
                                 </div>
 
                                 <?php if (isset($error)): ?>
