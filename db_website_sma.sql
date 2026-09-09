@@ -242,6 +242,25 @@ INSERT INTO `bobot_jalur` (`id_bobot_jalur`, `jalur_seleksi`, `id_kriteria`, `bo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `histori_seleksi_saw`
+-- Jejak audit perubahan parameter seleksi SAW (bobot, nilai, kuota, status manual)
+-- saat sidang kelulusan: siapa yang mengubah, kapan, dan nilai lama -> baru.
+--
+
+CREATE TABLE `histori_seleksi_saw` (
+  `id_histori` int NOT NULL,
+  `id_admin` int DEFAULT NULL,
+  `nama_admin` varchar(100) NOT NULL,
+  `jenis_perubahan` enum('Bobot SAW','Nilai Pendaftar','Kuota Kelulusan','Status Manual','Daftar Ulang') NOT NULL,
+  `keterangan` varchar(255) NOT NULL,
+  `data_lama` text,
+  `data_baru` text,
+  `waktu_perubahan` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `log_notifikasi_email`
 -- Riwayat pengiriman email notifikasi hasil kelulusan PPDB ke email_siswa.
 --
@@ -318,6 +337,9 @@ CREATE TABLE `pendaftar_ppdb` (
   `foto_siswa` varchar(255) DEFAULT NULL,
   `tanggal_daftar` datetime DEFAULT CURRENT_TIMESTAMP,
   `status_seleksi` enum('Menunggu','Diterima','Ditolak','Cadangan') DEFAULT 'Menunggu',
+  `status_daftar_ulang` enum('Belum Konfirmasi','Daftar Ulang','Mengundurkan Diri') NOT NULL DEFAULT 'Belum Konfirmasi',
+  `tanggal_daftar_ulang` datetime DEFAULT NULL,
+  `catatan_daftar_ulang` varchar(255) DEFAULT NULL,
   `status_email_notifikasi` enum('Belum Terkirim','Terkirim','Gagal') NOT NULL DEFAULT 'Belum Terkirim',
   `status_seleksi_saat_email` enum('Menunggu','Diterima','Ditolak','Cadangan') DEFAULT NULL,
   `email_terkirim_at` datetime DEFAULT NULL,
@@ -501,6 +523,15 @@ ALTER TABLE `bobot_jalur`
   ADD KEY `fk_bobot_jalur_kriteria` (`id_kriteria`);
 
 --
+-- Indexes for table `histori_seleksi_saw`
+--
+ALTER TABLE `histori_seleksi_saw`
+  ADD PRIMARY KEY (`id_histori`),
+  ADD KEY `idx_histori_admin` (`id_admin`),
+  ADD KEY `idx_histori_waktu` (`waktu_perubahan`),
+  ADD KEY `idx_histori_jenis` (`jenis_perubahan`);
+
+--
 -- Indexes for table `log_notifikasi_email`
 --
 ALTER TABLE `log_notifikasi_email`
@@ -597,6 +628,12 @@ ALTER TABLE `kriteria_saw`
 --
 ALTER TABLE `bobot_jalur`
   MODIFY `id_bobot_jalur` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `histori_seleksi_saw`
+--
+ALTER TABLE `histori_seleksi_saw`
+  MODIFY `id_histori` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT for table `log_notifikasi_email`
