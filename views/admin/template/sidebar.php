@@ -46,7 +46,7 @@
             <img src="../img/logo.png" alt="Logo Sekolah" style="width: 60px; height: auto; margin-bottom: 10px;">
             <h3 style="margin: 0; font-size: 16px; line-height: 1.4; text-transform: uppercase;">
                 SMA FRATER <br> DON BOSCO
-                <span style="display: block; margin-top: 8px; font-size: 14px; letter-spacing: 1px; color:#FF6700;">ADMIN PANEL</span>
+                <span style="display: block; margin-top: 8px; font-size: 14px; letter-spacing: 1px; color:#FF6700;">ADMIN PANEL PPDB</span>
             </h3>
         </div>
 
@@ -56,27 +56,12 @@
             <li class="<?php echo ($page == 'index.php') ? 'active' : ''; ?>">
                 <a href="index.php"><i class="fa fa-dashboard"></i> Dashboard</a>
             </li>
-            <li class="<?php echo ($page == 'identitas.php') ? 'active' : ''; ?>">
-                <a href="identitas.php"><i class="fa fa-cogs"></i> Identitas Sekolah</a>
-            </li>
-            <li class="<?php echo ($page == 'berita.php') ? 'active' : ''; ?>">
-                <a href="berita.php"><i class="fa fa-newspaper-o"></i> Kelola Berita</a>
-            </li>
-            <li class="<?php echo ($page == 'pengumuman.php') ? 'active' : ''; ?>">
-                <a href="pengumuman.php"><i class="fa fa-bullhorn"></i> Kelola Pengumuman</a>
-            </li>
-            <li class="<?php echo ($page == 'guru.php') ? 'active' : ''; ?>">
-                <a href="guru.php"><i class="fa fa-users"></i> Data Guru</a>
+
+            <li style="padding: 15px 20px 5px 20px; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">
+                PPDB &amp; Seleksi (SAW)
             </li>
             <li class="<?php echo ($page == 'pendaftar_ppdb.php') ? 'active' : ''; ?>">
                 <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Info PPDB</a>
-            </li>
-            <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
-                <a href="galeri.php"><i class="fa fa-image"></i> Galeri Foto</a>
-            </li>
-
-            <li style="padding: 15px 20px 5px 20px; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">
-                Sistem Seleksi (SAW)
             </li>
             <li class="<?php echo ($page == 'bobot_saw.php') ? 'active' : ''; ?>">
                 <a href="bobot_saw.php"><i class="fa fa-sliders"></i> Bobot SAW</a>
@@ -90,12 +75,36 @@
             <li class="<?php echo ($page == 'kelulusan.php') ? 'active' : ''; ?>">
                 <a href="kelulusan.php"><i class="fa fa-certificate"></i> Kuota Kelulusan</a>
             </li>
+            <li class="<?php echo ($page == 'daftar_ulang.php') ? 'active' : ''; ?>">
+                <a href="daftar_ulang.php"><i class="fa fa-check-square-o"></i> Daftar Ulang</a>
+            </li>
+            <li class="<?php echo ($page == 'histori_saw.php') ? 'active' : ''; ?>">
+                <a href="histori_saw.php"><i class="fa fa-history"></i> Histori Perubahan SAW</a>
+            </li>
             <li class="<?php echo ($page == 'notifikasi_email.php') ? 'active' : ''; ?>">
                 <a href="notifikasi_email.php"><i class="fa fa-envelope"></i> Notifikasi Email</a>
             </li>
-
             <li class="<?php echo (strpos($page, 'laporan') !== false) ? 'active' : ''; ?>">
                 <a href="laporan.php"><i class="fa fa-print"></i> <span>Laporan</span></a>
+            </li>
+
+            <li style="padding: 15px 20px 5px 20px; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">
+                Profil Sekolah
+            </li>
+            <li class="<?php echo ($page == 'identitas.php') ? 'active' : ''; ?>">
+                <a href="identitas.php"><i class="fa fa-cogs"></i> Identitas Sekolah</a>
+            </li>
+            <li class="<?php echo ($page == 'berita.php') ? 'active' : ''; ?>">
+                <a href="berita.php"><i class="fa fa-newspaper-o"></i> Kelola Berita</a>
+            </li>
+            <li class="<?php echo ($page == 'pengumuman.php') ? 'active' : ''; ?>">
+                <a href="pengumuman.php"><i class="fa fa-bullhorn"></i> Kelola Pengumuman</a>
+            </li>
+            <li class="<?php echo ($page == 'guru.php') ? 'active' : ''; ?>">
+                <a href="guru.php"><i class="fa fa-users"></i> Data Guru</a>
+            </li>
+            <li class="<?php echo ($page == 'galeri.php') ? 'active' : ''; ?>">
+                <a href="galeri.php"><i class="fa fa-image"></i> Galeri Foto</a>
             </li>
 
             <li style="margin-top: 30px; border-top: 1px solid #3a3c55;">
