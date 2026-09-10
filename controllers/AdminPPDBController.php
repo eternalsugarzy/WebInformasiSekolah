@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/PPDBModel.php';
+require_once __DIR__ . '/../models/HistoriSawModel.php';
 
 class AdminPPDBController {
 
@@ -167,8 +168,22 @@ class AdminPPDBController {
             $ppdbModel = new PPDBModel();
             $id = $_POST['id_pendaftar'];
             $status = $_POST['status_seleksi'];
-            
+
+            // Snapshot status lama SEBELUM diubah, untuk histori
+            $data_lama_row = $ppdbModel->getPendaftarById($id);
+            $status_lama = $data_lama_row ? $data_lama_row['status_seleksi'] : null;
+            $nama_siswa = $data_lama_row ? $data_lama_row['nama_lengkap'] : ('Pendaftar #' . $id);
+
             if ($ppdbModel->updateStatus($id, $status)) {
+                if ($status_lama !== $status) {
+                    $historiModel = new HistoriSawModel();
+                    $historiModel->catat(
+                        'Status Manual',
+                        "Ubah status seleksi manual: $nama_siswa",
+                        ['Status Seleksi' => $status_lama],
+                        ['Status Seleksi' => $status]
+                    );
+                }
                 echo "<script>alert('Status berhasil diubah!'); window.location='pendaftar_ppdb.php?aksi=detail&id=$id';</script>";
             } else {
                 echo "<script>alert('Gagal mengubah status'); window.location='pendaftar_ppdb.php?aksi=detail&id=$id';</script>";

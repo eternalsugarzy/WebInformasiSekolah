@@ -12,16 +12,87 @@ require_once 'template/sidebar.php';
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-info" style="border-left: 4px solid #FF6700; background: #fff; color: #555;">
-                    Selamat Datang di Panel Administrator SMA Frater Don Bosco. Anda login sebagai <b><?php echo $_SESSION['admin_level']; ?></b>.
+                    Selamat Datang di Panel Administrator PPDB SMA Frater Don Bosco. Anda login sebagai <b><?php echo $_SESSION['admin_level']; ?></b>.
+                </div>
+            </div>
+        </div>
+
+        <h5 class="section-heading"><i class="fa fa-user-plus"></i> Ringkasan PPDB</h5>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="stat-card card-blue">
+                    <div class="stat-content">
+                        <h3><?php echo array_sum($statistik_kelulusan); ?></h3>
+                        <p>Total Pendaftar (Semua Tahun)</p>
+                        <a href="pendaftar_ppdb.php" style="font-size:11px; color:#374050; font-weight:bold; text-decoration:none;">KELOLA DATA &rarr;</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fa fa-user-plus"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card card-green">
+                    <div class="stat-content">
+                        <h3><?php echo $statistik_kelulusan['Diterima']; ?></h3>
+                        <p>Diterima</p>
+                        <a href="pendaftar_ppdb.php" style="font-size:11px; color:#2ecc71; font-weight:bold; text-decoration:none;">LIHAT DATA &rarr;</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fa fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card card-yellow">
+                    <div class="stat-content">
+                        <h3><?php echo $statistik_kelulusan['Cadangan']; ?></h3>
+                        <p>Cadangan</p>
+                        <a href="pendaftar_ppdb.php" style="font-size:11px; color:#f0ad4e; font-weight:bold; text-decoration:none;">LIHAT DATA &rarr;</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fa fa-clock-o"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="stat-card card-red">
+                    <div class="stat-content">
+                        <h3><?php echo $statistik_kelulusan['Ditolak']; ?></h3>
+                        <p>Ditolak</p>
+                        <a href="pendaftar_ppdb.php" style="font-size:11px; color:#d9534f; font-weight:bold; text-decoration:none;">LIHAT DATA &rarr;</a>
+                    </div>
+                    <div class="stat-icon">
+                        <i class="fa fa-times-circle"></i>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-5">
+                <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+                    <h5 style="margin-top:0;"><i class="fa fa-pie-chart"></i> Statistik Kelulusan PPDB</h5>
+                    <canvas id="chartKelulusan" height="150"></canvas>
+                </div>
+            </div>
+            <div class="col-md-7">
+                <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
+                    <h5 style="margin-top:0;"><i class="fa fa-bar-chart"></i> Tren Jumlah Pendaftar PPDB per Tahun Ajaran</h5>
+                    <canvas id="chartTrenPendaftar" height="90"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <h5 class="section-heading secondary"><i class="fa fa-globe"></i> Profil Sekolah &amp; Website</h5>
+        <div class="row">
+            <div class="col-md-3">
                 <div class="stat-card card-orange">
                     <div class="stat-content">
-                        <h3><?php echo $total_berita; ?></h3> 
+                        <h3><?php echo $total_berita; ?></h3>
                         <p>Total Berita</p>
                         <a href="berita.php" style="font-size:11px; color:#FF6700; font-weight:bold; text-decoration:none;">KELOLA DATA &rarr;</a>
                     </div>
@@ -31,7 +102,7 @@ require_once 'template/sidebar.php';
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="stat-card card-blue">
                     <div class="stat-content">
                         <h3><?php echo $total_pengumuman; ?></h3>
@@ -44,7 +115,7 @@ require_once 'template/sidebar.php';
                 </div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div class="stat-card card-green">
                     <div class="stat-content">
                         <h3><?php echo $total_guru; ?></h3>
@@ -56,46 +127,17 @@ require_once 'template/sidebar.php';
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="stat-card card-orange">
                     <div class="stat-content">
                         <h3><?php echo $total_pengunjung; ?></h3>
-                        <p>Total Pengunjung Website</p>
-                        <span style="font-size:11px; color:#888;">Hari ini: <b><?php echo $pengunjung_hari_ini; ?></b> kunjungan</span>
+                        <p>Pengunjung Website</p>
+                        <span style="font-size:11px; color:#888;">Hari ini: <b><?php echo $pengunjung_hari_ini; ?></b></span>
                     </div>
                     <div class="stat-icon">
                         <i class="fa fa-eye"></i>
                     </div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="stat-card card-blue">
-                    <div class="stat-content">
-                        <h3><?php echo array_sum($statistik_kelulusan); ?></h3>
-                        <p>Total Pendaftar PPDB (Semua Tahun)</p>
-                        <span style="font-size:11px; color:#888;">Diterima: <b><?php echo $statistik_kelulusan['Diterima']; ?></b> siswa</span>
-                    </div>
-                    <div class="stat-icon">
-                        <i class="fa fa-user-plus"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-7">
-                <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                    <h5 style="margin-top:0;"><i class="fa fa-line-chart"></i> Tren Kunjungan Website (14 Hari Terakhir)</h5>
-                    <canvas id="chartPengunjung" height="90"></canvas>
-                </div>
-            </div>
-            <div class="col-md-5">
-                <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                    <h5 style="margin-top:0;"><i class="fa fa-pie-chart"></i> Statistik Kelulusan PPDB</h5>
-                    <canvas id="chartKelulusan" height="150"></canvas>
                 </div>
             </div>
         </div>
@@ -103,8 +145,8 @@ require_once 'template/sidebar.php';
         <div class="row">
             <div class="col-md-12">
                 <div style="background: #fff; padding: 25px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); margin-bottom: 30px;">
-                    <h5 style="margin-top:0;"><i class="fa fa-bar-chart"></i> Tren Jumlah Pendaftar PPDB per Tahun Ajaran</h5>
-                    <canvas id="chartTrenPendaftar" height="80"></canvas>
+                    <h5 style="margin-top:0;"><i class="fa fa-line-chart"></i> Tren Kunjungan Website (14 Hari Terakhir)</h5>
+                    <canvas id="chartPengunjung" height="80"></canvas>
                 </div>
             </div>
         </div>

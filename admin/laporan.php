@@ -50,7 +50,19 @@ switch ($action) {
     case 'pageJalur':
         $controller->pageJalur();
         break;
-        
+
+    case 'pageRekapPendaftar':
+        $controller->pageRekapPendaftar();
+        break;
+
+    case 'pageTrenTahun':
+        $controller->pageTrenTahun();
+        break;
+
+    case 'pageHistoriSaw':
+        $controller->pageHistoriSaw();
+        break;
+
     default:
         // Handle 404 atau kembali ke index
         $controller->index();

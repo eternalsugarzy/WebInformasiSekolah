@@ -443,6 +443,198 @@ class PPDBModel extends Database {
         ];
     }
 
+    // ==========================================================
+    // BAGIAN 3: LAPORAN REKAP PENDAFTARAN PPDB
+    // ==========================================================
+
+    // Data lengkap satu baris per pendaftar (Nama, NISN, Jalur, Asal Sekolah,
+    // Nilai Rapor, Nilai Tes, Prestasi, Jarak, Status) untuk Laporan Rekap Pendaftaran.
+    // $filters: ['tahun' => ..., 'jalur' => ..., 'status' => ...] — semua opsional.
+    public function getRekapPendaftaran($filters = []) {
+        $conn = $this->koneksi;
+
+        $sql = "SELECT
+                    p.nama_lengkap, p.nisn, p.jalur_seleksi, p.nama_sekolah_asal,
+                    p.status_seleksi, p.tanggal_daftar,
+                    n.nilai_raport, n.nilai_tes, n.nilai_prestasi, n.jarak_rumah
+                FROM pendaftar_ppdb p
+                LEFT JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
+                WHERE 1=1";
+
+        if (!empty($filters['tahun'])) {
+            $tahun = intval($filters['tahun']);
+            $sql .= " AND YEAR(p.tanggal_daftar) = $tahun";
+        }
+
+        if (!empty($filters['jalur'])) {
+            $jalur = mysqli_real_escape_string($conn, $filters['jalur']);
+            $sql .= " AND p.jalur_seleksi = '$jalur'";
+        }
+
+        if (!empty($filters['status'])) {
+            $status = mysqli_real_escape_string($conn, $filters['status']);
+            $sql .= " AND p.status_seleksi = '$status'";
+        }
+
+        $sql .= " ORDER BY p.nama_lengkap ASC";
+
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    // ==========================================================
+    // BAGIAN 4: LAPORAN TREN PPDB ANTAR TAHUN
+    // ==========================================================
+
+    // Satu baris per tahun ajaran: Tahun - Pendaftar - Diterima - Cadangan - Ditolak.
+    // "Pendaftar" = total seluruh pendaftar tahun itu (termasuk yang masih Menunggu).
+    public function getTrenPPDBAntarTahun() {
+        $sql = "SELECT
+                    YEAR(tanggal_daftar) as tahun,
+                    COUNT(*) as pendaftar,
+                    SUM(status_seleksi = 'Diterima') as diterima,
+                    SUM(status_seleksi = 'Cadangan') as cadangan,
+                    SUM(status_seleksi = 'Ditolak') as ditolak,
+                    SUM(status_seleksi = 'Menunggu') as menunggu
+                FROM pendaftar_ppdb
+                WHERE tanggal_daftar IS NOT NULL
+                GROUP BY YEAR(tanggal_daftar)
+                ORDER BY tahun ASC";
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    // ==========================================================
+    // BAGIAN 5: DAFTAR ULANG (menghubungkan hasil seleksi SAW dengan
+    // proses penerimaan sesungguhnya)
+    // ==========================================================
+
+    // Semua pendaftar berstatus 'Diterima', lengkap dengan status daftar ulangnya
+    // dan peringkat SAW (untuk referensi saat memilih cadangan pengganti).
+    public function getPendaftarDaftarUlang($filters = []) {
+        $conn = $this->koneksi;
+
+        $sql = "SELECT
+                    p.id_pendaftar, p.no_registrasi, p.nama_lengkap, p.nisn,
+                    p.jalur_seleksi, p.status_seleksi,
+                    p.status_daftar_ulang, p.tanggal_daftar_ulang, p.catatan_daftar_ulang,
+                    n.peringkat, n.nilai_akhir_saw
+                FROM pendaftar_ppdb p
+                LEFT JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
+                WHERE p.status_seleksi = 'Diterima'";
+
+        if (!empty($filters['status_daftar_ulang'])) {
+            $sdu = mysqli_real_escape_string($conn, $filters['status_daftar_ulang']);
+            $sql .= " AND p.status_daftar_ulang = '$sdu'";
+        }
+        if (!empty($filters['jalur'])) {
+            $jalur = mysqli_real_escape_string($conn, $filters['jalur']);
+            $sql .= " AND p.jalur_seleksi = '$jalur'";
+        }
+
+        $sql .= " ORDER BY n.peringkat ASC";
+
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row;
+            }
+        }
+        return $data;
+    }
+
+    // Ringkasan angka: kuota diterima vs realisasi daftar ulang -- inilah bagian
+    // yang menghubungkan hasil seleksi (SAW) dengan proses penerimaan sesungguhnya.
+    public function getRingkasanDaftarUlang() {
+        $sql = "SELECT status_daftar_ulang, COUNT(*) as jumlah
+                FROM pendaftar_ppdb
+                WHERE status_seleksi = 'Diterima'
+                GROUP BY status_daftar_ulang";
+        $result = $this->query($sql);
+
+        $rekap = ['Belum Konfirmasi' => 0, 'Daftar Ulang' => 0, 'Mengundurkan Diri' => 0];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $rekap[$row['status_daftar_ulang']] = (int) $row['jumlah'];
+            }
+        }
+        $rekap['Total Diterima'] = array_sum($rekap);
+
+        // Jumlah kandidat Cadangan yang masih menunggu (siap dipromosikan jika ada kursi kosong)
+        $sql_cadangan = "SELECT COUNT(*) as jumlah FROM pendaftar_ppdb WHERE status_seleksi = 'Cadangan'";
+        $res_cadangan = $this->query($sql_cadangan);
+        $rekap['Cadangan Menunggu'] = $res_cadangan ? (int) mysqli_fetch_assoc($res_cadangan)['jumlah'] : 0;
+
+        return $rekap;
+    }
+
+    // Update status daftar ulang 1 pendaftar. Otomatis mengisi tanggal_daftar_ulang
+    // saat statusnya bukan 'Belum Konfirmasi', dan mengosongkannya lagi jika direset.
+    public function updateDaftarUlang($id, $status_daftar_ulang, $catatan = '') {
+        $conn = $this->koneksi;
+        $id = intval($id);
+        $status = mysqli_real_escape_string($conn, $status_daftar_ulang);
+        $catatan = mysqli_real_escape_string($conn, $catatan);
+
+        $tanggal_sql = ($status_daftar_ulang === 'Belum Konfirmasi') ? 'NULL' : 'NOW()';
+
+        $sql = "UPDATE pendaftar_ppdb SET
+                    status_daftar_ulang = '$status',
+                    tanggal_daftar_ulang = $tanggal_sql,
+                    catatan_daftar_ulang = '$catatan'
+                WHERE id_pendaftar = $id";
+        return $this->query($sql);
+    }
+
+    // Kandidat Cadangan terbaik (peringkat SAW terkecil) yang siap dipromosikan
+    // mengisi kursi yang kosong akibat siswa Diterima mengundurkan diri.
+    public function getCadanganTerbaik() {
+        $sql = "SELECT p.id_pendaftar, p.nama_lengkap, p.jalur_seleksi, n.peringkat, n.nilai_akhir_saw
+                FROM pendaftar_ppdb p
+                JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
+                WHERE p.status_seleksi = 'Cadangan'
+                ORDER BY n.peringkat ASC
+                LIMIT 1";
+        $result = $this->query($sql);
+        return ($result && mysqli_num_rows($result) > 0) ? mysqli_fetch_assoc($result) : null;
+    }
+
+    // Promosikan 1 pendaftar Cadangan menjadi Diterima (mengisi kursi kosong)
+    public function promosikanKeDiterima($id) {
+        $id = intval($id);
+        $sql = "UPDATE pendaftar_ppdb SET status_seleksi = 'Diterima' WHERE id_pendaftar = $id";
+        return $this->query($sql);
+    }
+
+    // Daftar tahun ajaran (berdasarkan tanggal_daftar) untuk dropdown filter laporan
+    public function getTahunPendaftaran() {
+        $sql = "SELECT DISTINCT YEAR(tanggal_daftar) as tahun
+                FROM pendaftar_ppdb
+                WHERE tanggal_daftar IS NOT NULL
+                ORDER BY tahun DESC";
+        $result = $this->query($sql);
+        $data = [];
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $data[] = $row['tahun'];
+            }
+        }
+        return $data;
+    }
+
 } // End of Class
 
     // ... (lanjutkan dengan fungsi tambahPendaftar, updatePendaftar, dll) ...
