@@ -137,12 +137,17 @@ require_once '../views/admin/template/sidebar.php';
                     ?>
                 </div>
             </div>
-
-                <div class="tab-pane fade" id="tabStatNilai" role="tabpanel">
-                    <?php 
-                    require_once 'laporan_statistik_nilai.php';
-                    ?>
-                </div>
+            <div class="row">
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_ppdb.php'; ?></div>
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_pengumuman.php'; ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_galeri.php'; ?></div>
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_saw.php'; ?></div>
+            </div>
+            <div class="row">
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_statistik_nilai.php'; ?></div>
+                <div class="col-md-6" style="padding: 15px; border: 1px solid #eee; border-radius: 4px; margin-bottom: 15px;"><?php require_once 'laporan_jalur.php'; ?></div>
             </div>
         </div>
     </div>

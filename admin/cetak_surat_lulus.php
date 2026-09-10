@@ -30,6 +30,13 @@ $nilai = $sawModel->getNilaiByPendaftarId($id);
 $tahun_ini = date('Y');
 $nomor_surat = '421.7/' . str_pad($id, 3, '0', STR_PAD_LEFT) . '/PPDB-SMAFDB/' . $tahun_ini;
 
+// Load Model Guru untuk ambil TTD Kepsek
+require_once '../models/GuruModel.php';
+$guruModel = new GuruModel();
+$kepsek = $guruModel->getKepalaSekolah();
+$nama_kepsek = !empty($kepsek['nama_lengkap']) ? $kepsek['nama_lengkap'] : '( ...Belum diinput... )';
+$nip_kepsek  = !empty($kepsek['nip']) ? $kepsek['nip'] : '-';
+
 // Helper Tanggal Indo
 function tgl_indo($tanggal){
     $bulan = array (
@@ -87,7 +94,7 @@ function tgl_indo($tanggal){
     <div class="nomor">Nomor: <?php echo $nomor_surat; ?></div>
 
     <div class="isi">
-        <p>Yang bertanda tangan di bawah ini, Ketua Panitia Penerimaan Peserta Didik Baru (PPDB) SMA Frater Don Bosco Banjarmasin Tahun Ajaran <?php echo $tahun_ini . '/' . ($tahun_ini + 1); ?>, dengan ini menerangkan bahwa:</p>
+        <p>Yang bertanda tangan di bawah ini, Kepala Sekolah SMA Frater Don Bosco Banjarmasin Tahun Ajaran <?php echo $tahun_ini . '/' . ($tahun_ini + 1); ?>, dengan ini menerangkan bahwa:</p>
 
         <table class="biodata">
             <tr><td class="label">Nama Lengkap</td><td>: <b><?php echo htmlspecialchars($siswa['nama_lengkap']); ?></b></td></tr>
@@ -111,9 +118,10 @@ function tgl_indo($tanggal){
     <div class="ttd-wrapper">
         <div class="ttd">
             <p>Banjarmasin, <?php echo tgl_indo(date('Y-m-d')); ?></p>
-            <p>Ketua Panitia PPDB,</p>
+            <p>Kepala Sekolah</p>
             <br><br><br>
-            <p style="font-weight: bold; text-decoration: underline;">( .................................... )</p>
+            <p style="font-weight: bold; text-decoration: underline;"><?php echo htmlspecialchars($nama_kepsek); ?></p>
+            <p>NIP. <?php echo htmlspecialchars($nip_kepsek); ?></p>
         </div>
     </div>
 
