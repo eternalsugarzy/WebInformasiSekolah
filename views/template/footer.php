@@ -108,6 +108,7 @@
                         <li><a href="berita.php"><i class="fa fa-angle-right"></i> Berita & Info</a></li>
                         <li><a href="ppdb.php"><i class="fa fa-angle-right"></i> Info PPDB</a></li>
                         <li><a href="galeri.php"><i class="fa fa-angle-right"></i> Galeri Foto</a></li>
+                        <li><a href="prestasi.php"><i class="fa fa-angle-right"></i> Siswa Berprestasi</a></li>
                         <li><a href="index.php#contact"><i class="fa fa-angle-right"></i> Kontak Kami</a></li>
                     </ul>
                 </div>

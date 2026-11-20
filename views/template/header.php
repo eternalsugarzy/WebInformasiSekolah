@@ -71,6 +71,9 @@ if (!isset($_SESSION['terhitung_tanggal']) || $_SESSION['terhitung_tanggal'] != 
                     <li class="<?php echo ($current_page == 'guru.php') ? 'active' : ''; ?>">
                         <a href="guru.php">Guru</a>
                     </li>
+                    <li class="<?php echo ($current_page == 'prestasi.php') ? 'active' : ''; ?>">
+                        <a href="prestasi.php">Prestasi</a>
+                    </li>
                     <li class="<?php echo ($current_page == 'galeri.php') ? 'active' : ''; ?>">
                         <a href="galeri.php">Galeri</a>
                     </li>

@@ -7,43 +7,52 @@ class AdminKelulusanController {
     private $historiModel;
 
     public function __construct() {
+        if (!isset($_SESSION['user_admin'])) {
+            header("Location: login.php");
+            exit;
+        }
         $this->model = new SawModel();
         $this->historiModel = new HistoriSawModel();
     }
 
-   public function index() {
-    // Kita buat variabel lokal $model agar bisa terbaca oleh file view
-    $model = $this->model; 
-    require_once '../views/admin/kelulusan.php';
-}
+    public function index() {
+        // Variabel lokal agar bisa terbaca oleh file view
+        $model = $this->model;
+        $jalur_list = $this->model->getJalurList();
+        $kuota_jalur = $this->model->getKuotaJalur();
+        require_once '../views/admin/kelulusan.php';
+    }
 
+    // Simpan kuota Diterima & Cadangan untuk SETIAP jalur seleksi.
+    // Form mengirim: kuota[Zonasi][diterima], kuota[Zonasi][cadangan], dst.
     public function prosesSimpan() {
-        if (isset($_POST['simpan'])) {
-            // Snapshot kuota lama SEBELUM diubah, untuk histori
-            $kuota_lama = [
-                'Kuota Diterima' => $this->model->getSetting('kuota_diterima'),
-                'Kuota Cadangan' => $this->model->getSetting('kuota_cadangan'),
-            ];
+        if (isset($_POST['simpan']) && isset($_POST['kuota']) && is_array($_POST['kuota'])) {
+            $kuota_sebelum = $this->model->getKuotaJalur();
+            $kuota_lama = [];
+            $kuota_baru = [];
 
-            // Simpan masing-masing kuota ke database
-            $this->model->updateSetting('kuota_diterima', $_POST['kuota_diterima']);
-            $this->model->updateSetting('kuota_cadangan', $_POST['kuota_cadangan']);
+            foreach ($this->model->getJalurList() as $jalur) {
+                if (!isset($_POST['kuota'][$jalur])) continue;
 
-            $kuota_baru = [
-                'Kuota Diterima' => (int) $_POST['kuota_diterima'],
-                'Kuota Cadangan' => (int) $_POST['kuota_cadangan'],
-            ];
+                $d = max(0, intval($_POST['kuota'][$jalur]['diterima'] ?? 0));
+                $c = max(0, intval($_POST['kuota'][$jalur]['cadangan'] ?? 0));
+                $this->model->updateKuotaJalur($jalur, $d, $c);
+
+                $kuota_lama["$jalur - Diterima"] = $kuota_sebelum[$jalur]['kuota_diterima'];
+                $kuota_lama["$jalur - Cadangan"] = $kuota_sebelum[$jalur]['kuota_cadangan'];
+                $kuota_baru["$jalur - Diterima"] = $d;
+                $kuota_baru["$jalur - Cadangan"] = $c;
+            }
 
             if ($kuota_lama != $kuota_baru) {
                 $this->historiModel->catat(
                     'Kuota Kelulusan',
-                    'Ubah kuota kelulusan PPDB',
+                    'Ubah kuota kelulusan PPDB per jalur seleksi',
                     $kuota_lama,
                     $kuota_baru
                 );
             }
 
-            // Redirect dengan pesan sukses
             header("Location: kelulusan.php?pesan=sukses");
             exit;
         }

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../models/PPDBModel.php';
+require_once __DIR__ . '/../models/PrestasiModel.php';
 
 class AdminLaporanController {
 
@@ -15,7 +16,11 @@ class AdminLaporanController {
     public function index() {
         $title = "Daftar Laporan Arsip";
         $nama_admin = $_SESSION['admin_nama'];
-        
+
+        // Data dropdown filter untuk tab-tab laporan
+        $daftar_tahun = (new PPDBModel())->getTahunPendaftaran();
+        $daftar_tahun_prestasi = (new PrestasiModel())->getDaftarTahun();
+
         // PENTING: File ini harus berisi 5 tautan ke laporan spesifik
         require_once '../views/admin/laporan/laporan_index.php'; 
     }
@@ -92,6 +97,21 @@ class AdminLaporanController {
         $title = "Laporan Tren PPDB Antar Tahun";
         $nama_admin = $_SESSION['admin_nama'];
         require_once '../views/admin/laporan/laporan_tren_tahun.php';
+    }
+
+    // Halaman Laporan Penerimaan Peserta Didik Baru (revisi penguji 3)
+    public function pagePenerimaan() {
+        $title = "Laporan Penerimaan Peserta Didik Baru";
+        $nama_admin = $_SESSION['admin_nama'];
+        require_once '../views/admin/laporan/laporan_penerimaan.php';
+    }
+
+    // Halaman Laporan Data Siswa Berprestasi (revisi penguji 3)
+    public function pagePrestasi() {
+        $title = "Laporan Data Siswa Berprestasi";
+        $nama_admin = $_SESSION['admin_nama'];
+        $daftar_tahun_prestasi = (new PrestasiModel())->getDaftarTahun();
+        require_once '../views/admin/laporan/laporan_prestasi.php';
     }
 
     // Halaman Laporan Histori Perubahan Seleksi SAW

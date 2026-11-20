@@ -91,9 +91,11 @@ class PPDBModel extends Database {
         $no_reg = "REG-" . date('ymdHis');
 
         $sql = "INSERT INTO pendaftar_ppdb 
-                (no_registrasi, nisn, nama_lengkap, tempat_lahir, tanggal_lahir, jenis_kelamin, agama, alamat_lengkap, no_hp_siswa, email_siswa, no_kk, nik, no_akte_lahir, npsn_smp, nama_sekolah_asal, provinsi_smp, kabupaten_smp, kecamatan_smp, foto_siswa, jalur_seleksi, status_seleksi) 
-                VALUES 
-                ('$no_reg', '$nisn', '$nama', '$tempat_lahir', '$tgl_lahir', '$jk', '$agama', '$alamat', '$hp', '$email', '$kk', '$nik', '$akte', '$npsn', '$sekolah_asal', '$provinsi', '$kabupaten', '$kecamatan', '$foto', '$jalur', 'Menunggu')";
+                (no_registrasi, nisn, nama_lengkap, tempat_lahir, tanggal_lahir, jenis_kelamin, agama, alamat_lengkap, no_hp_siswa, email_siswa, no_kk, nik, no_akte_lahir, npsn_smp, nama_sekolah_asal, provinsi_smp, kabupaten_smp, kecamatan_smp, foto_siswa, jalur_seleksi, id_gelombang, status_seleksi)
+                VALUES
+                ('$no_reg', '$nisn', '$nama', '$tempat_lahir', '$tgl_lahir', '$jk', '$agama', '$alamat', '$hp', '$email', '$kk', '$nik', '$akte', '$npsn', '$sekolah_asal', '$provinsi', '$kabupaten', '$kecamatan', '$foto', '$jalur',
+                 (SELECT g.id_gelombang FROM gelombang_ppdb g WHERE CURDATE() BETWEEN g.tanggal_mulai AND g.tanggal_akhir ORDER BY g.tanggal_mulai LIMIT 1),
+                 'Menunggu')";
 
         return $this->query($sql);
     }
@@ -199,8 +201,11 @@ class PPDBModel extends Database {
 
     public function getPendaftarById($id) {
         $id = intval($id);
-        $sql = "SELECT * FROM pendaftar_ppdb WHERE id_pendaftar = $id";
-        
+        $sql = "SELECT p.*, g.nama_gelombang, g.tanggal_mulai AS gelombang_mulai, g.tanggal_akhir AS gelombang_akhir
+                FROM pendaftar_ppdb p
+                LEFT JOIN gelombang_ppdb g ON g.id_gelombang = p.id_gelombang
+                WHERE p.id_pendaftar = $id";
+
         $result = $this->query($sql);
         
         if ($result) {
@@ -225,7 +230,17 @@ class PPDBModel extends Database {
         if($data && !empty($data['foto_siswa'])) {
             $path = __DIR__ . "/../admin/uploads/peserta/" . $data['foto_siswa'];
             if(file_exists($path)) {
-                unlink($path); 
+                unlink($path);
+            }
+        }
+
+        // Hapus juga file sertifikat prestasi siswa ybs (baris prestasi_siswa
+        // ikut terhapus otomatis lewat FOREIGN KEY ... ON DELETE CASCADE)
+        $res_sert = $this->query("SELECT bukti_sertifikat FROM prestasi_siswa WHERE id_pendaftar = $id AND bukti_sertifikat IS NOT NULL AND bukti_sertifikat <> ''");
+        if ($res_sert) {
+            while ($s = mysqli_fetch_assoc($res_sert)) {
+                $path_sert = __DIR__ . "/../admin/uploads/prestasi/" . basename($s['bukti_sertifikat']);
+                if (file_exists($path_sert)) unlink($path_sert);
             }
         }
 
@@ -530,7 +545,7 @@ class PPDBModel extends Database {
                     p.id_pendaftar, p.no_registrasi, p.nama_lengkap, p.nisn,
                     p.jalur_seleksi, p.status_seleksi,
                     p.status_daftar_ulang, p.tanggal_daftar_ulang, p.catatan_daftar_ulang,
-                    n.peringkat, n.nilai_akhir_saw
+                    n.peringkat, n.peringkat_jalur, n.nilai_akhir_saw
                 FROM pendaftar_ppdb p
                 LEFT JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
                 WHERE p.status_seleksi = 'Diterima'";
@@ -544,7 +559,7 @@ class PPDBModel extends Database {
             $sql .= " AND p.jalur_seleksi = '$jalur'";
         }
 
-        $sql .= " ORDER BY n.peringkat ASC";
+        $sql .= " ORDER BY FIELD(p.jalur_seleksi, 'Zonasi', 'Prestasi', 'Afirmasi'), n.peringkat_jalur ASC";
 
         $result = $this->query($sql);
         $data = [];
@@ -599,17 +614,78 @@ class PPDBModel extends Database {
         return $this->query($sql);
     }
 
-    // Kandidat Cadangan terbaik (peringkat SAW terkecil) yang siap dipromosikan
-    // mengisi kursi yang kosong akibat siswa Diterima mengundurkan diri.
-    public function getCadanganTerbaik() {
-        $sql = "SELECT p.id_pendaftar, p.nama_lengkap, p.jalur_seleksi, n.peringkat, n.nilai_akhir_saw
+    // Kuota kelulusan per jalur (tabel kuota_jalur, fallback ke kuota global setting_ppdb)
+    public function getKuotaPerJalur() {
+        $default = ['kuota_diterima' => 0, 'kuota_cadangan' => 0];
+        $res = $this->query("SELECT nama_setting, nilai FROM setting_ppdb WHERE nama_setting IN ('kuota_diterima','kuota_cadangan')");
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $default[$row['nama_setting']] = (int) $row['nilai'];
+            }
+        }
+
+        $kuota = [];
+        foreach (['Zonasi', 'Prestasi', 'Afirmasi'] as $j) {
+            $kuota[$j] = $default;
+        }
+        $res = $this->query("SELECT * FROM kuota_jalur");
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $kuota[$row['jalur_seleksi']] = [
+                    'kuota_diterima' => (int) $row['kuota_diterima'],
+                    'kuota_cadangan' => (int) $row['kuota_cadangan'],
+                ];
+            }
+        }
+        return $kuota;
+    }
+
+    // Kandidat Cadangan terbaik (peringkat jalur terkecil) DI JALUR TERTENTU yang siap
+    // dipromosikan mengisi kursi kosong akibat siswa Diterima di jalur itu mengundurkan diri.
+    public function getCadanganTerbaik($jalur) {
+        $jalur = mysqli_real_escape_string($this->koneksi, $jalur);
+        $sql = "SELECT p.id_pendaftar, p.nama_lengkap, p.jalur_seleksi, n.peringkat, n.peringkat_jalur, n.nilai_akhir_saw
                 FROM pendaftar_ppdb p
                 JOIN nilai_tesmasuk n ON n.id_pendaftar = p.id_pendaftar
-                WHERE p.status_seleksi = 'Cadangan'
-                ORDER BY n.peringkat ASC
+                WHERE p.status_seleksi = 'Cadangan' AND p.jalur_seleksi = '$jalur'
+                ORDER BY n.peringkat_jalur ASC, n.nilai_akhir_saw DESC
                 LIMIT 1";
         $result = $this->query($sql);
         return ($result && mysqli_num_rows($result) > 0) ? mysqli_fetch_assoc($result) : null;
+    }
+
+    // Ketersediaan kursi per jalur: kuota Diterima dibanding siswa Diterima yang
+    // TIDAK mengundurkan diri. Selisihnya = kursi kosong yang boleh diisi Cadangan.
+    public function getKursiPerJalur() {
+        $kuota = $this->getKuotaPerJalur();
+
+        $sql = "SELECT jalur_seleksi,
+                       SUM(status_seleksi = 'Diterima' AND status_daftar_ulang <> 'Mengundurkan Diri') AS diterima_aktif,
+                       SUM(status_seleksi = 'Diterima' AND status_daftar_ulang = 'Mengundurkan Diri') AS mundur,
+                       SUM(status_seleksi = 'Cadangan') AS cadangan
+                FROM pendaftar_ppdb
+                GROUP BY jalur_seleksi";
+        $hitung = [];
+        $res = $this->query($sql);
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $hitung[$row['jalur_seleksi']] = $row;
+            }
+        }
+
+        $data = [];
+        foreach ($kuota as $jalur => $k) {
+            $aktif = isset($hitung[$jalur]) ? (int) $hitung[$jalur]['diterima_aktif'] : 0;
+            $data[$jalur] = [
+                'kuota_diterima' => $k['kuota_diterima'],
+                'diterima_aktif' => $aktif,
+                'mundur'         => isset($hitung[$jalur]) ? (int) $hitung[$jalur]['mundur'] : 0,
+                'cadangan'       => isset($hitung[$jalur]) ? (int) $hitung[$jalur]['cadangan'] : 0,
+                'kursi_kosong'   => max(0, $k['kuota_diterima'] - $aktif),
+                'kandidat'       => $this->getCadanganTerbaik($jalur),
+            ];
+        }
+        return $data;
     }
 
     // Promosikan 1 pendaftar Cadangan menjadi Diterima (mengisi kursi kosong)
@@ -633,6 +709,168 @@ class PPDBModel extends Database {
             }
         }
         return $data;
+    }
+
+    // ==========================================================
+    // BAGIAN 6: LAPORAN PENERIMAAN PESERTA DIDIK BARU
+    // (Rekapitulasi total penerimaan: pendaftar vs diterima vs tidak diterima,
+    // persentase penerimaan per jalur & gelombang, sebaran pendaftar, dan
+    // perbandingan dengan kuota per jalur.)
+    // ==========================================================
+
+    // WHERE dasar dari filter laporan. $filters: tahun, jalur, gelombang
+    // (gelombang = id_gelombang, atau 'tanpa' untuk pendaftar di luar semua gelombang).
+    private function wherePenerimaan($filters, $pakai_gelombang = true) {
+        $conn = $this->koneksi;
+        $w = "WHERE 1=1";
+        if (!empty($filters['tahun'])) {
+            $w .= " AND YEAR(p.tanggal_daftar) = " . intval($filters['tahun']);
+        }
+        if (!empty($filters['jalur'])) {
+            $w .= " AND p.jalur_seleksi = '" . mysqli_real_escape_string($conn, $filters['jalur']) . "'";
+        }
+        if ($pakai_gelombang && !empty($filters['gelombang'])) {
+            if ($filters['gelombang'] === 'tanpa') {
+                $w .= " AND p.id_gelombang IS NULL";
+            } else {
+                $w .= " AND p.id_gelombang = " . intval($filters['gelombang']);
+            }
+        }
+        return $w;
+    }
+
+    // Kolom agregat standar: jumlah pendaftar per status seleksi + daftar ulang
+    private function kolomRekapStatus() {
+        return "COUNT(*) AS pendaftar,
+                SUM(p.status_seleksi = 'Diterima') AS diterima,
+                SUM(p.status_seleksi = 'Cadangan') AS cadangan,
+                SUM(p.status_seleksi = 'Ditolak') AS ditolak,
+                SUM(p.status_seleksi = 'Menunggu') AS menunggu,
+                SUM(p.status_seleksi = 'Diterima' AND p.status_daftar_ulang = 'Daftar Ulang') AS daftar_ulang";
+    }
+
+    private static function persen($bagian, $total) {
+        return $total > 0 ? round($bagian / $total * 100, 1) : 0;
+    }
+
+    private function normalisasiRekap($row) {
+        $out = [];
+        foreach (['pendaftar', 'diterima', 'cadangan', 'ditolak', 'menunggu', 'daftar_ulang'] as $k) {
+            $out[$k] = isset($row[$k]) ? (int) $row[$k] : 0;
+        }
+        $out['persen_diterima'] = self::persen($out['diterima'], $out['pendaftar']);
+        return $out;
+    }
+
+    public function getLaporanPenerimaan($filters = []) {
+        $where = $this->wherePenerimaan($filters);
+        $kolom = $this->kolomRekapStatus();
+
+        // 1. Ringkasan total
+        $res = $this->query("SELECT $kolom FROM pendaftar_ppdb p $where");
+        $ringkasan = $this->normalisasiRekap($res ? mysqli_fetch_assoc($res) : []);
+
+        // 2. Per jalur seleksi + perbandingan kuota
+        $kuota = $this->getKuotaPerJalur();
+        $jalur_list = !empty($filters['jalur']) && isset($kuota[$filters['jalur']])
+            ? [$filters['jalur']] : array_keys($kuota);
+
+        $per_jalur = [];
+        foreach ($jalur_list as $j) {
+            $per_jalur[$j] = $this->normalisasiRekap([]);
+        }
+        $res = $this->query("SELECT p.jalur_seleksi, $kolom FROM pendaftar_ppdb p $where GROUP BY p.jalur_seleksi");
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                if (isset($per_jalur[$row['jalur_seleksi']])) {
+                    $per_jalur[$row['jalur_seleksi']] = $this->normalisasiRekap($row);
+                }
+            }
+        }
+
+        // Pemenuhan kuota dihitung dari SELURUH gelombang (kuota berlaku untuk satu
+        // periode penerimaan, bukan per gelombang), tetap mengikuti filter tahun & jalur.
+        $where_kuota = $this->wherePenerimaan($filters, false);
+        $terisi = [];
+        $res = $this->query("SELECT p.jalur_seleksi, SUM(p.status_seleksi = 'Diterima') AS diterima
+                             FROM pendaftar_ppdb p $where_kuota GROUP BY p.jalur_seleksi");
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $terisi[$row['jalur_seleksi']] = (int) $row['diterima'];
+            }
+        }
+        $total_kuota = ['kuota_diterima' => 0, 'terisi' => 0, 'sisa' => 0];
+        foreach ($per_jalur as $j => &$r) {
+            $kd = $kuota[$j]['kuota_diterima'];
+            $isi = $terisi[$j] ?? 0;
+            $r['kuota_diterima'] = $kd;
+            $r['kuota_terisi'] = $isi;
+            $r['sisa_kuota'] = max(0, $kd - $isi);
+            $r['persen_kuota'] = self::persen($isi, $kd);
+            if ($kd == 0) {
+                $r['status_kuota'] = 'Tidak ada kuota';
+            } elseif ($isi > $kd) {
+                $r['status_kuota'] = 'Melebihi kuota';
+            } elseif ($isi == $kd) {
+                $r['status_kuota'] = 'Terpenuhi';
+            } else {
+                $r['status_kuota'] = 'Tersisa ' . ($kd - $isi) . ' kursi';
+            }
+            $total_kuota['kuota_diterima'] += $kd;
+            $total_kuota['terisi'] += $isi;
+            $total_kuota['sisa'] += $r['sisa_kuota'];
+        }
+        unset($r);
+        $total_kuota['persen'] = self::persen($total_kuota['terisi'], $total_kuota['kuota_diterima']);
+
+        // 3. Per gelombang (termasuk "Tanpa Gelombang" bila ada)
+        $per_gelombang = [];
+        $res = $this->query("SELECT p.id_gelombang, g.nama_gelombang, g.tanggal_mulai, g.tanggal_akhir, $kolom
+                             FROM pendaftar_ppdb p
+                             LEFT JOIN gelombang_ppdb g ON g.id_gelombang = p.id_gelombang
+                             $where
+                             GROUP BY p.id_gelombang, g.nama_gelombang, g.tanggal_mulai, g.tanggal_akhir
+                             ORDER BY g.tanggal_mulai IS NULL, g.tanggal_mulai ASC");
+        if ($res) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                $r = $this->normalisasiRekap($row);
+                if ($row['id_gelombang']) {
+                    $r['label'] = $row['nama_gelombang'] . ' ' . date('Y', strtotime($row['tanggal_mulai']));
+                    $r['periode'] = date('d/m/Y', strtotime($row['tanggal_mulai'])) . ' - ' . date('d/m/Y', strtotime($row['tanggal_akhir']));
+                } else {
+                    $r['label'] = 'Tanpa Gelombang';
+                    $r['periode'] = 'Di luar periode gelombang';
+                }
+                $per_gelombang[] = $r;
+            }
+        }
+
+        // 4. Sebaran pendaftar (jenis kelamin, asal sekolah, kecamatan)
+        $sebaran = function ($kolom_grup) use ($where, $kolom) {
+            $data = [];
+            $res = $this->query("SELECT $kolom_grup AS label, $kolom
+                                 FROM pendaftar_ppdb p $where
+                                 GROUP BY $kolom_grup
+                                 ORDER BY pendaftar DESC, label ASC");
+            if ($res) {
+                while ($row = mysqli_fetch_assoc($res)) {
+                    $r = $this->normalisasiRekap($row);
+                    $r['label'] = trim((string) $row['label']) !== '' ? $row['label'] : '(Tidak diisi)';
+                    $data[] = $r;
+                }
+            }
+            return $data;
+        };
+
+        return [
+            'ringkasan'     => $ringkasan,
+            'per_jalur'     => $per_jalur,
+            'total_kuota'   => $total_kuota,
+            'per_gelombang' => $per_gelombang,
+            'sebaran_jk'        => $sebaran('p.jenis_kelamin'),
+            'sebaran_sekolah'   => $sebaran('p.nama_sekolah_asal'),
+            'sebaran_kecamatan' => $sebaran('p.kecamatan_smp'),
+        ];
     }
 
 } // End of Class

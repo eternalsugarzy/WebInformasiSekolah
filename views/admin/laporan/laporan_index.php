@@ -52,6 +52,16 @@ require_once '../views/admin/template/sidebar.php';
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" id="penerimaan-tab" data-toggle="pill" href="#tabPenerimaan" role="tab">
+                        Laporan Penerimaan
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="prestasi-tab" data-toggle="pill" href="#tabPrestasi" role="tab">
+                        Siswa Berprestasi
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" id="rekap-ppdb-tab" data-toggle="pill" href="#tabRekapPPDB" role="tab">
                         Rekap Pendaftaran PPDB
                     </a>
@@ -116,6 +126,18 @@ require_once '../views/admin/template/sidebar.php';
                 <div class="tab-pane fade" id="tabJalur" role="tabpanel">
                     <?php
                     require_once 'laporan_jalur.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabPenerimaan" role="tabpanel">
+                    <?php
+                    require_once 'laporan_penerimaan.php';
+                    ?>
+                </div>
+
+                <div class="tab-pane fade" id="tabPrestasi" role="tabpanel">
+                    <?php
+                    require_once 'laporan_prestasi.php';
                     ?>
                 </div>
 

@@ -111,7 +111,8 @@ class SawModel extends Database {
             n.nilai_prestasi,
             n.jarak_rumah,
             n.nilai_akhir_saw,
-            n.peringkat
+            n.peringkat,
+            n.peringkat_jalur
         FROM pendaftar_ppdb p
         LEFT JOIN nilai_tesmasuk n
         ON p.id_pendaftar = n.id_pendaftar
@@ -250,10 +251,24 @@ class SawModel extends Database {
         $this->query("SET @rank=0");
         
         // Update peringkat berdasarkan nilai tertinggi
-        $sql = "UPDATE nilai_tesmasuk 
-                SET peringkat = (@rank:=@rank+1) 
+        $sql = "UPDATE nilai_tesmasuk
+                SET peringkat = (@rank:=@rank+1)
                 ORDER BY nilai_akhir_saw DESC";
         $this->query($sql);
+
+        // Peringkat di dalam jalur seleksi masing-masing -- inilah dasar penentuan
+        // kelulusan, karena kuota Diterima/Cadangan diatur per jalur.
+        $this->query("UPDATE nilai_tesmasuk SET peringkat_jalur = NULL");
+        $sql_jalur = "UPDATE nilai_tesmasuk n
+                      JOIN (
+                          SELECT n2.id_nilai_tes,
+                                 ROW_NUMBER() OVER (PARTITION BY p.jalur_seleksi ORDER BY n2.nilai_akhir_saw DESC) AS rk
+                          FROM nilai_tesmasuk n2
+                          JOIN pendaftar_ppdb p ON p.id_pendaftar = n2.id_pendaftar
+                          WHERE n2.nilai_akhir_saw IS NOT NULL
+                      ) r ON r.id_nilai_tes = n.id_nilai_tes
+                      SET n.peringkat_jalur = r.rk";
+        $this->query($sql_jalur);
     }
 
     // 2. Perbaikan Fungsi Status: Menggunakan inner join yang lebih ketat
@@ -272,17 +287,59 @@ class SawModel extends Database {
         return $this->query($sql);
     }
 
-    // Update Kelulusan (Sekarang tidak perlu parameter, otomatis baca dari DB)
+    // ==========================================
+    // 3b. KUOTA KELULUSAN PER JALUR SELEKSI
+    // ==========================================
+
+    // Kuota Diterima & Cadangan per jalur. Bentuk:
+    // ['Zonasi' => ['kuota_diterima' => 5, 'kuota_cadangan' => 1], ...]
+    // Jalur yang belum dikonfigurasi memakai kuota global lama (setting_ppdb) sebagai fallback.
+    public function getKuotaJalur() {
+        $default_d = $this->getSetting('kuota_diterima');
+        $default_c = $this->getSetting('kuota_cadangan');
+
+        $kuota = [];
+        foreach ($this->getJalurList() as $jalur) {
+            $kuota[$jalur] = ['kuota_diterima' => $default_d, 'kuota_cadangan' => $default_c];
+        }
+
+        $result = $this->query("SELECT * FROM kuota_jalur");
+        if ($result) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                $kuota[$row['jalur_seleksi']] = [
+                    'kuota_diterima' => (int) $row['kuota_diterima'],
+                    'kuota_cadangan' => (int) $row['kuota_cadangan'],
+                ];
+            }
+        }
+        return $kuota;
+    }
+
+    public function updateKuotaJalur($jalur, $kuota_diterima, $kuota_cadangan) {
+        if (!in_array($jalur, $this->getJalurList(), true)) return false;
+        $j = $this->escape($jalur);
+        $d = max(0, intval($kuota_diterima));
+        $c = max(0, intval($kuota_cadangan));
+        $sql = "INSERT INTO kuota_jalur (jalur_seleksi, kuota_diterima, kuota_cadangan)
+                VALUES ('$j', $d, $c)
+                ON DUPLICATE KEY UPDATE kuota_diterima = $d, kuota_cadangan = $c";
+        return $this->query($sql);
+    }
+
+    // Update Kelulusan berdasarkan PERINGKAT DI DALAM JALUR & kuota masing-masing jalur.
+    // Contoh: kuota Zonasi 5+1 -> peringkat Zonasi 1-5 Diterima, 6 Cadangan, sisanya Ditolak;
+    // jalur Prestasi & Afirmasi dihitung terpisah dengan kuotanya sendiri.
     public function updateStatusKelulusan() {
-        $k = $this->getSetting('kuota_diterima');
-        $c = $this->getSetting('kuota_cadangan');
-        $total_terima = $k + $c;
+        $default_d = $this->getSetting('kuota_diterima');
+        $default_c = $this->getSetting('kuota_cadangan');
 
         $sql = "UPDATE pendaftar_ppdb p
                 JOIN nilai_tesmasuk n ON p.id_pendaftar = n.id_pendaftar
-                SET p.status_seleksi = CASE 
-                    WHEN n.peringkat <= $k THEN 'Diterima'
-                    WHEN n.peringkat > $k AND n.peringkat <= $total_terima THEN 'Cadangan'
+                LEFT JOIN kuota_jalur k ON k.jalur_seleksi = p.jalur_seleksi
+                SET p.status_seleksi = CASE
+                    WHEN n.peringkat_jalur IS NULL THEN p.status_seleksi
+                    WHEN n.peringkat_jalur <= COALESCE(k.kuota_diterima, $default_d) THEN 'Diterima'
+                    WHEN n.peringkat_jalur <= COALESCE(k.kuota_diterima, $default_d) + COALESCE(k.kuota_cadangan, $default_c) THEN 'Cadangan'
                     ELSE 'Ditolak'
                 END";
       return $this->query($sql);
@@ -338,6 +395,7 @@ class SawModel extends Database {
                 'wt1' => $wt1, 'wt2' => $wt2, 'wt3' => $wt3, 'wt4' => $wt4,
                 'nilai_akhir_saw' => $row['nilai_akhir_saw'],
                 'peringkat'       => $row['peringkat'],
+                'peringkat_jalur' => $row['peringkat_jalur'],
                 'status_seleksi'  => $row['status_seleksi'] ?? 'Menunggu',
             ];
         }
@@ -353,7 +411,7 @@ class SawModel extends Database {
    // Ambil nilai akhir SAW & peringkat untuk 1 pendaftar (dipakai di Surat Keterangan Lulus)
     public function getNilaiByPendaftarId($id_pendaftar) {
         $id = intval($id_pendaftar);
-        $sql = "SELECT nilai_akhir_saw, peringkat FROM nilai_tesmasuk WHERE id_pendaftar = $id";
+        $sql = "SELECT nilai_akhir_saw, peringkat, peringkat_jalur FROM nilai_tesmasuk WHERE id_pendaftar = $id";
         $res = $this->query($sql);
         return $res ? mysqli_fetch_assoc($res) : null;
     }

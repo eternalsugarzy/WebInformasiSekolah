@@ -495,6 +495,7 @@ require_once 'template/sidebar.php';
                             <tr><th>TTL</th><td><?php echo $siswa['tempat_lahir'] . ', ' . date('d-m-Y', strtotime($siswa['tanggal_lahir'])); ?></td></tr>
                             <tr><th>Jenis Kelamin</th><td><?php echo $siswa['jenis_kelamin']; ?></td></tr>
                             <tr><th>Jalur Seleksi</th><td><span class="label label-info" style="padding:4px 10px;"><?php echo htmlspecialchars($siswa['jalur_seleksi']); ?></span></td></tr>
+                            <tr><th>Gelombang</th><td><?php echo !empty($siswa['nama_gelombang']) ? htmlspecialchars($siswa['nama_gelombang']) . ' <small style="color:#888;">(' . date('d/m/Y', strtotime($siswa['gelombang_mulai'])) . ' - ' . date('d/m/Y', strtotime($siswa['gelombang_akhir'])) . ')</small>' : '<span style="color:#888;">Tanpa Gelombang</span>'; ?></td></tr>
                             <tr><th>Agama</th><td><?php echo $siswa['agama']; ?></td></tr>
                             <tr><th>Alamat</th><td><?php echo $siswa['alamat_lengkap']; ?></td></tr>
                             <tr><th>No. HP</th><td><?php echo $siswa['no_hp_siswa']; ?></td></tr>

@@ -63,6 +63,9 @@
             <li class="<?php echo ($page == 'pendaftar_ppdb.php') ? 'active' : ''; ?>">
                 <a href="pendaftar_ppdb.php"><i class="fa fa-user-plus"></i> Info PPDB</a>
             </li>
+            <li class="<?php echo ($page == 'gelombang.php') ? 'active' : ''; ?>">
+                <a href="gelombang.php"><i class="fa fa-calendar"></i> Gelombang PPDB</a>
+            </li>
             <li class="<?php echo ($page == 'bobot_saw.php') ? 'active' : ''; ?>">
                 <a href="bobot_saw.php"><i class="fa fa-sliders"></i> Bobot SAW</a>
             </li>
@@ -86,6 +89,13 @@
             </li>
             <li class="<?php echo (strpos($page, 'laporan') !== false) ? 'active' : ''; ?>">
                 <a href="laporan.php"><i class="fa fa-print"></i> <span>Laporan</span></a>
+            </li>
+
+            <li style="padding: 15px 20px 5px 20px; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">
+                Akademik
+            </li>
+            <li class="<?php echo ($page == 'prestasi.php') ? 'active' : ''; ?>">
+                <a href="prestasi.php"><i class="fa fa-trophy"></i> Prestasi Siswa</a>
             </li>
 
             <li style="padding: 15px 20px 5px 20px; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">

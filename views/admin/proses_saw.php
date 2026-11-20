@@ -8,11 +8,17 @@
         </div>
     </div>
 
+    <div class="alert alert-info">
+        <i class="fa fa-info-circle"></i> Status kelulusan ditentukan dari <b>Rank di Jalur</b> dibandingkan dengan kuota jalur tersebut
+        (menu <a href="kelulusan.php">Kuota Kelulusan</a>). <b>Rank Umum</b> hanya sebagai informasi urutan nilai akhir seluruh pendaftar.
+    </div>
+
     <div class="table-responsive">
         <table class="table table-hover table-striped">
             <thead>
                 <tr>
-                    <th>Rank</th>
+                    <th>Rank Umum</th>
+                    <th>Rank di Jalur</th>
                     <th>Nama Pendaftar</th>
                     <th>Jalur Seleksi</th>
                     <th>Nilai Akhir (Vi)</th>
@@ -23,6 +29,7 @@
                 <?php foreach ($data_pendaftar as $p) : ?>
                 <tr>
                     <td><?= $p['peringkat'] ? '#'.$p['peringkat'] : '-'; ?></td>
+                    <td><b><?= $p['peringkat_jalur'] ? '#'.$p['peringkat_jalur'] : '-'; ?></b></td>
                     <td style="font-weight: 600;"><?= htmlspecialchars($p['nama_lengkap']); ?></td>
                     <td><span class="label label-default"><?= htmlspecialchars($p['jalur_seleksi']); ?></span></td>
                     <td><?= ($p['nilai_akhir_saw'] != '') ? number_format($p['nilai_akhir_saw'], 4) : '-'; ?></td>

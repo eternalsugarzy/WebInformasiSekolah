@@ -5,7 +5,11 @@ class PPDBController {
 
     public function index() {
         $ppdbModel = new PPDBModel();
-        
+
+        // Gelombang pendaftaran yang sedang dibuka (ditampilkan di formulir pendaftaran)
+        require_once __DIR__ . '/../models/GelombangModel.php';
+        $gelombang_aktif = (new GelombangModel())->getGelombangAktif();
+
         // --- DEFAULT VARIABLES ---
         $title = "Penerimaan Peserta Didik Baru - SMA Frater Don Bosco Bjm";
         

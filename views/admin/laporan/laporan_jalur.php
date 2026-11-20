@@ -11,6 +11,7 @@ require_once '../views/admin/template/sidebar.php';
             <h4><i class="fa fa-print"></i> Laporan Rekapitulasi Pendaftar per Jalur Seleksi</h4>
             <hr>
             <p>Laporan ini merangkum jumlah pendaftar PPDB berdasarkan jalur seleksi (Zonasi, Afirmasi, Prestasi), dipecah per status seleksi (Menunggu, Diterima, Cadangan, Ditolak). Berguna untuk melihat distribusi calon siswa antar jalur.</p>
+            <p style="font-size:13px; color:#666;"><i class="fa fa-link"></i> Untuk persentase penerimaan, pemenuhan kuota per jalur, rekap per gelombang, dan sebaran pendaftar, gunakan tab <b>Laporan Penerimaan</b>.</p>
 
             <div class="alert alert-info">
                 <i class="fa fa-info-circle"></i> Laporan menampilkan data tahun ajaran berjalan (<?php echo date('Y'); ?>).
