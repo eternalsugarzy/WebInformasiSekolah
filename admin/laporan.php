@@ -59,6 +59,14 @@ switch ($action) {
         $controller->pageTrenTahun();
         break;
 
+    case 'pagePenerimaan':
+        $controller->pagePenerimaan();
+        break;
+
+    case 'pagePrestasi':
+        $controller->pagePrestasi();
+        break;
+
     case 'pageHistoriSaw':
         $controller->pageHistoriSaw();
         break;

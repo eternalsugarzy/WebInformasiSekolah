@@ -27,7 +27,7 @@ class AdminDaftarUlangController {
 
         $daftar = $this->model->getPendaftarDaftarUlang($filters);
         $ringkasan = $this->model->getRingkasanDaftarUlang();
-        $cadangan_terbaik = $this->model->getCadanganTerbaik();
+        $kursi_per_jalur = $this->model->getKursiPerJalur();
         $pesan = isset($_GET['pesan']) ? $_GET['pesan'] : '';
 
         require_once '../views/admin/daftar_ulang.php';
@@ -74,12 +74,25 @@ class AdminDaftarUlangController {
             exit;
         }
 
+        // Kuota per jalur: promosi hanya boleh jika jalur calon masih punya kursi kosong,
+        // dan yang dipromosikan harus kandidat Cadangan terbaik di jalur tersebut.
+        $kursi = $this->model->getKursiPerJalur();
+        $info_jalur = $kursi[$calon['jalur_seleksi']] ?? null;
+        if (!$info_jalur || $info_jalur['kursi_kosong'] <= 0) {
+            header("Location: daftar_ulang.php?pesan=kuota_penuh");
+            exit;
+        }
+        if (!$info_jalur['kandidat'] || (int) $info_jalur['kandidat']['id_pendaftar'] !== $id) {
+            header("Location: daftar_ulang.php?pesan=gagal_promosi");
+            exit;
+        }
+
         $berhasil = $this->model->promosikanKeDiterima($id);
 
         if ($berhasil) {
             $this->historiModel->catat(
                 'Daftar Ulang',
-                "Promosikan Cadangan menjadi Diterima (mengisi kursi kosong): {$calon['nama_lengkap']}",
+                "Promosikan Cadangan menjadi Diterima (mengisi kursi kosong jalur {$calon['jalur_seleksi']}): {$calon['nama_lengkap']}",
                 ['Status Seleksi' => 'Cadangan'],
                 ['Status Seleksi' => 'Diterima']
             );

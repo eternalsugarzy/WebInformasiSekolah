@@ -148,6 +148,12 @@
                     
                     <form action="" method="POST" enctype="multipart/form-data" class="form-box" id="formPPDB">
                         <h3 class="form-section-title">Formulir Pendaftaran Online</h3>
+                        <?php if (!empty($gelombang_aktif)): ?>
+                            <div class="alert alert-info" style="margin-bottom:15px;">
+                                <i class="fa fa-calendar"></i> Saat ini dibuka: <b><?php echo htmlspecialchars($gelombang_aktif['nama_gelombang']); ?></b>
+                                (<?php echo date('d/m/Y', strtotime($gelombang_aktif['tanggal_mulai'])); ?> &ndash; <?php echo date('d/m/Y', strtotime($gelombang_aktif['tanggal_akhir'])); ?>)<?php if (!empty($gelombang_aktif['keterangan'])) echo ' &mdash; ' . htmlspecialchars($gelombang_aktif['keterangan']); ?>.
+                            </div>
+                        <?php endif; ?>
                         
                         <div class="form-group">
                             <label>Nomor Induk Siswa Nasional (NISN) *</label>

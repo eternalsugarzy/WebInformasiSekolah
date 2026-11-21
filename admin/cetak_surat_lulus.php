@@ -104,7 +104,8 @@ function tgl_indo($tanggal){
             <tr><td class="label">Asal Sekolah</td><td>: <?php echo htmlspecialchars($siswa['nama_sekolah_asal']); ?></td></tr>
             <?php if ($nilai): ?>
             <tr><td class="label">Nilai Akhir Seleksi</td><td>: <?php echo number_format($nilai['nilai_akhir_saw'], 4); ?></td></tr>
-            <tr><td class="label">Peringkat</td><td>: <?php echo $nilai['peringkat'] ? '#' . $nilai['peringkat'] : '-'; ?></td></tr>
+            <tr><td class="label">Jalur Seleksi</td><td>: <?php echo htmlspecialchars($siswa['jalur_seleksi']); ?></td></tr>
+            <tr><td class="label">Peringkat di Jalur</td><td>: <?php echo $nilai['peringkat_jalur'] ? '#' . $nilai['peringkat_jalur'] : '-'; ?></td></tr>
             <?php endif; ?>
         </table>
 
