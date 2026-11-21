@@ -8,9 +8,10 @@
         </div>
     </div>
 
-    <div class="alert alert-info">
-        <i class="fa fa-info-circle"></i> Status kelulusan ditentukan dari <b>Rank di Jalur</b> dibandingkan dengan kuota jalur tersebut
-        (menu <a href="kelulusan.php">Kuota Kelulusan</a>). <b>Rank Umum</b> hanya sebagai informasi urutan nilai akhir seluruh pendaftar.
+    <div class="alert alert-info" style="margin-bottom: 15px;">
+        <strong>Cara Kerja SAW:</strong> Setiap kriteria penilaian diberi bobot lalu nilainya dinormalisasi (dibandingkan dengan nilai tertinggi/terendah antar pendaftar). Nilai yang sudah dinormalisasi dikalikan bobotnya masing-masing, kemudian dijumlahkan menjadi <strong>Nilai Akhir (Vi)</strong>.
+        Pendaftar kemudian diurutkan <strong>di dalam jalur seleksinya masing-masing</strong> (<strong>Rank di Jalur</strong>), dan status kelulusan ditentukan dari rank tersebut sesuai kuota jalur yang diatur di menu <a href="kelulusan.php">Kuota Kelulusan</a>.
+        <strong>Rank Umum</strong> hanya sebagai informasi urutan nilai akhir seluruh pendaftar.
     </div>
 
     <div class="table-responsive">

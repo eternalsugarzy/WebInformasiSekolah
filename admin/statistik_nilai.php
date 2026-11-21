@@ -11,6 +11,14 @@ $sawModel = new SawModel();
 
 $tahun_filter = (isset($_GET['tahun']) && $_GET['tahun'] !== '') ? intval($_GET['tahun']) : null;
 $statistik = $sawModel->getStatistikNilai($tahun_filter);
+$auto_print = !isset($_GET['tahun']); // Cetak otomatis hanya saat pertama dibuka, bukan setelah ganti filter
+
+// Load Model Guru untuk ambil TTD Kepsek
+require_once '../models/GuruModel.php';
+$guruModel = new GuruModel();
+$kepsek = $guruModel->getKepalaSekolah();
+$nama_kepsek = !empty($kepsek['nama_lengkap']) ? $kepsek['nama_lengkap'] : '( ...Belum diinput... )';
+$nip_kepsek  = !empty($kepsek['nip']) ? $kepsek['nip'] : '-';
 
 // Helper Tanggal Indo (untuk footer cetak)
 function tgl_indo($tanggal){
@@ -40,6 +48,11 @@ require_once '../views/admin/template/sidebar.php';
         .kop-surat h4 { margin: 5px 0; font-size: 14px; font-weight: normal; }
         .kop-surat p { margin: 0; font-size: 12px; font-style: italic; }
 
+        .table-cetak { width: 100%; border-collapse: collapse; margin: 10px 0 20px; }
+        .table-cetak, .table-cetak th, .table-cetak td { border: 1px solid #000; }
+        .table-cetak th { background-color: #f2f2f2; padding: 6px; text-align: center; font-weight: bold; font-size: 11pt; }
+        .table-cetak td { padding: 5px; text-align: center; font-size: 11pt; }
+
         @media print {
             .no-print { display: none !important; }
             .print-only { display: block !important; }
@@ -47,9 +60,8 @@ require_once '../views/admin/template/sidebar.php';
             .main-content { margin-left: 0 !important; padding: 0 !important; }
             .content-wrapper { padding: 0 !important; }
             .card-box { box-shadow: none !important; padding: 0 !important; }
-            body { background: #fff !important; }
+            body, p, h2, h3, h4, h5 { font-family: "Times New Roman", Times, serif !important; background: #fff !important; color: #000 !important; }
             @page { size: A4 portrait; margin: 1.5cm; }
-            canvas { max-width: 100% !important; }
             .row { page-break-inside: avoid; }
         }
     </style>
@@ -91,7 +103,7 @@ require_once '../views/admin/template/sidebar.php';
             <?php else: ?>
 
                 <!-- Ringkasan Angka -->
-                <div class="row" style="margin-bottom: 10px;">
+                <div class="row no-print" style="margin-bottom: 10px;">
                     <div class="col-md-3">
                         <div class="stat-card card-orange">
                             <div class="stat-content">
@@ -130,14 +142,14 @@ require_once '../views/admin/template/sidebar.php';
                     </div>
                 </div>
 
-                <p style="color:#888; font-size: 13px;">
+                <p class="no-print" style="color:#888; font-size: 13px;">
                     Total pendaftar ternilai pada periode ini: <b><?= $statistik['rata_rata']['total_ternilai'] ?></b> siswa
                     &mdash; Rata-rata Nilai Akhir SAW: <b><?= number_format($statistik['rata_rata']['avg_akhir'], 4) ?></b>
                 </p>
 
-                <hr>
+                <hr class="no-print">
 
-                <div class="row">
+                <div class="row no-print">
                     <div class="col-md-6">
                         <h5>Performa Rata-Rata per Kriteria</h5>
                         <canvas id="chartKriteria" height="240"></canvas>
@@ -148,21 +160,58 @@ require_once '../views/admin/template/sidebar.php';
                     </div>
                 </div>
 
-                <hr>
+                <hr class="no-print">
 
-                <div class="row">
+                <div class="row no-print">
                     <div class="col-md-12">
                         <h5>Tren Rata-Rata Nilai Akhir SAW per Tahun Ajaran</h5>
                         <canvas id="chartTren" height="100"></canvas>
                     </div>
                 </div>
 
+                <!-- Versi cetak formal: tabel, bukan kartu/grafik -->
+                <div class="print-only">
+                    <p>Total pendaftar ternilai pada periode ini: <b><?= $statistik['rata_rata']['total_ternilai'] ?></b> siswa &mdash; Rata-rata Nilai Akhir SAW: <b><?= number_format($statistik['rata_rata']['avg_akhir'], 4) ?></b></p>
+
+                    <h5>1. Rata-Rata Nilai per Kriteria</h5>
+                    <table class="table-cetak">
+                        <thead><tr><th>Kriteria</th><th>Rata-Rata Nilai</th></tr></thead>
+                        <tbody>
+                            <tr><td>C1: Nilai Raport</td><td><?= number_format($statistik['rata_rata']['avg_raport'], 1) ?></td></tr>
+                            <tr><td>C2: Nilai Tes</td><td><?= number_format($statistik['rata_rata']['avg_tes'], 1) ?></td></tr>
+                            <tr><td>C3: Prestasi</td><td><?= number_format($statistik['rata_rata']['avg_prestasi'], 1) ?></td></tr>
+                            <tr><td>C4: Jarak Rumah (km)</td><td><?= number_format($statistik['rata_rata']['avg_jarak'], 1) ?></td></tr>
+                        </tbody>
+                    </table>
+
+                    <h5>2. Sebaran Nilai Akhir SAW</h5>
+                    <table class="table-cetak">
+                        <thead><tr><th>Rentang Nilai</th><th>Jumlah Pendaftar</th></tr></thead>
+                        <tbody>
+                            <?php foreach ($statistik['sebaran'] as $label => $count): ?>
+                            <tr><td><?= htmlspecialchars($label) ?></td><td><?= $count ?></td></tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+
+                    <h5>3. Tren Rata-Rata Nilai Akhir SAW per Tahun Ajaran</h5>
+                    <table class="table-cetak">
+                        <thead><tr><th>Tahun Ajaran</th><th>Rata-Rata Nilai Akhir (Vi)</th></tr></thead>
+                        <tbody>
+                            <?php foreach ($statistik['tren_tahunan'] as $t): ?>
+                            <tr><td><?= htmlspecialchars($t['tahun']) ?></td><td><?= number_format($t['rata_akhir'], 4) ?></td></tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
                 <div class="print-only" style="margin-top: 40px; width: 100%; display: flex; justify-content: flex-end;">
                     <div style="text-align: center; width: 280px;">
                         <p>Banjarmasin, <?php echo tgl_indo(date('Y-m-d')); ?></p>
-                        <p>Ketua Panitia PPDB,</p>
+                        <p>Kepala Sekolah</p>
                         <br><br><br>
-                        <p style="font-weight: bold; text-decoration: underline;">( .................................... )</p>
+                        <p style="font-weight: bold; text-decoration: underline;"><?php echo htmlspecialchars($nama_kepsek); ?></p>
+                        <p>NIP. <?php echo htmlspecialchars($nip_kepsek); ?></p>
                     </div>
                 </div>
 
@@ -223,6 +272,9 @@ new Chart(document.getElementById('chartTren'), {
     },
     options: { scales: { y: { beginAtZero: true } } }
 });
+<?php endif; ?>
+<?php if ($auto_print): ?>
+window.onload = function(){ window.print(); };
 <?php endif; ?>
 </script>
 
